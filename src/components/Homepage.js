@@ -25,7 +25,7 @@ export default class Homepage extends Component {
         <form onSubmit={this.submitForm}>
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
-              <h2 className="homepage-search-title">Can I Grow...
+              <h2 className="homepage-search-title">Can I Grow... 
               <input type="search" id="searchbartext"
                 value={this.state.searchbartext}
                 onChange={this.handleTextChange}
@@ -33,6 +33,7 @@ export default class Homepage extends Component {
               </h2>
             </div>
           </div>
+          <h1 className="text-center">Dynamic Test<br/>{this.state.searchbartext}</h1>
         </form>
         <h1>This is a Homepage</h1>
       </div>
