@@ -10,13 +10,21 @@ export default class Header extends Component {
           &#9776;
         </button>
         <div className="container">
-        	<div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
-        		<div className="modal-dialog">
-        			<div className="modal-content">
-        			<h4>Left Sidebar</h4>
-        			</div>
-        		</div>
-        	</div>
+          <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
+            <div className="modal-dialog">
+              <div className="modal-content">
+              <button type="button"
+                className="close"
+								data-dismiss="modal"
+                aria-label="Close">
+							<span aria-hidden="true">
+                &times;
+              </span>
+						</button>
+              <h4>Left Sidebar</h4>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
