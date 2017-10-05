@@ -4,3 +4,13 @@ html, body, #root, .body{
   top: 0;
   left: 0;
 }
+.header-container{
+  background-color: rgba(102,34,0, 1);
+  color: white;
+}
+.header-hamburger{
+  cursor: pointer;
+}
+.header-hamburger:active{
+  color: rgba(200,200,200, 1);
+}
