@@ -5,6 +5,14 @@ export default class Header extends Component {
   render() {
     return (
       <div className="header-container">
+        <div className="container header-navbar">
+          <div className="row">
+            <div className="col text-center">col</div>
+            <div className="col text-center">col</div>
+            <div className="col text-center">col</div>
+            <div className="col text-center">col</div>
+          </div>
+        </div>
         <button className="header-hamburger"
         data-toggle="modal" data-target="#hamburger-menu">
           &#9776;

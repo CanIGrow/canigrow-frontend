@@ -4,6 +4,10 @@ html, body, #root, .body{
   top: 0;
   left: 0;
 }
+.header-navbar{
+  display: none;
+  /*visibility: hidden;*/
+}
 .header-container{
   background-color: rgba(102,34,0, 1);
   color: white;
@@ -14,13 +18,20 @@ html, body, #root, .body{
 .header-hamburger:active{
   color: rgba(200,200,200, 1);
 }
-
+@media (min-width: 680px) {
+  .header-hamburger{
+    /*visibility: hidden;*/
+    display: none;
+  }
+  .header-navbar{
+    display: block;
+    /*visibility: visible;*/
+  }
+}
 
 
 /*******************************
-* MODAL AS LEFT/RIGHT SIDEBAR
-* Add "left" or "right" in modal parent div, after class="modal".
-* Get free snippets on bootpen.com
+TEMP MODAL STYLES
 *******************************/
 .modal.left .modal-dialog{
   position: fixed;
