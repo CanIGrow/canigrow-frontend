@@ -3,33 +3,68 @@ html, body, #root, .body{
   padding: 0;
   top: 0;
   left: 0;
+  background-color: rgba(255,248,220, 1);
 }
 .header-navbar{
   display: none;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 .header-container{
   background-color: rgba(102,34,0, 1);
   color: white;
+  height: 50px;
 }
 .header-hamburger{
   cursor: pointer;
+  height: 100%;
+  color: white;
+  border: 0;
+  background: 0;
 }
 .header-hamburger:active{
   color: rgba(200,200,200, 1);
 }
+.homepage-search-container{
+  background-color: rgba(117,181,80, 1);
+}
+.main-component-container{
+  margin: 10px 0;
+}
+.homepage-search-title, .homepage-search-box{
+  text-align: center;
+}
+.homepage-search-box{
+  margin: 10px 0;
+  border: 0;
+  background: 0;
+  outline: 0;
+  border-bottom: 1px solid white;
+}
+.homepage-search-box:focus{
+  background-color: rgba(255,255,255, 0.2);
+}
 @media (min-width: 680px) {
+  .homepage-search-title, .homepage-search-box{
+    display: inline;
+  }
   .header-hamburger{
-    /*visibility: hidden;*/
+    visibility: hidden;
     display: none;
   }
   .header-navbar{
     display: block;
-    /*visibility: visible;*/
+    visibility: visible;
+    transform: translateY(50%);
+  }
+  .main-component-container{
+    margin: 3vh 3vw;
   }
 }
-
-
+@media (min-width: 992px) {
+  .main-component-container{
+    margin: 5vh 5vw;
+  }
+}
 /*******************************
 TEMP MODAL STYLES
 *******************************/

@@ -32,7 +32,7 @@ class UserList extends Component {
 
 }
 
-// Get apps state and pass it as props to UserList
+// Get apps state from App.js which is from indexReducer, and then pass it as props to UserList
 //      > whenever state changes, the UserList will automatically re-render
 function mapStateToProps(state) {
     return {

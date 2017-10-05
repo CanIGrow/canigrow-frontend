@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/App.css';
 
 export default class Header extends Component {
   render() {
     return (
       <div className="header-container">
-        <div className="container header-navbar">
+        <div className="container align-middle header-navbar">
           <div className="row">
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
+            <div className="col text-center"><Link to="/">Home</Link></div>
+            <div className="col text-center"><Link to="/plants/:id">Plants</Link></div>
+            <div className="col text-center"><Link to="/register">Register</Link></div>
+            <div className="col text-center"><Link to="/login">Login</Link></div>
           </div>
         </div>
         <button className="header-hamburger"
@@ -20,16 +21,19 @@ export default class Header extends Component {
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
             <div className="modal-dialog">
-              <div className="modal-content">
+              <div className="modal-content text-center">
               <button type="button"
                 className="close"
 								data-dismiss="modal"
                 aria-label="Close">
-							<span aria-hidden="true">
-                &times;
-              </span>
-						</button>
-              <h4>Left Sidebar</h4>
+  							<span aria-hidden="true">
+                  &times;
+                </span>
+						  </button>
+                  <Link to="/">Home</Link>
+                  <Link to="/plants/id">Plants</Link>
+                  <Link to="/register">Register</Link>
+                  <Link to="/login">Login</Link>
               </div>
             </div>
           </div>
