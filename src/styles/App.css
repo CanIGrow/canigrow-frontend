@@ -1,28 +1,63 @@
-.App {
-  text-align: center;
+html, body, #root, .body{
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.header-navbar{
+  display: none;
+  /*visibility: hidden;*/
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.header-container{
+  background-color: rgba(102,34,0, 1);
   color: white;
 }
-
-.App-title {
-  font-size: 1.5em;
+.header-hamburger{
+  cursor: pointer;
+}
+.header-hamburger:active{
+  color: rgba(200,200,200, 1);
+}
+@media (min-width: 680px) {
+  .header-hamburger{
+    /*visibility: hidden;*/
+    display: none;
+  }
+  .header-navbar{
+    display: block;
+    /*visibility: visible;*/
+  }
 }
 
-.App-intro {
-  font-size: large;
-}
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/*******************************
+TEMP MODAL STYLES
+*******************************/
+.modal.left .modal-dialog{
+  position: fixed;
+  margin: auto;
+  width: 170px;
+  height: 100%;
+  -webkit-transform: translate3d(0%, 0, 0);
+      -ms-transform: translate3d(0%, 0, 0);
+       -o-transform: translate3d(0%, 0, 0);
+          transform: translate3d(0%, 0, 0);
+}
+.modal.left .modal-content{
+  height: 100%;
+  color: black;
+  overflow-y: auto;
+}
+.modal.left .modal-body{
+  padding: 15px 15px 80px;
+}
+.modal.left.fade .modal-dialog{
+  left: -170px;
+  -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+          transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+.modal.left.fade.in .modal-dialog{
+  left: 0;
 }
