@@ -6,7 +6,7 @@ import Footer from './Footer.js';
 export default class BaseLayout extends Component {
   render() {
     return (
-      <div className="baselayout-container">
+      <div className="body">
         <Header />
         {this.props.children}
         <Footer />
