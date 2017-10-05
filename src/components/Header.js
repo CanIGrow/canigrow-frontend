@@ -21,7 +21,7 @@ export default class Header extends Component {
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
             <div className="modal-dialog">
-              <div className="modal-content">
+              <div className="modal-content text-center">
               <button type="button"
                 className="close"
 								data-dismiss="modal"
@@ -30,18 +30,10 @@ export default class Header extends Component {
                   &times;
                 </span>
 						  </button>
-                <div className="row">
-                  Link to="/">Home</Link>
-                </div>
-                <div className="row">
+                  <Link to="/">Home</Link>
                   Plant
-                </div>
-                <div className="row">
                   <Link to="/register">Register</Link>
-                </div>
-                <div className="row">
                   <Link to="/login">Login</Link>
-                </div>
               </div>
             </div>
           </div>
