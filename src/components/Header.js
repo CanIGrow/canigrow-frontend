@@ -9,7 +9,7 @@ export default class Header extends Component {
         <div className="container align-middle header-navbar">
           <div className="row">
             <div className="col text-center"><Link to="/">Home</Link></div>
-            <div className="col text-center">Plant</div>
+            <div className="col text-center"><Link to="/plants/:id">Plants</Link></div>
             <div className="col text-center"><Link to="/register">Register</Link></div>
             <div className="col text-center"><Link to="/login">Login</Link></div>
           </div>
@@ -31,7 +31,7 @@ export default class Header extends Component {
                 </span>
 						  </button>
                   <Link to="/">Home</Link>
-                  Plant
+                  <Link to="/plants/id">Plants</Link>
                   <Link to="/register">Register</Link>
                   <Link to="/login">Login</Link>
               </div>
