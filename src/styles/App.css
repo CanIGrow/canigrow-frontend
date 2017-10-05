@@ -11,12 +11,19 @@ html, body, #root, .body{
 .header-container{
   background-color: rgba(102,34,0, 1);
   color: white;
+  height: 50px;
 }
 .header-hamburger{
   cursor: pointer;
 }
 .header-hamburger:active{
   color: rgba(200,200,200, 1);
+}
+.homepage-search-container{
+  background-color: rgba(117,181,80, 1);
+}
+.main-component-container{
+  margin: 10px 0;
 }
 @media (min-width: 680px) {
   .header-hamburger{
@@ -26,10 +33,17 @@ html, body, #root, .body{
   .header-navbar{
     display: block;
     visibility: visible;
+    transform: translateY(50%);
+  }
+  .main-component-container{
+    margin: 3vh 3vw;
   }
 }
-
-
+@media (min-width: 992px) {
+  .main-component-container{
+    margin: 5vh 5vw;
+  }
+}
 /*******************************
 TEMP MODAL STYLES
 *******************************/

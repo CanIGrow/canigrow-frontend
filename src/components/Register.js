@@ -4,7 +4,7 @@ import '../styles/App.css';
 export default class Register extends Component {
   render() {
     return (
-      <div className="register-container">
+      <div className="register-containercontainer">
       </div>
     );
   }

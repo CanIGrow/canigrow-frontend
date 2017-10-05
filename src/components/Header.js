@@ -6,7 +6,7 @@ export default class Header extends Component {
   render() {
     return (
       <div className="header-container">
-        <div className="container header-navbar">
+        <div className="container align-middle header-navbar">
           <div className="row">
             <div className="col text-center"><Link to="/">Home</Link></div>
             <div className="col text-center">Plant</div>
