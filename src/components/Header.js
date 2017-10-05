@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/App.css';
 
 export default class Header extends Component {
@@ -7,10 +8,10 @@ export default class Header extends Component {
       <div className="header-container">
         <div className="container header-navbar">
           <div className="row">
-            <div className="col text-center">Home</div>
+            <div className="col text-center"><Link to="/">Home</Link></div>
             <div className="col text-center">Plant</div>
-            <div className="col text-center">Register</div>
-            <div className="col text-center">Login</div>
+            <div className="col text-center"><Link to="/register">Register</Link></div>
+            <div className="col text-center"><Link to="/login">Login</Link></div>
           </div>
         </div>
         <button className="header-hamburger"
@@ -30,16 +31,16 @@ export default class Header extends Component {
                 </span>
 						  </button>
                 <div className="row">
-                  Home
+                  Link to="/">Home</Link>
                 </div>
                 <div className="row">
                   Plant
                 </div>
                 <div className="row">
-                  Register
+                  <Link to="/register">Register</Link>
                 </div>
                 <div className="row">
-                  Login
+                  <Link to="/login">Login</Link>
                 </div>
               </div>
             </div>
