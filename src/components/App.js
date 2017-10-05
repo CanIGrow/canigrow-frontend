@@ -7,6 +7,16 @@ import Plantpage from './Plantpage.js';
 import Register from './Register.js';
 import Userpage from './Userpage.js';
 import BaseLayout from './Base-Layout.js';
+// These are for redux.
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import allReducers from '../reducers/indexReducer.js';
+
+// This creates a store to hold app state data for redux.
+const store = createStore(
+    allReducers,
+    // applyMiddleware(thunk, promise, logger)
+);
 
 class App extends Component {
   render() {
