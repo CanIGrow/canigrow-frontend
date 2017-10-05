@@ -15,6 +15,10 @@ html, body, #root, .body{
 }
 .header-hamburger{
   cursor: pointer;
+  height: 100%;
+  color: white;
+  border: 0;
+  background: 0;
 }
 .header-hamburger:active{
   color: rgba(200,200,200, 1);

@@ -24,7 +24,7 @@ export default class Homepage extends Component {
       <div className="homepage-container main-component-container">
         <form onSubmit={this.submitForm}>
           <div className="homepage-search-container container">
-            <div className="pagination-centered">
+            <div className="pagination-centered text-center">
               <h2 className="homepage-search-title">Can I Grow...
               <input type="search" id="searchbartext"
                 value={this.state.searchbartext}
