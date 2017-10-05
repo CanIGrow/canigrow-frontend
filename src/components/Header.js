@@ -7,10 +7,10 @@ export default class Header extends Component {
       <div className="header-container">
         <div className="container header-navbar">
           <div className="row">
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
-            <div className="col text-center">col</div>
+            <div className="col text-center">Home</div>
+            <div className="col text-center">Plant</div>
+            <div className="col text-center">Register</div>
+            <div className="col text-center">Login</div>
           </div>
         </div>
         <button className="header-hamburger"
@@ -25,11 +25,22 @@ export default class Header extends Component {
                 className="close"
 								data-dismiss="modal"
                 aria-label="Close">
-							<span aria-hidden="true">
-                &times;
-              </span>
-						</button>
-              <h4>Left Sidebar</h4>
+  							<span aria-hidden="true">
+                  &times;
+                </span>
+						  </button>
+                <div className="row">
+                  Home
+                </div>
+                <div className="row">
+                  Plant
+                </div>
+                <div className="row">
+                  Register
+                </div>
+                <div className="row">
+                  Login
+                </div>
               </div>
             </div>
           </div>

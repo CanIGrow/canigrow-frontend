@@ -6,7 +6,7 @@ html, body, #root, .body{
 }
 .header-navbar{
   display: none;
-  /*visibility: hidden;*/
+  visibility: hidden;
 }
 .header-container{
   background-color: rgba(102,34,0, 1);
@@ -20,12 +20,12 @@ html, body, #root, .body{
 }
 @media (min-width: 680px) {
   .header-hamburger{
-    /*visibility: hidden;*/
+    visibility: hidden;
     display: none;
   }
   .header-navbar{
     display: block;
-    /*visibility: visible;*/
+    visibility: visible;
   }
 }
 
