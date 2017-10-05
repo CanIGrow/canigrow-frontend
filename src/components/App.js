@@ -11,53 +11,37 @@ import BaseLayout from './Base-Layout.js';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
-// This is a container to test with.
-import UserList from '../containers/user-list.js';
 
+/*
+https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript-only?page=1&tab=votes#tab-top
+ACCURATE:
+https://ipinfo.io/json
+10k requests per hour for testing:
+https://freegeoip.net/json/
+IP only:
+https://jsonip.com/
+*/
 
 // This creates a store to hold app state data for redux.
 const store = createStore(
-    // This pulls data from the combined reducer into the store.
     allReducers,
     // applyMiddleware(thunk, promise, logger)
 );
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-      username: "testing username",
-      password:"",
-      user_id: null,
-      bio:"",
-      style_number: 0,
-      token: null
-    };
-  }
-
   render() {
     return (
-      // Provides store data to all subcomponents
-      <Provider store={store}>
-        <div className="AppInsideProvider">
-          <BrowserRouter>
-            <BaseLayout>
-              {/* The following is just to test redux. */}
-              <UserList />
-              <Switch>
-                <Route exact path="/" component={Homepage} />
-                <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
-                {/* <Route path="/plants/:plant" component={Plantpage} /> */}
-                <Route path="/user/:user" component={Userpage} />
-                <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>
-                {/* <Route path="/login" component={Login} /> */}
-                <Route path="/register" component={Register} />
-              </Switch>
-            </BaseLayout>
-          </BrowserRouter>
-        </div>
-      </Provider>
+      <BrowserRouter>
+        <BaseLayout>
+          <Switch>
+            <Route exact path="/" component={Homepage} />
+            <Route path="/plants/:plant" component={Plantpage} />
+            <Route path="/user/:user" component={Userpage} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </Switch>
+        </BaseLayout>
+      </BrowserRouter>
     );
   }
 }
