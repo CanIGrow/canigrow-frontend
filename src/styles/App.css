@@ -25,7 +25,18 @@ html, body, #root, .body{
 .main-component-container{
   margin: 10px 0;
 }
+.homepage-search-title, .homepage-search-box{
+  text-align: center;
+}
+.homepage-search-box{
+  margin: 10px 0;
+  border: 0;
+  border-bottom: 1px solid white;
+}
 @media (min-width: 680px) {
+  .homepage-search-title, .homepage-search-box{
+    display: inline;
+  }
   .header-hamburger{
     visibility: hidden;
     display: none;
