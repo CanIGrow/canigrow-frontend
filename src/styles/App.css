@@ -44,8 +44,6 @@ html, body, #root, .body{
 	.modal.right .modal-body {
 		padding: 15px 15px 80px;
 	}
-
-/*Left*/
 	.modal.left.fade .modal-dialog{
 		left: -320px;
 		-webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
@@ -57,14 +55,4 @@ html, body, #root, .body{
 	.modal.left.fade.in .modal-dialog{
 		left: 0;
 	}
-
-/* ----- MODAL STYLE ----- */
-	.modal-content {
-		border-radius: 0;
-		border: none;
-	}
-
-	.modal-header {
-		border-bottom-color: #EEEEEE;
-		background-color: #FAFAFA;
-	}
+      
