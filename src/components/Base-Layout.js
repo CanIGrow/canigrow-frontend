@@ -37,7 +37,7 @@ class BaseLayout extends Component {
     );
   }
 }
-//
+
 // function mapStateToProps(state) {
 //     return {
 //       token: state.token,
