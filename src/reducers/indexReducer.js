@@ -1,6 +1,4 @@
 import {combineReducers} from 'redux';
-import UserReducer from './reducer-users';
-import ActiveUserReducer from './reducer-active-user';
 import loginReducer from './loginReducer';
 
 /*
@@ -9,8 +7,6 @@ import loginReducer from './loginReducer';
  * */
 
 const allReducers = combineReducers({
-    users: UserReducer,
-    activeUser: ActiveUserReducer,
     token: loginReducer
 });
 

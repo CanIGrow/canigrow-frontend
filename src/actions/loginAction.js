@@ -1,18 +1,3 @@
-// export const CREATE_TODO = 'CREATE_TODO';
-//
-// const makeActionCreator = function (actionType) {
-//   console.log("action.js on");
-//   return function (payload) {
-//     return {
-//       type: actionType,
-//       payload: payload
-//     }
-//   }
-// }
-//
-// export const createTodo = makeActionCreator(CREATE_TODO);
-
-
 // Action Creator - the entire function, returns action object.
 export const setLogin = (token) => {
     console.log("You have the token: ", token);
