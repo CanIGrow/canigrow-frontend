@@ -30,16 +30,8 @@ class Login extends Component {
       }
   }
 
-  assignToken = (event) => {
-        console.log("assignToken");
-        event.preventDefault();
-        // this.props.createTodo(this.state.text);
-        // this.setState({token: res.body.token});
-        // this.setState({text: ""});
-    }
-
   login(event) {
-     let setToken = this.props.setToken;
+     let setLogin = this.props.setLogin;
      event.preventDefault();
      request
        .post("https://pure-spire-67730.herokuapp.com/users/login")
@@ -49,9 +41,12 @@ class Login extends Component {
            this.setState({error: res.body.error});
            console.log("error");
          } else {
+           this.props.setLogin(res.body.token);
           //  setToken(res.body.token, this.state.username, res.body.user_id);
-           this.setState({token: res.body.token});
+          //  this.setState({token: res.body.token});
           //  assignToken(res.body.token);
+           console.log("login props");
+           console.log(this.props);
            console.log("token returned");
            console.log(res.body);
            console.log(res.body.token);
@@ -113,7 +108,9 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-    return {};
+    return {
+      token: state.token
+    };
 }
 
 function matchDispatchToProps(dispatch){
