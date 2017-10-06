@@ -34,19 +34,6 @@ const store = createStore(
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <BrowserRouter>
-        <BaseLayout>
-          <Switch>
-            <Route exact path="/" component={Homepage} />
-            <Route path="/plants/:plant" component={Plantpage} />
-            <Route path="/user/:user" component={Userpage} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-          </Switch>
-        </BaseLayout>
-      </BrowserRouter>
-=======
       // Provides store data to all subcomponents
       <Provider store={store}>
         <div className="AppInsideProvider">
@@ -68,7 +55,6 @@ class App extends Component {
           </BrowserRouter>
         </div>
       </Provider>
->>>>>>> master
     );
   }
 }
