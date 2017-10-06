@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import '../styles/App.css';
 
-export default class Login extends Component {
+class Login extends Component {
   render() {
     console.log('login page render');
     console.log(this.props);
+    console.log(this.props.user);
     console.log(this.props.username);
     return (
       <div className="login-container main-component-container">
@@ -13,3 +15,11 @@ export default class Login extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.activeUser
+    };
+}
+
+export default connect(mapStateToProps)(Login);

@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 
 class UserDetail extends Component {
     render() {
+      console.log(this.props);
         if (!this.props.user) {
             return (<div>Select a user...</div>);
         }
