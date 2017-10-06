@@ -32,6 +32,12 @@ const store = createStore(
 );
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state = {
+      username: ''
+    }
+  }
   render() {
     return (
       // Provides store data to all subcomponents

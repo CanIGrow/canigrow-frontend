@@ -18,10 +18,7 @@ export default class Homepage extends Component {
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
         if (res !== undefined){
-          this.setState({zipcode: res.body.zip_code})
-          console.log(res.body);
-        } else {
-          console.log("nope");
+          this.setState({zipcode: res.body.zip_code});
         }
       })
   }
