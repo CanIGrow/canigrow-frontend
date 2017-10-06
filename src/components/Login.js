@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter, Route, Switch, Router, withRouter, Redirect } from 'react-router-dom';
 import request from 'superagent';
+import {setLogin} from '../actions/loginAction.js'
+
 import '../styles/App.css';
 
 class Login extends Component {
@@ -27,6 +30,14 @@ class Login extends Component {
       }
   }
 
+  assignToken = (event) => {
+        console.log("assignToken");
+        event.preventDefault();
+        // this.props.createTodo(this.state.text);
+        // this.setState({token: res.body.token});
+        // this.setState({text: ""});
+    }
+
   login(event) {
      let setToken = this.props.setToken;
      event.preventDefault();
@@ -39,11 +50,14 @@ class Login extends Component {
            console.log("error");
          } else {
           //  setToken(res.body.token, this.state.username, res.body.user_id);
+           this.setState({token: res.body.token});
+          //  assignToken(res.body.token);
            console.log("token returned");
            console.log(res.body);
            console.log(res.body.token);
            console.log(res.body.user_id);
            console.log(this.state.username);
+           console.log(this.state.token);
           //  console.log(this.props.Router);
             // return (
             //   <Redirect to='/'/>
@@ -102,11 +116,9 @@ function mapStateToProps(state) {
     return {};
 }
 
-const mapDispatchToProps = function(dispatch) {
-    return {
-        // createTodo: function(text) {
-        //     return dispatch(createTodo(text));
-        }
-    }
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({setLogin: setLogin}, dispatch);
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, matchDispatchToProps)(Login);
