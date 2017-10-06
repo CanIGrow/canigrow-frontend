@@ -99,9 +99,14 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        user: state.activeUser
-    };
+    return {};
 }
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = function(dispatch) {
+    return {
+        // createTodo: function(text) {
+        //     return dispatch(createTodo(text));
+        }
+    }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

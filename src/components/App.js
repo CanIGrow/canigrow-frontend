@@ -45,8 +45,8 @@ class App extends Component {
           <BrowserRouter>
             <BaseLayout>
               {/* The following is just to test redux. */}
-              <UserList />
-              <UserDetail />
+              {/* <UserList />
+              <UserDetail /> */}
               <Switch>
                 <Route exact path="/" component={Homepage} />
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
