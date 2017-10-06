@@ -19,7 +19,7 @@ Today we met as a group for the first time. Together we wire-framed and presente
 
 Friday, October 6th:
 In the morning we graduated from the Iron Yard coding bootcamp.
-
+Kevin got the login page to pass the token using redux. Jocelyn continued researching API options and got the first iteration of the backend up on Heroku. JT worked on styling and positioning the elements on each page.
 
 
 

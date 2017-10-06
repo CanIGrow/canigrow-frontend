@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import UserReducer from './reducer-users';
-// import ActiveUserReducer from './reducer-active-user';
+import ActiveUserReducer from './reducer-active-user';
 
 /*
  * We combine all reducers into a single object before updated data is dispatched (sent) to store
@@ -9,7 +9,7 @@ import UserReducer from './reducer-users';
 
 const allReducers = combineReducers({
     users: UserReducer,
-    // activeUser: ActiveUserReducer
+    activeUser: ActiveUserReducer
 });
 
 export default allReducers
