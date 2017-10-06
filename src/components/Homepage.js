@@ -11,6 +11,9 @@ export default class Homepage extends Component {
   submitForm = (event) => {
     event.preventDefault();
   }
+  componentWillMount(){
+
+  }
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
@@ -25,7 +28,7 @@ export default class Homepage extends Component {
         <form onSubmit={this.submitForm}>
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
-              <h2 className="homepage-search-title">Can I Grow... 
+              <h2 className="homepage-search-title">Can I Grow...
               <input type="search" id="searchbartext"
                 value={this.state.searchbartext}
                 onChange={this.handleTextChange}
