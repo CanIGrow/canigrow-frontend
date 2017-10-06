@@ -1,3 +1,30 @@
+Can I Grow project
+
+Collaborators:
+
+Kevin Harrison: https://github.com/kharrison7
+
+Jocelyn Triplett: https://github.com/JocelynTriplett
+
+Jonathan 'JT' Canfield: https://github.com/jtcanfield
+
+This project is designed to meet the needs of first time and moderately experienced gardeners.
+
+Specifically the site:
+1) Allows users to search for a plant and receive information about said plant.
+2) Users can save a list of plants to a 'plot' for future reference.
+
+Thursday, October 5th:
+Today we met as a group for the first time. Together we wire-framed and presented the project with basic user stories to Dana Calder. Jocelyn researched API options and began creating schema for the back-end. Kevin began working on bringing redux into the front-end. JT created routes with components and began work on the home page. Additionally JT began looking into local tracking options.
+
+Friday, October 6th:
+In the morning we graduated from the Iron Yard coding bootcamp.
+Kevin got the login page to pass the token using redux. Jocelyn continued researching API options and got the first iteration of the backend up on Heroku. JT worked on styling and positioning the elements on each page.
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -283,7 +310,7 @@ In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and s
 
 Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug icon to start debugging in WebStorm.
 
-The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine. 
+The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine.
 
 ## Formatting Code Automatically
 
@@ -1769,7 +1796,7 @@ If you’re using [Apache HTTP Server](https://httpd.apache.org/), you need to c
     RewriteRule ^ index.html [QSA,L]
 ```
 
-It will get copied to the `build` folder when you run `npm run build`. 
+It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 

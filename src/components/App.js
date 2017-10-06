@@ -13,6 +13,7 @@ import {createStore, applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
 // This is a container to test with.
 import UserList from '../containers/user-list.js';
+import UserDetail from '../containers/user-detail.js';
 
 
 // This creates a store to hold app state data for redux.
@@ -44,7 +45,8 @@ class App extends Component {
           <BrowserRouter>
             <BaseLayout>
               {/* The following is just to test redux. */}
-              <UserList />
+              {/* <UserList />
+              <UserDetail /> */}
               <Switch>
                 <Route exact path="/" component={Homepage} />
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
