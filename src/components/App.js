@@ -11,9 +11,6 @@ import BaseLayout from './Base-Layout.js';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
-// This is a container to test with.
-import UserList from '../containers/user-list.js';
-import UserDetail from '../containers/user-detail.js';
 
 /*
 https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript-only?page=1&tab=votes#tab-top
@@ -31,6 +28,8 @@ const store = createStore(
     // applyMiddleware(thunk, promise, logger)
 );
 
+// store.getState();
+
 class App extends Component {
   constructor(){
     super()
@@ -38,6 +37,8 @@ class App extends Component {
       username: ''
     }
   }
+
+
   render() {
     return (
       // Provides store data to all subcomponents
@@ -45,9 +46,6 @@ class App extends Component {
         <div className="AppInsideProvider">
           <BrowserRouter>
             <BaseLayout>
-              {/* The following is just to test redux. */}
-              {/* <UserList />
-              <UserDetail /> */}
               <Switch>
                 <Route exact path="/" component={Homepage} />
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
