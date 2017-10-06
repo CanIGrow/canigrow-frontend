@@ -4,7 +4,9 @@ import {bindActionCreators} from 'redux';
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter, Route, Switch, Router, withRouter, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {setLogin} from '../actions/loginAction.js'
+import {setLogin} from '../actions/loginAction.js';
+import cookie from 'react-cookies';
+
 
 import '../styles/App.css';
 
@@ -41,10 +43,12 @@ class Login extends Component {
            this.setState({error: res.body.error});
            console.log("error");
          } else {
-           this.props.setLogin(res.body.token);
+           this.props.setLogin(res.body.token, this.state.username);
           //  setToken(res.body.token, this.state.username, res.body.user_id);
           //  this.setState({token: res.body.token});
           //  assignToken(res.body.token);
+            cookie.save('token', res.body.token);
+            cookie.save('username', this.state.username);
            console.log("login props");
            console.log(this.props);
            console.log("token returned");
@@ -65,6 +69,7 @@ class Login extends Component {
   render() {
 
     let loginContents = null;
+    console.log(this.props);
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">

@@ -2,6 +2,11 @@
 import update from 'immutability-helper';
 // import {CREATE_TODO} from "../src/actions/loginAction.js";
 
+const initialState = {
+    token: null,
+    username: null,
+}
+
 const loginReducer = function (state = null, action) {
   console.log("loginReducer");
   console.log(action.payload);
@@ -9,7 +14,13 @@ const loginReducer = function (state = null, action) {
         case 'USER_TOKEN':
             return action.payload;
             break;
+        case 'USER_RELOAD':
+            return action.payload;
+            // update(state, { })
+
+            break;
     }
+    // default:
     return state;
 }
 

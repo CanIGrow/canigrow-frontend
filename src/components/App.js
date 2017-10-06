@@ -36,6 +36,7 @@ class App extends Component {
     };
   }
 
+
   render() {
     return (
       // Provides store data to all subcomponents
