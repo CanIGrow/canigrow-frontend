@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
+import request from 'superagent';
 
 export default class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      searchbartext: ""
+      searchbartext: "",
+      zipcode: "",
     }
   }
   submitForm = (event) => {
     event.preventDefault();
   }
-  componentWillMount(){
-
+  componentDidMount(){
+    request
+      .get(`https://freegeoip.net/json/`)
+      .end((err,res)=>{
+        if (res !== undefined){
+          this.setState({zipcode: res.body.zip_code})
+          console.log(res.body);
+        } else {
+          console.log("nope");
+        }
+      })
   }
   handleTextChange = (event) => {
     event.preventDefault();
@@ -36,6 +47,12 @@ export default class Homepage extends Component {
               </h2>
             </div>
           </div>
+          <p className="pagination-centered text-center">zip code
+          <input type="search" id="zipcode"
+            value={this.state.zipcode}
+            onChange={this.handleTextChange}
+            className="homepage-search-box"/>
+          </p>
           <h1 className="text-center">Dynamic Test<br/>{this.state.searchbartext}</h1>
         </form>
         <h1>This is a Homepage</h1>
