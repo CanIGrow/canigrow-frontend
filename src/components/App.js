@@ -27,7 +27,7 @@ class App extends Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      username: "testing username",
+      // username: null,
       password:"",
       user_id: null,
       bio:"",
