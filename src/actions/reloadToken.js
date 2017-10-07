@@ -21,3 +21,14 @@ export const logout = () => {
         payload: payload
     }
 };
+
+// Action Creator - the entire function, returns action object.
+export const reloadUsername = (username) => {
+    console.log("Username: ", username);
+    // Action - contains a type and a payload. type is an identifier.
+    return {
+        type: 'USER_NAME',
+        // payload is information given to the app to be conveyed to state.
+        payload: username
+    }
+};

@@ -21,22 +21,22 @@ class Header extends Component {
     console.log("BaseLayout Mounted")
     this.checklogin();
   }
+
   checklogin(){
     console.log(cookie.load('token'));
     if(cookie.load('token') !== undefined){
       this.props.reloadContents(cookie.load('token'), cookie.load('username'));
     }
   }
+
   handleLogoutClick() {
     console.log("logout clicked");
     console.log(this.props.token);
-
     // this.setState({isLoggedIn: false});
     cookie.remove('token');
     cookie.remove('username');
     let logout = this.props.logout;
     console.log(this.props.token);
-
     logout();
   }
 
@@ -80,7 +80,6 @@ class Header extends Component {
         <li>
           <NavLink activeClassName="selected" to="/register">
             <input className='btn btn-outline-primary' type='submit' value='Register'/>
-
           </NavLink>
         </li></div>;
       }
@@ -95,10 +94,9 @@ class Header extends Component {
       let entireHeader = {
           "width": "100%",
           "display": "flex",
-          // "border": "1pt black solid",
           "listStyleType": "none",
           "justifyContent": "center",
-          "backgroundColor": "#fafafb",
+          "backgroundColor": "#572F0B",
           "padding": "20px"
       }
 
@@ -112,9 +110,6 @@ class Header extends Component {
          {rightButtons}
       </div>
       )
-
-
-
 
     // return (
     //   <div className="header-container">
