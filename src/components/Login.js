@@ -43,7 +43,7 @@ class Login extends Component {
            console.log("error");
          } else {
           // These call functions from actions to send the token and username to the reducers then the store.
-          this.props.setLogin(res.body.token, this.state.username);
+          setLogin(res.body.token, this.state.username);
           this.props.reloadUsername(this.state.username);
           // These save the username and token to cookies.
           cookie.save('token', res.body.token);

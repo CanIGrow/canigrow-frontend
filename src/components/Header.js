@@ -55,7 +55,6 @@ class Header extends Component {
           "justifyContent": "space-between"
       }
 
-      const isLoggedIn = this.state.isLoggedIn;
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
       // If the user is logged in show:
@@ -68,7 +67,7 @@ class Header extends Component {
                           </NavLink>
                         </li>
                         <li>
-                          <NavLink activeClassName="selected" to="/profile">
+                          <NavLink activeClassName="selected" to="/user/:user">
                             <span className='btn btn-outline-primary' type='submit'>User: {this.props.username} </span>
                           </NavLink>
                         </li>

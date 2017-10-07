@@ -2,8 +2,8 @@ import {combineReducers} from 'redux';
 import loginReducer from './loginReducer';
 import usernameReducer from './usernameReducer';
 /*
- * We combine all reducers into a single object before updated data is dispatched (sent) to store
- * Your entire applications state (store) is just whatever gets returned from all your reducers
+ * This combines all reducers into a single object before updated data is dispatched (sent) to store.
+ * The entire application's state (store) is just whatever gets returned from all the reducers.
  * */
 
 const allReducers = combineReducers({
