@@ -5,6 +5,7 @@ import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reloadContents, logout} from '../actions/reloadToken.js';
+import {reloadUsername} from '../actions/reloadToken.js';
 
 class Header extends Component {
   constructor(props) {
@@ -26,6 +27,9 @@ class Header extends Component {
     console.log(cookie.load('token'));
     if(cookie.load('token') !== undefined){
       this.props.reloadContents(cookie.load('token'), cookie.load('username'));
+      if(cookie.load('username') !== undefined){
+        this.props.reloadUsername(cookie.load('username'));
+      }
     }
   }
 
@@ -159,7 +163,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadContents: reloadContents, logout: logout}, dispatch);
+    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);
