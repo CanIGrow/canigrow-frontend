@@ -67,7 +67,7 @@ class Header extends Component {
                           </NavLink>
                         </li>
                         <li>
-                          <NavLink activeClassName="selected" to="/user/:user">
+                          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
                             <span className='btn btn-outline-primary' type='submit'>User: {this.props.username} </span>
                           </NavLink>
                         </li>

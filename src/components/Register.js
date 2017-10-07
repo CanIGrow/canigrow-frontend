@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import { Link, NavLink, Redirect } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { BrowserRouter, Route, Switch, Router, withRouter, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {setLogin} from '../actions/loginAction.js';
+import {reloadUsername} from '../actions/reloadToken.js';
+import cookie from 'react-cookies';
+import '../styles/App.css';
 
 
-export default class Registration extends Component {
+class Registration extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -55,7 +61,12 @@ export default class Registration extends Component {
               this.setState({error: res.body.error});
               console.log("error");
             } else {
-              setToken(res.body.token, this.state.username, res.body.user_id);
+              setLogin(res.body.token, this.state.username);
+              this.props.reloadUsername(this.state.username);
+              // These save the username and token to cookies.
+              cookie.save('token', res.body.token);
+              cookie.save('username', this.state.username);
+              // setToken(res.body.token, this.state.username, res.body.user_id);
               console.log("token returned");
               console.log(res.body);
               console.log(res.body.token);
@@ -115,3 +126,17 @@ export default class Registration extends Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Registration);
