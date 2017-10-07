@@ -17,6 +17,7 @@ class Header extends Component {
   }
 
   componentWillMount(){
+    console.log(this.props.token);
     console.log("BaseLayout Mounted")
     this.checklogin();
   }
@@ -28,10 +29,14 @@ class Header extends Component {
   }
   handleLogoutClick() {
     console.log("logout clicked");
+    console.log(this.props.token);
+
     // this.setState({isLoggedIn: false});
     cookie.remove('token');
     cookie.remove('username');
     let logout = this.props.logout;
+    console.log(this.props.token);
+
     logout();
   }
 

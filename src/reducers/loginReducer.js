@@ -17,7 +17,10 @@ const loginReducer = function (state = null, action) {
         case 'USER_RELOAD':
             return action.payload;
             // update(state, { })
-
+            break;
+        case 'USER_LOGOUT':
+            return action.payload;
+            // update(state, { })
             break;
     }
     // default:
