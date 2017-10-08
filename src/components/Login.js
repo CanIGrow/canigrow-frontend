@@ -17,7 +17,6 @@ class Login extends Component {
         password: '',
         token: this.props.token,
         error: '',
-        comments: []
       };
   }
 
@@ -99,6 +98,10 @@ class Login extends Component {
     return (
       <div>
         {loginContents}
+        {/* // This redirects when the user is logged in (has a token). */}
+        {this.props.token && (
+           <Redirect to={`/`}/>
+         )}
       </div>
     )
   }

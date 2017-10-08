@@ -19,7 +19,6 @@ class Register extends Component {
       password: '',
       token: this.props.token,
       bio: '',
-      comments: []
     };
   }
 
@@ -128,6 +127,10 @@ class Register extends Component {
     return (
       <div>
       {registerContents}
+      {/* // This redirects when the user is logged in (has a token). */}
+      {this.props.token && (
+         <Redirect to={`/`}/>
+       )}
       </div>
     )
   }
