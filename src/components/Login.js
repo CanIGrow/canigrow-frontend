@@ -61,6 +61,7 @@ class Login extends Component {
   render() {
     // This render's contents are determined by whether the user is logged in.
     let loginContents = null;
+    console.log(this.props.token);
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">

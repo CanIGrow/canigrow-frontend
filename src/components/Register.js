@@ -11,15 +11,20 @@ import cookie from 'react-cookies';
 import '../styles/App.css';
 
 
-class Registration extends Component {
+class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
       userName: '',
       password: '',
+      token: this.props.token,
       bio: '',
       comments: []
     };
+  }
+
+  componentWillMount() {
+      console.log(this.props);
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
@@ -52,7 +57,6 @@ class Registration extends Component {
           } else {
           console.log("registered");
           // This logs the user in if registration was successful.
-          let setToken = this.props.setToken;
           request
           .post("https://pure-spire-67730.herokuapp.com/users/login")
           .send({username: this.state.username, password: this.state.password})
@@ -61,6 +65,7 @@ class Registration extends Component {
               this.setState({error: res.body.error});
               console.log("error");
             } else {
+              let setLogin = this.props.setLogin;
               setLogin(res.body.token, this.state.username);
               this.props.reloadUsername(this.state.username);
               // These save the username and token to cookies.
@@ -80,6 +85,7 @@ class Registration extends Component {
 
   render() {
     let registerContents = null;
+    console.log(this.props.token);
     if (this.props.token) {
       registerContents =
       <div className="centerHomeButton">
@@ -139,4 +145,4 @@ function matchDispatchToProps(dispatch){
     return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Registration);
+export default connect(mapStateToProps, matchDispatchToProps)(Register);
