@@ -9,7 +9,8 @@ import Userpage from './Userpage.js';
 import BaseLayout from './Base-Layout.js';
 // These are for redux.
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore} from 'redux';
+// import {applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
 
 

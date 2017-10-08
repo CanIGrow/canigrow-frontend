@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { BrowserRouter, Route, Switch, Router, withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
-
 
 class Register extends Component {
   constructor(props) {
@@ -31,10 +30,9 @@ class Register extends Component {
       return (event) => {
         this.setState({[stateKey]: event.target.value});
       }
-    }
+  }
 
   register(event) {
-     let setToken = this.props.setToken;
      event.preventDefault();
      request
         .post("https://pure-spire-67730.herokuapp.com/users")

@@ -13,14 +13,16 @@ const usernameReducer = function (state = null, action) {
         // This adds the username to the store on successful login.
         case 'USER_NAME':
             return action.payload;
-            break;
+            // break;
         // This removes the username from the store on logout.
         case 'USER_LOGOUT':
             return action.payload;
-            break;
+            // break;
+        default:
+            return state;
     }
     // default:
-    return state;
+    // return state;
 }
 
 export default usernameReducer;
