@@ -18,13 +18,12 @@ class Header extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props.token);
-    console.log("BaseLayout Mounted")
+    // console.log(this.props.token);
     this.checklogin();
   }
 
   checklogin(){
-    console.log(cookie.load('token'));
+    // console.log(cookie.load('token'));
     if(cookie.load('token') !== undefined){
       this.props.reloadContents(cookie.load('token'), cookie.load('username'));
       if(cookie.load('username') !== undefined){
@@ -39,6 +38,7 @@ class Header extends Component {
     // this.setState({isLoggedIn: false});
     cookie.remove('token');
     cookie.remove('username');
+    cookie.remove('template');
     let logout = this.props.logout;
     console.log(this.props.token);
     logout();
