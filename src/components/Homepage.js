@@ -10,6 +10,7 @@ export default class Homepage extends Component {
       searchbartext: "",
       zipcode: "",
       filteredplantdata: false,
+      expandResults: false,
       zone: false,
     }
     this.filterlist = this.filterlist.bind(this);
@@ -160,20 +161,25 @@ export default class Homepage extends Component {
   }
   filterlist(letter){
     let list = this.props.allplantdata;
-    if (this.state.filteredplantdata){
+    console.log(letter);
+    if (this.props.allplantdata){
       list = list.filter(function(item){
         return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
           letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
       });
     }
-    this.setState({filteredplantdata: list});
+    if (this.state.searchbartext.length > 1){
+      this.setState({filteredplantdata: list});
+    } else {
+      this.setState({filteredplantdata: false});
+    }
   }
   handleTextChange = (event) => {
     event.preventDefault();
     let value = event.target.value;
     if (this.state[event.target.id] !== undefined){
       this.setState({[event.target.id]: event.target.value , fireRedirect: false}, ()=>{
-        if (this.state.searchbartext.length && this.props.allplantdata){
+        if (this.props.allplantdata){
           this.filterlist(value);
         }
       });
@@ -192,14 +198,14 @@ export default class Homepage extends Component {
               There are currently {this.state.filteredplantdata.length} results... Please your search!
             </h3>
           </div>
-      } else if (this.state.filteredplantdata.length <= 50) {
+      } else if (this.state.filteredplantdata.length <= 50 && !this.state.expandResults) {
         searchResults = this.state.filteredplantdata.map((x, i) =>{
           let inlinelink = `/plants/${x.plant_id}`
           return (
             <div key={x.plant_id}>
               <h4 className="text-center">
-                <Link to={inlinelink}>Home
-                  Name: {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                <Link to={inlinelink}>
+                  {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
                 </Link>
               </h4>
             </div>
