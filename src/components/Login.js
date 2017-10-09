@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink } from 'react-router-dom';
-import { BrowserRouter, Route, Switch, Router, withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
+import {reloadUsername} from '../actions/reloadToken.js';
 import cookie from 'react-cookies';
-
-
 import '../styles/App.css';
 
 class Login extends Component {
@@ -18,7 +17,6 @@ class Login extends Component {
         password: '',
         token: this.props.token,
         error: '',
-        comments: []
       };
   }
 
@@ -43,33 +41,26 @@ class Login extends Component {
            this.setState({error: res.body.error});
            console.log("error");
          } else {
-           this.props.setLogin(res.body.token, this.state.username);
-          //  setToken(res.body.token, this.state.username, res.body.user_id);
-          //  this.setState({token: res.body.token});
-          //  assignToken(res.body.token);
-            cookie.save('token', res.body.token);
-            cookie.save('username', this.state.username);
-           console.log("login props");
-           console.log(this.props);
-           console.log("token returned");
-           console.log(res.body);
-           console.log(res.body.token);
-           console.log(res.body.user_id);
-           console.log(this.state.username);
-           console.log(this.state.token);
-          //  console.log(this.props.Router);
-            // return (
-            //   <Redirect to='/'/>
-            // )
+          // These call functions from actions to send the token and username to the reducers then the store.
+          setLogin(res.body.token, this.state.username);
+          this.props.reloadUsername(this.state.username);
+          // These save the username and token to cookies.
+          cookie.save('token', res.body.token);
+          cookie.save('username', this.state.username);
+          console.log("login props");
+          console.log(this.props);
+          console.log("token returned");
+          console.log(res.body);
+          console.log(this.state.username);
+          console.log(this.state.token);
          }
        })
   }
 
-
   render() {
-
+    // This render's contents are determined by whether the user is logged in.
     let loginContents = null;
-    console.log(this.props);
+    console.log(this.props.token);
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">
@@ -107,6 +98,10 @@ class Login extends Component {
     return (
       <div>
         {loginContents}
+        {/* // This redirects when the user is logged in (has a token). */}
+        {this.props.token && (
+           <Redirect to={`/`}/>
+         )}
       </div>
     )
   }
@@ -114,13 +109,14 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-      token: state.token
+      token: state.token,
+      username: state.username
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin}, dispatch);
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);
