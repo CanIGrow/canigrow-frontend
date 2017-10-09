@@ -49,7 +49,6 @@ export default class Homepage extends Component {
     }
   }
   render() {
-    console.log(this.props.allplantdata);
     let searchResults = null;
     if (this.state.filteredplantdata){
       if (this.state.filteredplantdata.length > 50){
@@ -72,6 +71,14 @@ export default class Homepage extends Component {
         })
       }
     }
+    if (!this.props.allplantdata){
+      searchResults =
+        <div>
+          <h3 className="text-center">
+            Loading plant data...
+          </h3>
+        </div>
+    }
     return (
       <div className="homepage-container main-component-container">
         <form onSubmit={this.submitForm}>
@@ -93,7 +100,6 @@ export default class Homepage extends Component {
           </p>
           {searchResults ? searchResults : ""}
         </form>
-        <h1>This is a Homepage</h1>
       </div>
     );
   }
