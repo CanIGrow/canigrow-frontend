@@ -114,3 +114,11 @@ TEMP MODAL STYLES
 .modal.left.fade.in .modal-dialog{
   left: 0;
 }
+.plant_big_image {
+  width: 570px;
+  height: 724px;
+  background-color: #F1F1F1;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
