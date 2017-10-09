@@ -42,7 +42,7 @@ class App extends Component {
       bio:"",
       template: 0,
       token: null,
-      allplantdata: false
+      allplantdata: false,
     };
   }
 
@@ -62,7 +62,7 @@ class App extends Component {
               if (x.common_name !== null){
                 plantsarray.push(x);
               }
-            })
+            });
             this.setState({ allplantdata:plantsarray }, ()=>{
               console.log("DONE");
             });

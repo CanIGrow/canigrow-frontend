@@ -16,12 +16,13 @@ export default class Homepage extends Component {
     event.preventDefault();
   }
   componentDidMount(){
-    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
         if (res !== undefined){
-          this.setState({zipcode: res.body.zip_code});
+          var today = new Date();
+          today = today.getMonth()+1 + '/' + today.getDate();
+          this.setState({zipcode: res.body.zip_code, date:today});
         }
       })
   }
