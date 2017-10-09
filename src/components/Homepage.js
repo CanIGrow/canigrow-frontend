@@ -20,9 +20,121 @@ export default class Homepage extends Component {
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
         if (res !== undefined){
-          var today = new Date();
-          today = today.getMonth()+1 + '/' + today.getDate();
-          this.setState({zipcode: res.body.zip_code, date:today});
+          let today = new Date();
+          let day = today.getDate();
+          let season = false;
+          let generalseason = false;
+          switch (today.getMonth()+1) {
+            case 1:
+              if(day < 20){
+                season = "Early-Winter"
+              } else {
+                season = "Mid-Winter"
+              }
+              generalseason = "Winter"
+              break;
+            case 2:
+              if(day < 19){
+                season = "Mid-Winter"
+              } else {
+                season = "Late-Winter"
+              }
+              generalseason = "Winter"
+              break;
+            case 3:
+              if(day < 19){
+                season = "Late-Winter";
+                generalseason = "Winter";
+              } else {
+                season = "Early-Spring";
+                generalseason = "Spring";
+              }
+              break;
+            case 4:
+              if(day < 20){
+                season = "Early-Spring"
+              } else {
+                season = "Mid-Spring"
+              }
+              generalseason = "Spring"
+              break;
+            case 5:
+              if(day < 21){
+                season = "Mid-Spring"
+              } else {
+                season = "Late-Spring"
+              }
+              generalseason = "Spring"
+              break;
+            case 6:
+              if(day < 20){
+                season = "Late-Spring";
+                generalseason = "Spring";
+              } else {
+                season = "Early-Summer";
+                generalseason = "Summer";
+              }
+              break;
+            case 7:
+              if(day < 20){
+                season = "Early-Summer";
+              } else {
+                season = "Mid-Summer";
+              }
+              generalseason = "Summer";
+              break;
+            case 8:
+              if(day < 21){
+                season = "Mid-Summer";
+              } else {
+                season = "Late-Summer";
+              }
+              generalseason = "Summer";
+              break;
+            case 9:
+              if(day < 20){
+                season = "Late-Summer";
+                generalseason = "Summer";
+              } else {
+                season = "Early-Fall";
+                generalseason = "Fall";
+              }
+              break;
+            case 10:
+              if(day < 21){
+                season = "Early-Fall";
+              } else {
+                season = "Mid-Fall";
+              }
+              generalseason = "Fall";
+              break;
+            case 11:
+              if(day < 21){
+                season = "Mid-Fall";
+              } else {
+                season = "Late-Fall";
+              }
+              generalseason = "Fall";
+              break;
+            case 12:
+              if(day < 20){
+                season = "Late-Fall";
+                generalseason = "Fall";
+              } else {
+                season = "Early-Winter";
+                generalseason = "Winter";
+              }
+              break;
+            default:
+          }
+          let fulldatedata = {
+            date: today.getMonth()+1 + '/' + today.getDate(),
+            season: season,
+            generalseason: generalseason,
+          }
+          this.setState({zipcode: res.body.zip_code, date:fulldatedata}, ()=>{
+            console.log(this.state.date);
+          });
         }
       })
   }
