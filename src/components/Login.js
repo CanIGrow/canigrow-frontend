@@ -33,12 +33,21 @@ class Login extends Component {
   login(event) {
      let setLogin = this.props.setLogin;
      event.preventDefault();
+     console.log(this.state.username);
+     console.log(this.state.password);
      request
-       .post("https://pure-spire-67730.herokuapp.com/users/login")
-       .send({username: this.state.username, password: this.state.password})
+
+
+      //  .post("https://pure-spire-67730.herokuapp.com/users/login")
+      //  .send({username: this.state.username, password: this.state.password})
+
+      .post("https://canigrow.herokuapp.com/api/users/login")
+      .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
          if (err) {
-           this.setState({error: res.body.error});
+           if (res !== undefined){
+             this.setState({error: res.body.error});
+           }
            console.log("error");
          } else {
           // These call functions from actions to send the token and username to the reducers then the store.
