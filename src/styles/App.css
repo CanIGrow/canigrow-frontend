@@ -12,10 +12,11 @@ html, body, #root, .body{
 .header-container{
   background-color: rgba(102,34,0, 1);
   color: white;
-  height: 50px;
+  height: 80px;
 }
 .header-hamburger{
   cursor: pointer;
+  top: 0;
   height: 100%;
   color: white;
   border: 0;
@@ -48,6 +49,15 @@ html, body, #root, .body{
   background-color: rgba(255,255,255, 0.2);
 }
 @media (min-width: 680px) {
+  .changeButtons{
+    margin-left: 200pt;
+    width: 300pt;
+    display: flex;
+    border: 1pt black blue;
+    background-color: none;
+    list-style-type: none;
+    justify-content: space-between;
+  }
   .homepage-search-title, .homepage-search-box{
     display: inline;
   }
@@ -56,9 +66,13 @@ html, body, #root, .body{
     display: none;
   }
   .header-navbar{
-    display: block;
+    height: 0%;
+    width: 100%;
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    padding: 20px;
     visibility: visible;
-    transform: translateY(50%);
   }
   .main-component-container{
     margin: 3vh 3vw;
