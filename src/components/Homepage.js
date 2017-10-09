@@ -8,24 +8,60 @@ export default class Homepage extends Component {
     this.state = {
       searchbartext: "",
       zipcode: "",
+      allplantdata: false,
+      filteredplantdata: false
     }
+    this.filterlist = this.filterlist.bind(this);
   }
   submitForm = (event) => {
     event.preventDefault();
   }
   componentDidMount(){
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
         if (res !== undefined){
           this.setState({zipcode: res.body.zip_code});
+          request
+            .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
+            .end((err,res)=>{
+              if (res !== undefined){
+                let plantsarray = [];
+                res.body.plants.map((x, i) =>{
+                  if (x.common_name !== null){
+                    plantsarray.push(x);
+                  }
+                })
+                this.setState({ allplantdata:plantsarray }, ()=>{
+                  console.log("DONE");
+                });
+              }
+            })
         }
       })
   }
+  filterlist(letter){
+    let list = this.state.allplantdata;
+    if (this.state.filteredplantdata){
+      // list = list.map((x, i)=>{
+      //   console.log(x.common_name);
+      // })
+      list = list.filter(function(item){
+        return item.common_name.toLowerCase().search(
+          letter.toLowerCase()) !== -1;
+      });
+    }
+    this.setState({filteredplantdata: list});
+  }
   handleTextChange = (event) => {
     event.preventDefault();
+    let value = event.target.value;
     if (this.state[event.target.id] !== undefined){
       this.setState({[event.target.id]: event.target.value , fireRedirect: false}, ()=>{
+        if (this.state.searchbartext.length && this.state.allplantdata){
+          this.filterlist(value);
+        }
         //Here is an example that does the callback function after setstate is done
       });
     }
