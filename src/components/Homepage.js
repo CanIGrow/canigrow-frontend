@@ -44,15 +44,14 @@ export default class Homepage extends Component {
   filterlist(letter){
     let list = this.state.allplantdata;
     if (this.state.filteredplantdata){
-      // list = list.map((x, i)=>{
-      //   console.log(x.common_name);
-      // })
       list = list.filter(function(item){
         return item.common_name.toLowerCase().search(
           letter.toLowerCase()) !== -1;
       });
     }
-    this.setState({filteredplantdata: list});
+    this.setState({filteredplantdata: list}, ()=>{
+      console.log(this.state.filteredplantdata);
+    });
   }
   handleTextChange = (event) => {
     event.preventDefault();
@@ -62,11 +61,32 @@ export default class Homepage extends Component {
         if (this.state.searchbartext.length && this.state.allplantdata){
           this.filterlist(value);
         }
-        //Here is an example that does the callback function after setstate is done
       });
     }
   }
   render() {
+    let searchResults = null;
+    if (this.state.filteredplantdata){
+      if (this.state.filteredplantdata.length > 50){
+        searchResults =
+          <div>
+            <h3 className="text-center">
+              There are currently {this.state.filteredplantdata.length} results... Please your search!
+            </h3>
+          </div>
+      } else if (this.state.filteredplantdata.length <= 50) {
+        searchResults = this.state.filteredplantdata.map((x, i) =>{
+          console.log(x);
+          return (
+            <div key={x.plant_id}>
+              <h4 className="text-center">
+                Name: {x.common_name}
+              </h4>
+            </div>
+          )
+        })
+      }
+    }
     return (
       <div className="homepage-container main-component-container">
         <form onSubmit={this.submitForm}>
@@ -86,7 +106,7 @@ export default class Homepage extends Component {
             onChange={this.handleTextChange}
             className="homepage-search-box"/>
           </p>
-          <h1 className="text-center">Dynamic Test<br/>{this.state.searchbartext}</h1>
+          {searchResults ? searchResults : ""}
         </form>
         <h1>This is a Homepage</h1>
       </div>
