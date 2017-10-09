@@ -1,44 +1,168 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import '../styles/App.css';
+import cookie from 'react-cookies';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {reloadContents, logout} from '../actions/reloadToken.js';
+import {reloadUsername} from '../actions/reloadToken.js';
 
-export default class Header extends Component {
+class Header extends Component {
+  constructor(props) {
+      super(props)
+      this.state = {
+        username: '',
+        token: this.props.token,
+      };
+      this.handleLogoutClick = this.handleLogoutClick.bind(this);
+  }
+
+  componentWillMount(){
+    // console.log(this.props.token);
+    this.checklogin();
+  }
+
+  checklogin(){
+    // console.log(cookie.load('token'));
+    if(cookie.load('token') !== undefined){
+      this.props.reloadContents(cookie.load('token'), cookie.load('username'));
+      if(cookie.load('username') !== undefined){
+        this.props.reloadUsername(cookie.load('username'));
+      }
+    }
+  }
+
+  handleLogoutClick() {
+    console.log("logout clicked");
+    console.log(this.props.token);
+    // this.setState({isLoggedIn: false});
+    cookie.remove('token');
+    cookie.remove('username');
+    cookie.remove('template');
+    let logout = this.props.logout;
+    console.log(this.props.token);
+    logout();
+  }
+
   render() {
-    return (
-      <div className="header-container">
-        <div className="container align-middle header-navbar">
-          <div className="row">
-            <div className="col text-center"><Link to="/">Home</Link></div>
-            <div className="col text-center"><Link to="/plants/:id">Plants</Link></div>
-            <div className="col text-center"><Link to="/register">Register</Link></div>
-            <div className="col text-center"><Link to="/login">Login</Link></div>
-          </div>
-        </div>
-        <button className="header-hamburger"
-        data-toggle="modal" data-target="#hamburger-menu">
-          &#9776;
-        </button>
-        <div className="container">
-          <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
-            <div className="modal-dialog">
-              <div className="modal-content text-center">
-              <button type="button"
-                className="close"
-								data-dismiss="modal"
-                aria-label="Close">
-  							<span aria-hidden="true">
-                  &times;
-                </span>
-						  </button>
-                  <Link to="/">Home</Link>
-                  <Link to="/plants/id">Plants</Link>
-                  <Link to="/register">Register</Link>
-                  <Link to="/login">Login</Link>
-              </div>
-            </div>
-          </div>
-        </div>
+    let changeButtons = {
+          "marginLeft": "200pt",
+          "width": "300pt",
+          "display": "flex",
+          "border": "1pt black blue",
+          "backgroundColor": "none",
+          "listStyleType": "none",
+          "justifyContent": "space-between"
+      }
+
+      // This determines which buttons will render based on whether or not the user is logged in.
+      let rightButtons = null;
+      // If the user is logged in show:
+      if (this.props.token) {
+        rightButtons = <div style={changeButtons}>
+                        <li>
+                          <NavLink activeClassName="selected" onClick={this.handleLogoutClick} to="/">
+                          {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
+                            <input className='btn btn-outline-primary' type='submit' value='LogOut'/>
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+                            <span className='btn btn-outline-primary' type='submit'>User: {this.props.username} </span>
+                          </NavLink>
+                        </li>
+                      </div>;
+      }
+      // If the user is logged out show.
+      else {
+        rightButtons = <div style={changeButtons}><li>
+          <NavLink activeClassName="selected" to="/login">
+            <input className='btn btn-outline-primary' type='submit' value='Login'/>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink activeClassName="selected" to="/register">
+            <input className='btn btn-outline-primary' type='submit' value='Register'/>
+          </NavLink>
+        </li></div>;
+      }
+
+      // This styles the nav title.
+      let navTitle = {
+          "fontFamily": "sans-serif",
+          "fontSize": "110%"
+      }
+
+      // This styles the outer header boundary and content positions.
+      let entireHeader = {
+          "width": "100%",
+          "display": "flex",
+          "listStyleType": "none",
+          "justifyContent": "center",
+          "backgroundColor": "#572F0B",
+          "padding": "20px"
+      }
+
+      return (
+        <div className="totalHeader" style={entireHeader}>
+        <li style={navTitle}>
+          <NavLink activeClassName="selected" to="/">
+            <input className='btn btn-outline-primary' type='submit' value='Homepage'/>
+          </NavLink>
+        </li>
+         {rightButtons}
       </div>
-    );
+      )
+
+    // return (
+    //   <div className="header-container">
+    //     <div className="container align-middle header-navbar">
+    //       <div className="row">
+    //         <div className="col text-center"><Link to="/">Home</Link></div>
+    //         <div className="col text-center"><Link to="/plants/:id">Plants</Link></div>
+    //         <div className="col text-center"><Link to="/register">Register</Link></div>
+    //         <div className="col text-center"><Link to="/login">Login</Link></div>
+    //       </div>
+    //     </div>
+    //     <button className="header-hamburger"
+    //     data-toggle="modal" data-target="#hamburger-menu">
+    //       &#9776;
+    //     </button>
+    //     <div className="container">
+    //       <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
+    //         <div className="modal-dialog">
+    //           <div className="modal-content text-center">
+    //           <button type="button"
+    //             className="close"
+		// 						data-dismiss="modal"
+    //             aria-label="Close">
+  	// 						<span aria-hidden="true">
+    //               &times;
+    //             </span>
+		// 				  </button>
+    //               <Link to="/">Home</Link>
+    //               <Link to="/plants/id">Plants</Link>
+    //               <Link to="/register">Register</Link>
+    //               <Link to="/login">Login</Link>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Header);
