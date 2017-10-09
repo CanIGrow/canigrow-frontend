@@ -193,7 +193,6 @@ export default class Homepage extends Component {
           </div>
       } else if (this.state.filteredplantdata.length <= 50) {
         searchResults = this.state.filteredplantdata.map((x, i) =>{
-          console.log(x);
           return (
             <div key={x.plant_id}>
               <h4 className="text-center">
