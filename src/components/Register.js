@@ -34,12 +34,14 @@ class Register extends Component {
 
   register(event) {
      event.preventDefault();
+     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      request
-        .post("https://pure-spire-67730.herokuapp.com/users")
+        .post(`${proxyurl}https://canigrow.herokuapp.com/api/users`)
         .send(
          {
           user: {
                 username: this.state.username,
+                email: this.state.email,
                 password: this.state.password,
                 bio: this.state.bio
                 }
@@ -55,8 +57,8 @@ class Register extends Component {
           console.log("registered");
           // This logs the user in if registration was successful.
           request
-          .post("https://pure-spire-67730.herokuapp.com/users/login")
-          .send({username: this.state.username, password: this.state.password})
+          .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
+          .send({email: this.state.email, password: this.state.password})
           .end((err, res) => {
             if (err) {
               this.setState({error: res.body.error});
@@ -103,6 +105,10 @@ class Register extends Component {
                   <div className="form-group">
                     <h6>User Name:</h6>
                     <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="User Name"/>
+                  </div>
+                  <div className="form-group">
+                    <h6>Email:</h6>
+                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} placeholder="example_email@email.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
