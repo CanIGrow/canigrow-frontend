@@ -20,6 +20,7 @@ export default class Plantpage extends Component {
       .end((err, res)=>{
         if (res !== undefined){
           console.log(res.body);
+          this.setState({plantdata: res.body.plant});
         }
       })
   }
@@ -57,7 +58,11 @@ export default class Plantpage extends Component {
             <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
           </div>
         </form>
-
+        {this.state.plantdata ? (
+          <h2>
+            {this.state.plantdata.common_name}
+          </h2>
+        ): ""}
         <img className="plant_big_image" src="" alt="plant_img"/>
 
 
