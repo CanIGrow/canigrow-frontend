@@ -63,9 +63,7 @@ class App extends Component {
                 plantsarray.push(x);
               }
             });
-            this.setState({ allplantdata:plantsarray }, ()=>{
-              console.log("DONE");
-            });
+            this.setState({ allplantdata:plantsarray });
           }
         })
   }
