@@ -9,6 +9,7 @@ export default class Homepage extends Component {
       searchbartext: "",
       zipcode: "",
       filteredplantdata: false,
+      zone: false,
     }
     this.filterlist = this.filterlist.bind(this);
   }
@@ -133,8 +134,26 @@ export default class Homepage extends Component {
             generalseason: generalseason,
           }
           this.setState({zipcode: res.body.zip_code, date:fulldatedata}, ()=>{
-            console.log(this.state.date);
+            this.updateZip(this.state.zipcode);
           });
+        }
+      })
+  }
+  updateZip = (zip) => {
+    request
+      .get(`https://freegeoip.net/json/`)
+      .end((err,res)=>{
+        if (res !== undefined && this.state.zipcode.length > 3){
+          const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+          request
+            .post(`${proxyurl}https://canigrow.herokuapp.com/api/zones/get_zone/`)
+            .send({"zip": this.state.zipcode})
+            .end((err,res)=>{
+              if (err){ return }
+              if (res.body && res.body !== undefined && res.body.zone !== undefined){
+                this.setState({zone:res.body.zone.zone});
+              }
+            });
         }
       })
   }
@@ -159,6 +178,9 @@ export default class Homepage extends Component {
           this.filterlist(value);
         }
       });
+    }
+    if (event.target.id === "zipcode"){
+      this.updateZip(value);
     }
   }
   render() {
@@ -209,7 +231,10 @@ export default class Homepage extends Component {
           <input type="search" id="zipcode"
             value={this.state.zipcode}
             onChange={this.handleTextChange}
-            className="homepage-search-box"/>
+            className="homepage-search-box"/><br/>
+          <span>
+          Your USDA Cold Hardiness Zone: {this.state.zone}
+          </span>
           </p>
           {searchResults ? searchResults : ""}
         </form>
