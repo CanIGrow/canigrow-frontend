@@ -8,8 +8,7 @@ export default class Homepage extends Component {
     this.state = {
       searchbartext: "",
       zipcode: "",
-      allplantdata: false,
-      filteredplantdata: false
+      filteredplantdata: false,
     }
     this.filterlist = this.filterlist.bind(this);
   }
@@ -17,32 +16,17 @@ export default class Homepage extends Component {
     event.preventDefault();
   }
   componentDidMount(){
-    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
         if (res !== undefined){
           this.setState({zipcode: res.body.zip_code});
-          request
-            .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
-            .end((err,res)=>{
-              if (res !== undefined){
-                let plantsarray = [];
-                res.body.plants.map((x, i) =>{
-                  if (x.common_name !== null){
-                    plantsarray.push(x);
-                  }
-                })
-                this.setState({ allplantdata:plantsarray }, ()=>{
-                  console.log("DONE");
-                });
-              }
-            })
         }
       })
   }
   filterlist(letter){
-    let list = this.state.allplantdata;
+    let list = this.props.allplantdata;
     if (this.state.filteredplantdata){
       list = list.filter(function(item){
         return item.common_name.toLowerCase().search(
@@ -58,13 +42,14 @@ export default class Homepage extends Component {
     let value = event.target.value;
     if (this.state[event.target.id] !== undefined){
       this.setState({[event.target.id]: event.target.value , fireRedirect: false}, ()=>{
-        if (this.state.searchbartext.length && this.state.allplantdata){
+        if (this.state.searchbartext.length && this.props.allplantdata){
           this.filterlist(value);
         }
       });
     }
   }
   render() {
+    console.log(this.props.allplantdata);
     let searchResults = null;
     if (this.state.filteredplantdata){
       if (this.state.filteredplantdata.length > 50){
