@@ -32,6 +32,9 @@ class Login extends Component {
 
   login(event) {
      let setLogin = this.props.setLogin;
+    //  This les the user 'bypass' cors.
+     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+
      event.preventDefault();
      console.log(this.state.username);
      console.log(this.state.password);
@@ -41,7 +44,7 @@ class Login extends Component {
       //  .post("https://pure-spire-67730.herokuapp.com/users/login")
       //  .send({username: this.state.username, password: this.state.password})
 
-      .post("https://canigrow.herokuapp.com/api/users/login")
+      .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
          if (err) {
