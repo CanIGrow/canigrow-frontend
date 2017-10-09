@@ -7,6 +7,7 @@ export default class Plantpage extends Component {
       super(props)
       this.state = {
         plant_id: 1,
+        plantdata: false,
       };
   }
 
@@ -25,6 +26,16 @@ export default class Plantpage extends Component {
 
   componentWillMount() {
     console.log(this.props);
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
+      request
+       .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
+       .end((err, res)=>{
+         if (res !== undefined){
+           this.setState({plantdata: res.body.plant});
+         }
+       })
+    });
   }
 
   updateFromField(stateKey) {

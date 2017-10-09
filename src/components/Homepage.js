@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
 import request from 'superagent';
+import { Link } from 'react-router-dom';
 
 export default class Homepage extends Component {
   constructor(props){
@@ -193,10 +194,13 @@ export default class Homepage extends Component {
           </div>
       } else if (this.state.filteredplantdata.length <= 50) {
         searchResults = this.state.filteredplantdata.map((x, i) =>{
+          let inlinelink = `/plants/${x.plant_id}`
           return (
             <div key={x.plant_id}>
               <h4 className="text-center">
-                Name: {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                <Link to={inlinelink}>Home
+                  Name: {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                </Link>
               </h4>
             </div>
           )
