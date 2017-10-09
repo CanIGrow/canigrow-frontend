@@ -43,7 +43,8 @@ class Register extends Component {
                 username: this.state.username,
                 email: this.state.email,
                 password: this.state.password,
-                bio: this.state.bio
+                bio: this.state.bio,
+                location: this.state.location
                 }
              }
             )
@@ -98,11 +99,11 @@ class Register extends Component {
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>User Name:</h6>
-                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="User Name"/>
+                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="username"/>
                   </div>
                   <div className="form-group">
                     <h6>Email:</h6>
-                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} placeholder="example_email@email.org"/>
+                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} placeholder="example@email.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
@@ -111,6 +112,10 @@ class Register extends Component {
                   <div className="form-group">
                     <h6>Personal Bio:</h6>
                     <textarea type="text" onChange={this.updateFromField('bio')} value={this.state.bio} id='wmd-input' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+                  </div>
+                  <div className="form-group">
+                    <h6>Location:</h6>
+                    <input type="test" onChange={this.updateFromField('location')} value={this.state.location} placeholder="Hometown, Region"/>
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
