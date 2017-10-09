@@ -21,7 +21,10 @@ Friday, October 6th:
 In the morning we graduated from the Iron Yard coding bootcamp.
 Kevin got the login page to pass the token using redux. Jocelyn continued researching API options and got the first iteration of the backend up on Heroku. JT worked on styling and positioning the elements on each page.
 
+Monday, October 9th:
+We met as a group to discuss our progress thus far. Jocelyn presented her API call options and continued working on authentication as well as controls and actions for adding plants to plots. Kevin worked on getting the login and registration pages to work with the ruby API, added some user stories to the trello board, and began work on the plant id page. JT worked on location services, wire-framing, and making the homepage search functionality work.
 
+Tuesday, October 10th:
 
 
 
