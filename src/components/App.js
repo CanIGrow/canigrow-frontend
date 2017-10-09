@@ -11,6 +11,7 @@ import BaseLayout from './Base-Layout.js';
 // These are for redux.
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
+import request from 'superagent';
 // import {applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
 
@@ -40,16 +41,33 @@ class App extends Component {
       user_id: null,
       bio:"",
       template: 0,
-      token: null
+      token: null,
+      allplantdata: false,
     };
   }
 
   componentWillMount() {
+      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
       this.setState({
         token: cookie.load('token'),
         username: cookie.load('username'),
         template: cookie.load('template')
       });
+      request
+        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
+        .end((err,res)=>{
+          if (res !== undefined){
+            let plantsarray = [];
+            res.body.plants.map((x, i) =>{
+              if (x.common_name !== null){
+                plantsarray.push(x);
+              }
+            });
+            this.setState({ allplantdata:plantsarray }, ()=>{
+              console.log("DONE");
+            });
+          }
+        })
   }
 
   changeTemplate(new_style){
@@ -69,7 +87,7 @@ class App extends Component {
           <BrowserRouter>
             <BaseLayout template={this.state.template}>
               <Switch>
-                <Route exact path="/" component={Homepage} />
+                <Route exact path="/" render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
                 <Route path="/user/:user" render={(props) => ( <Userpage newTemplate={this.changeTemplate.bind(this)}/> )}/>
