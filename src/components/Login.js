@@ -32,18 +32,13 @@ class Login extends Component {
 
   login(event) {
      let setLogin = this.props.setLogin;
-    //  This les the user 'bypass' cors.
+    //  This les the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-
+     let username = null;
      event.preventDefault();
      console.log(this.state.username);
      console.log(this.state.password);
      request
-
-
-      //  .post("https://pure-spire-67730.herokuapp.com/users/login")
-      //  .send({username: this.state.username, password: this.state.password})
-
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
@@ -53,18 +48,24 @@ class Login extends Component {
            }
            console.log("error");
          } else {
-          // These call functions from actions to send the token and username to the reducers then the store.
-          setLogin(res.body.token, this.state.username);
-          this.props.reloadUsername(this.state.username);
-          // These save the username and token to cookies.
-          cookie.save('token', res.body.token);
-          cookie.save('username', this.state.username);
-          console.log("login props");
-          console.log(this.props);
-          console.log("token returned");
-          console.log(res.body);
-          console.log(this.state.username);
-          console.log(this.state.token);
+           // This call functions from actions to send the token to the reducer then the store.
+           setLogin(res.body.token);
+           // These save the token to a cookie.
+           cookie.save('token', res.body.token);
+
+          //  This request is to get the user's username.
+           request
+             .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
+             .end((err, res)=>{
+               if (res !== undefined){
+                username = res.body.user.username;
+                // This call functions from actions to send the username to the reducer then the store.
+                this.props.reloadUsername(username);
+                // These save the username to a cookie.
+                cookie.save('username', username);
+                console.log(res.body.user);
+               }
+             })
          }
        })
   }
@@ -92,8 +93,8 @@ class Login extends Component {
                 <h3>Login Form:</h3>
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
-                    <h6>User Name:</h6>
-                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="User Name"/>
+                    <h6>Email:</h6>
+                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="user@gmail.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
