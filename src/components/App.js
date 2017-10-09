@@ -14,10 +14,18 @@ import {createStore} from 'redux';
 // import {applyMiddleware} from 'redux';
 import allReducers from '../reducers/indexReducer.js';
 
+/*
+https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript-only?page=1&tab=votes#tab-top
+ACCURATE:
+https://ipinfo.io/json
+10k requests per hour for testing:
+https://freegeoip.net/json/
+IP only:
+https://jsonip.com/
+*/
 
 // This creates a store to hold app state data for redux.
 const store = createStore(
-    // This pulls data from the combined reducer into the store.
     allReducers,
     // applyMiddleware(thunk, promise, logger)
 );
@@ -25,8 +33,8 @@ const store = createStore(
 // store.getState();
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor(){
+    super()
     this.state = {
       password:"",
       user_id: null,
