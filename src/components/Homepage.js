@@ -198,14 +198,14 @@ export default class Homepage extends Component {
               There are currently {this.state.filteredplantdata.length} results... Please your search!
             </h3>
           </div>
-      } else if (this.state.filteredplantdata.length <= 50) {
+      } else if (this.state.filteredplantdata.length <= 50 && !this.state.expandResults) {
         searchResults = this.state.filteredplantdata.map((x, i) =>{
           let inlinelink = `/plants/${x.plant_id}`
           return (
             <div key={x.plant_id}>
               <h4 className="text-center">
-                <Link to={inlinelink}>Home
-                  Name: {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                <Link to={inlinelink}>
+                  {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
                 </Link>
               </h4>
             </div>
