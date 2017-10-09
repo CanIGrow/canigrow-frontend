@@ -7,6 +7,7 @@ export default class Plantpage extends Component {
       super(props)
       this.state = {
         plant_id: 1,
+        plantdata: false,
       };
   }
 
@@ -19,12 +20,23 @@ export default class Plantpage extends Component {
       .end((err, res)=>{
         if (res !== undefined){
           console.log(res.body);
+          this.setState({plantdata: res.body.plant});
         }
       })
   }
 
   componentWillMount() {
     console.log(this.props);
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
+      request
+       .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
+       .end((err, res)=>{
+         if (res !== undefined){
+           this.setState({plantdata: res.body.plant});
+         }
+       })
+    });
   }
 
   updateFromField(stateKey) {
@@ -46,7 +58,11 @@ export default class Plantpage extends Component {
             <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
           </div>
         </form>
-
+        {this.state.plantdata ? (
+          <h2>
+            {this.state.plantdata.common_name}
+          </h2>
+        ): ""}
         <img className="plant_big_image" src="" alt="plant_img"/>
 
 
