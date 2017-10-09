@@ -70,12 +70,6 @@ class Register extends Component {
               // These save the username and token to cookies.
               cookie.save('token', res.body.token);
               cookie.save('username', this.state.username);
-              // setToken(res.body.token, this.state.username, res.body.user_id);
-              console.log("token returned");
-              console.log(res.body);
-              console.log(res.body.token);
-              console.log(res.body.user_id);
-              console.log(this.state.username);
             }
           })
           }

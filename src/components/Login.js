@@ -32,7 +32,7 @@ class Login extends Component {
 
   login(event) {
      let setLogin = this.props.setLogin;
-    //  This les the user 'bypass' CORs via proxy.
+    //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      let username = null;
      event.preventDefault();
