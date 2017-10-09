@@ -189,7 +189,7 @@ export default class Homepage extends Component {
     }
   }
   render() {
-    let searchResults = null;
+    let searchResults = false;
     if (this.state.filteredplantdata){
       if (this.state.filteredplantdata.length > 50){
         searchResults =
@@ -199,18 +199,23 @@ export default class Homepage extends Component {
             </h3>
           </div>
       } else if (this.state.filteredplantdata.length <= 50 && !this.state.expandResults) {
-        searchResults = this.state.filteredplantdata.map((x, i) =>{
-          let inlinelink = `/plants/${x.plant_id}`
-          return (
-            <div key={x.plant_id}>
-              <h4 className="text-center">
-                <Link to={inlinelink}>
-                  {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
-                </Link>
-              </h4>
-            </div>
-          )
-        })
+        searchResults =
+        <div>
+        <p className="pagination-centered text-center">
+          {this.state.filteredplantdata.length} Results</p>
+            {this.state.filteredplantdata.map((x, i) =>{
+              let inlinelink = `/plants/${x.plant_id}`
+              return (
+                <div key={x.plant_id}>
+                  <h4 className="text-center">
+                    <Link to={inlinelink}>
+                      {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                    </Link>
+                  </h4>
+                </div>
+              )
+            })}
+        </div>
       }
     }
     if (!this.props.allplantdata){
