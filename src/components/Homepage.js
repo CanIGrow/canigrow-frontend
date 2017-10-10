@@ -13,6 +13,8 @@ export default class Homepage extends Component {
       filteredplantdata: false,
       expandResults: false,
       zone: false,
+      zipzone: false,
+      suggested: false,
     }
     this.filterlist = this.filterlist.bind(this);
   }
@@ -142,6 +144,11 @@ export default class Homepage extends Component {
         }
       })
   }
+  componentDidUpdate(prevProps, prevState){
+    if (this.props.allplantdata !== prevProps.allplantdata){
+      this.filterlist(false);
+    }
+  }
   updateZip = (zip) => {
     let zipzone = false
     zipcodearray.map((x, i) =>{
@@ -151,25 +158,33 @@ export default class Homepage extends Component {
       }
     })
     if (zipzone && zipzone !== undefined){
-      this.setState({zone:`Your USDA Cold Hardiness Zone: ${zipzone}`});
+      this.setState({zone:`Your USDA Cold Hardiness Zone: ${zipzone}`, zipzone:zipzone}, ()=>{
+        this.filterlist(false);
+      });
     } else if (zip.length === 5){
       this.setState({zone:`Invalid US Zipcode`});
     } else {
       this.setState({zone:`Please enter full zip code`});
     }
   }
-  filterlist(letter){
+  filterlist(searchbar, letter){
     let list = this.props.allplantdata;
-    if (this.props.allplantdata){
-      list = list.filter(function(item){
-        return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
-          letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
-      });
-    }
-    if (this.state.searchbartext.length > 1){
-      this.setState({filteredplantdata: list});
+    if (searchbar){
+      if (this.props.allplantdata){
+        list = list.filter(function(item){
+          return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
+            letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
+        });
+      }
+      if (this.state.searchbartext.length > 1){
+        this.setState({filteredplantdata: list});
+      } else {
+        this.setState({filteredplantdata: false});
+      }
     } else {
-      this.setState({filteredplantdata: false});
+      console.log(this.state.date);
+      console.log(this.state.zipzone);
+      console.log("nope");
     }
   }
   handleTextChange = (event) => {
@@ -179,7 +194,7 @@ export default class Homepage extends Component {
     if (this.state[targetid] !== undefined && !(targetid === "zipcode" && value.length > 5)){
       this.setState({[targetid]: value , fireRedirect: false}, ()=>{
         if (this.props.allplantdata && targetid === "searchbartext"){
-          this.filterlist(value);
+          this.filterlist(true, value);
         }
       });
     }
