@@ -16,7 +16,7 @@ export default class Homepage extends Component {
       zipzone: false,
       suggested: false,
       date: false,
-      divisionsChecked: false,
+      divisionsChecked: true,
     }
     this.filterlist = this.filterlist.bind(this);
   }
@@ -139,6 +139,7 @@ export default class Homepage extends Component {
             date: today.getMonth()+1 + '/' + today.getDate(),
             season: season,
             generalseason: generalseason,
+            searchSeason: season,
           }
           this.setState({zipcode: res.body.zip_code, date:fulldatedata}, ()=>{
             this.updateZip(this.state.zipcode);
@@ -185,7 +186,7 @@ export default class Homepage extends Component {
       let arrayofsuggested = [];
       let randomsuggested = [];
       list.map((x, i) => {
-        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase()) || x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase().replace(/-/g, ' ')))){
+        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
       });
@@ -213,11 +214,15 @@ export default class Homepage extends Component {
   }
   handleSelectChange = (event) => {
     console.log(event.target);
-    this.setState(({ divisionsChecked }) => (
-      {divisionsChecked: !divisionsChecked}
-    ), ()=>{
-      console.log(this.state.date);
-    });
+    if (event.target.id === "divisions-checkBox"){
+      this.setState(({ divisionsChecked }) => (
+        {divisionsChecked: !divisionsChecked}
+      ), ()=>{
+        console.log(this.state.date);
+      });
+    } else if (event.target.id === "divisons-select-options"){
+
+    }
   }
   render() {
     let searchResults = false;
@@ -306,37 +311,43 @@ export default class Homepage extends Component {
                   onChange={this.handleTextChange}
                   className="homepage-search-box"/>
               </div>
-              <div>
-                Seasonal Divisions:
-                <input onChange={this.handleSelectChange}
-                  id="divisions-checkBox"
-                  type="checkbox"
-                  checked={this.state.divisionsChecked}
-                  value={this.state.divisionsChecked}/>
-                {this.state.divisionsChecked && this.state.date ? (
-                  <select defaultValue={this.state.date.season} className="custom-select">
-                    <option value="Early-Winter">Early-Winter</option>
-                    <option value="Mid-Winter">Mid-Winter</option>
-                    <option value="Late-Winter">Late-Winter</option>
-                    <option value="Early-Spring">Early-Spring</option>
-                    <option value="Mid-Spring">Mid-Spring</option>
-                    <option value="Late-Spring">Late-Spring</option>
-                    <option value="Early-Summer">Early-Summer</option>
-                    <option value="Mid-Summer">Mid-Summer</option>
-                    <option value="Late-Summer">Late-Summer</option>
-                    <option value="Early-Fall">Early-Fall</option>
-                    <option value="Mid-Fall">Mid-Fall</option>
-                    <option value="Late-Fall">Late-Fall</option>
-                  </select>
-                ):(
-                  <select defaultValue={this.state.date.generalseason} className="custom-select">
-                    <option value="Winter">Winter</option>
-                    <option value="Spring">Spring</option>
-                    <option value="Summer">Summer</option>
-                    <option value="Fall">Fall</option>
-                  </select>
-                )}
-              </div>
+              {this.state.date ? (
+                <div>
+                  Seasonal Divisions:
+                  <input onChange={this.handleSelectChange}
+                    id="divisions-checkBox"
+                    type="checkbox"
+                    checked={this.state.divisionsChecked}
+                    value={this.state.divisionsChecked}/>
+                  {this.state.divisionsChecked ? (
+                    <select className="custom-select" id="divisons-select-options"
+                      value={this.state.date.season}
+                      onChange={this.handleSelectChange}>
+                      <option value="Early-Winter">Early-Winter</option>
+                      <option value="Mid-Winter">Mid-Winter</option>
+                      <option value="Late-Winter">Late-Winter</option>
+                      <option value="Early-Spring">Early-Spring</option>
+                      <option value="Mid-Spring">Mid-Spring</option>
+                      <option value="Late-Spring">Late-Spring</option>
+                      <option value="Early-Summer">Early-Summer</option>
+                      <option value="Mid-Summer">Mid-Summer</option>
+                      <option value="Late-Summer">Late-Summer</option>
+                      <option value="Early-Fall">Early-Fall</option>
+                      <option value="Mid-Fall">Mid-Fall</option>
+                      <option value="Late-Fall">Late-Fall</option>
+                    </select>
+                  ):(
+                    <select className="custom-select" id="divisons-select-options"
+                      value={this.state.date.generalseason}
+                      onChange={this.handleSelectChange}>
+                      <option value="Winter">Winter</option>
+                      <option value="Spring">Spring</option>
+                      <option value="Summer">Summer</option>
+                      <option value="Fall">Fall</option>
+                    </select>
+                  )}
+                </div>
+              ):""}
             </div>
             <span>
             {this.state.zone ? this.state.zone : ""}
