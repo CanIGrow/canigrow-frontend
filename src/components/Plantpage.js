@@ -213,6 +213,10 @@ export default class Plantpage extends Component {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
+     let search_term = 'Potentilla';
+     let returned_value = false;
+    //  Keep this while testing.
+     returned_value = true;
      request
       .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
       .end((err, res)=>{
@@ -220,72 +224,74 @@ export default class Plantpage extends Component {
           console.log(res.body);
           if (res.body !== undefined && res.body !== null){
             if (res.body.plant !== undefined && res.body.plant !== null){
+              console.log(res.body.plant.common_name);
+              search_term = res.body.plant.common_name;
               this.setState({common_name: res.body.plant.common_name});
               this.setState({plantdata: res.body.plant});
+              returned_value = true;
             }
           }
 
-          // This obtains an image from wikipedia
-          request
-           .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=carrot&prop=images&format=json&imlimit=5`)
-           .end((err, res)=>{
-            console.log(err);
-            // console.log(res.xhr);
-            // console.log(res.xhr.responseText[5]);
+          if(returned_value){
+            console.log(search_term);
+            // This obtains an image from wikipedia
+            request
+            .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
+             .end((err, res)=>{
+              console.log(err);
+              console.log(res.xhr);
+              // console.log(res.xhr.responseText[5]);
 
-            // It's a string.
-            console.log(res.xhr.responseText);
-            let string = res.xhr.responseText
-            let obj = JSON.parse(string);
-            let imageNum = Object.keys(obj.query.pages)[0];
-            console.log(imageNum);
-            let numString = JSON.stringify(obj.query.pages);
-            console.log(numString);
-            console.log(obj.query.pages[imageNum].images);
-            console.log(obj.query.pages[imageNum].images[0].title);
-            this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
-            let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
-            let premiddle = obj.query.pages[imageNum].images[0].title;
-            // removes the extra front characters
-            let middle = premiddle.substring(5);
-            console.log(middle);
-            let hash = this.md5(middle);
-            console.log(hash);
-            let hashA = hash.substring(0, 1);
-            let hashB = hash.substring(0, 2);
-            let front = front_no_hash + hashA + '/' + hashB + '/'
-            let total = front+middle;
-            console.log(total);
-            this.setState({wikipedia_image_final: total});
-           })
+              // It's a string.
+              console.log(res.xhr.responseText);
+              let string = res.xhr.responseText
+              let obj = JSON.parse(string);
+              let imageNum = Object.keys(obj.query.pages)[0];
+              // console.log(imageNum);
+              let numString = JSON.stringify(obj.query.pages);
+              // console.log(numString);
+              // console.log(obj.query.pages[imageNum].images);
+              if (obj.query.pages[imageNum].images !== undefined) {
+                console.log(obj.query.pages[imageNum].images[0].title);
+                this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
+                let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
+                let premiddle = obj.query.pages[imageNum].images[0].title;
+                // removes the extra front characters
+                let middle = premiddle.substring(5);
+                // console.log(middle);
+                let hash = this.md5(middle);
+                // console.log(hash);
+                let hashA = hash.substring(0, 1);
+                let hashB = hash.substring(0, 2);
+                let front = front_no_hash + hashA + '/' + hashB + '/'
+                let total = front+middle;
+                console.log(total);
+                this.setState({wikipedia_image_final: total});
+              }
 
-          request
-          .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=carrot&prop=images&format=json&imlimit=5`)
-          //  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=$carrot&limit=20&callback=`)
-           .end((err, res)=>{
-             console.log('');
-             console.log('Carrot');
-             console.log(res.xhr.responseText);
-             let string = res.xhr.responseText
-             let obj = JSON.parse(string);
-             console.log(obj.query.pages[0]);
-             console.log(obj.query.pages[5985739]);
-             console.log(obj.query.pages[5985739].images[0].title);
-             let front = "https://upload.wikimedia.org/wikipedia/commons/b/bd/";
-             let premiddle = obj.query.pages[5985739].images[0].title;
-             // removes the extra front characters
-             let middle = premiddle.substring(5);
-             console.log(middle);
-             let total = front+middle;
-             console.log(total);
-            //  this.setState({wikipedia_image_final: total});
-            // console.log(err);
-            // console.log(res);
-            // console.log(res.response);
-            // console.log(res.xhr.responseText);
-            this.setState({wikipedia_responseText: res.xhr.responseText});
+             })
+          }
 
-           })
+          // request
+          // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
+          //  .end((err, res)=>{
+          //    console.log('');
+          //    console.log('Carrot');
+          //    console.log(res.xhr.responseText);
+          //    let string = res.xhr.responseText
+          //    let obj = JSON.parse(string);
+          //    console.log(obj.query.pages[0]);
+          //    console.log(obj.query.pages[5985739]);
+          //    console.log(obj.query.pages[5985739].images[0].title);
+          //    let front = "https://upload.wikimedia.org/wikipedia/commons/b/bd/";
+          //    let premiddle = obj.query.pages[5985739].images[0].title;
+          //    let middle = premiddle.substring(5);
+          //    console.log(middle);
+          //    let total = front+middle;
+          //    console.log(total);
+          //   this.setState({wikipedia_responseText: res.xhr.responseText});
+          //  })
+
         }
       })
   }
