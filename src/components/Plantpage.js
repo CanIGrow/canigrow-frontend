@@ -54,12 +54,29 @@ export default class Plantpage extends Component {
             console.log(middle);
             let total = front+middle;
             console.log(total);
-            this.setState({wikipedia_image_final: total});
+            // this.setState({wikipedia_image_final: total});
            })
 
           request
-           .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=$carrot&limit=20&callback=`)
+          .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=carrot&prop=images&format=json&imlimit=5`)
+          //  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=$carrot&limit=20&callback=`)
            .end((err, res)=>{
+             console.log('');
+             console.log('Carrot');
+             console.log(res.xhr.responseText);
+             let string = res.xhr.responseText
+             let obj = JSON.parse(string);
+             console.log(obj.query.pages[0]);
+             console.log(obj.query.pages[5985739]);
+             console.log(obj.query.pages[5985739].images[0].title);
+             let front = "https://upload.wikimedia.org/wikipedia/commons/b/bd/";
+             let premiddle = obj.query.pages[5985739].images[0].title;
+             // removes the extra front characters
+             let middle = premiddle.substring(5);
+             console.log(middle);
+             let total = front+middle;
+             console.log(total);
+             this.setState({wikipedia_image_final: total});
             // console.log(err);
             // console.log(res);
             // console.log(res.response);
