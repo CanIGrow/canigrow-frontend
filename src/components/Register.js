@@ -15,9 +15,13 @@ class Register extends Component {
     super(props)
     this.state = {
       userName: '',
-      password: '',
       token: this.props.token,
+      usernameinput: '',
+      email: '',
+      password: '',
+      password2: '',
       bio: '',
+      location: '',
     };
   }
 
@@ -27,11 +31,10 @@ class Register extends Component {
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
   updateFromField(stateKey) {
-      return (event) => {
-        this.setState({[stateKey]: event.target.value});
-      }
+    return (event) => {
+      this.setState({[stateKey]: event.target.value});
+    }
   }
-
   register(event) {
      event.preventDefault();
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
@@ -99,23 +102,27 @@ class Register extends Component {
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>User Name:</h6>
-                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="username"/>
+                    <input type="text" onChange={this.updateFromField('usernameinput')} value={this.state.usernameinput} id="username" placeholder="username"/>
                   </div>
                   <div className="form-group">
                     <h6>Email:</h6>
-                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} placeholder="example@email.org"/>
+                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} id="email" placeholder="example@email.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
-                    <input type="password" onChange={this.updateFromField('password')} value={this.state.password} placeholder="********"/>
+                    <input type="password" onChange={this.updateFromField('password')} value={this.state.password} id="password" placeholder="********"/>
+                  </div>
+                  <div className="form-group">
+                    <h6>Retype Password:</h6>
+                    <input type="password" onChange={this.updateFromField('password2')} value={this.state.password2} id="password" placeholder="********"/>
                   </div>
                   <div className="form-group">
                     <h6>Personal Bio:</h6>
-                    <textarea type="text" onChange={this.updateFromField('bio')} value={this.state.bio} id='wmd-input' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+                    <textarea type="text" onChange={this.updateFromField('bio')} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
                   </div>
                   <div className="form-group">
                     <h6>Location:</h6>
-                    <input type="test" onChange={this.updateFromField('location')} value={this.state.location} placeholder="Hometown, Region"/>
+                    <input type="text" onChange={this.updateFromField('location')} value={this.state.location} id="location" placeholder="Hometown, Region"/>
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
