@@ -291,7 +291,14 @@ export default class Homepage extends Component {
           <input type="search" id="zipcode"
             value={this.state.zipcode}
             onChange={this.handleTextChange}
-            className="homepage-search-box"/><br/>
+            className="homepage-search-box"/>
+          <select className="custom-select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+          <br/>
           <span>
           {this.state.zone ? this.state.zone : ""}
           </span>
