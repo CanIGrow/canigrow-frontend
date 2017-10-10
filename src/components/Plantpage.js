@@ -7,6 +7,11 @@ export default class Plantpage extends Component {
       super(props)
       this.state = {
         plant_id: 1,
+        common_name: null,
+        main_image: null,
+        wikipedia_image: null,
+        wikipedia_image_final: null,
+        wikipedia_responseText: null,
         plantdata: false,
       };
   }
@@ -20,20 +25,81 @@ export default class Plantpage extends Component {
       .end((err, res)=>{
         if (res !== undefined){
           console.log(res.body);
-          this.setState({plantdata: res.body.plant});
+          if (res.body !== undefined && res.body !== null){
+            if (res.body.plant !== undefined && res.body.plant !== null){
+              this.setState({common_name: res.body.plant.common_name});
+              this.setState({plantdata: res.body.plant});
+            }
+          }
+
+          // This obtains an image from wikipedia
+          request
+           .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=asparagus&prop=images&format=json&imlimit=5`)
+           .end((err, res)=>{
+            console.log(err);
+            console.log(res.xhr);
+            console.log(res.xhr.responseText[5]);
+            // It's a string.
+            console.log(res.xhr.responseText);
+            let string = res.xhr.responseText
+            let obj = JSON.parse(string);
+            console.log(obj.query.pages);
+            console.log(obj.query.pages[46319].images);
+            console.log(obj.query.pages[46319].images[0].title);
+            this.setState({wikipedia_image: obj.query.pages[46319].images[0].title});
+            let front = "https://upload.wikimedia.org/wikipedia/commons/8/8d/";
+            let premiddle = obj.query.pages[46319].images[0].title;
+            // removes the extra front characters
+            let middle = premiddle.substring(5);
+            console.log(middle);
+            let total = front+middle;
+            console.log(total);
+            // this.setState({wikipedia_image_final: total});
+           })
+
+          request
+          .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=carrot&prop=images&format=json&imlimit=5`)
+          //  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=$carrot&limit=20&callback=`)
+           .end((err, res)=>{
+             console.log('');
+             console.log('Carrot');
+             console.log(res.xhr.responseText);
+             let string = res.xhr.responseText
+             let obj = JSON.parse(string);
+             console.log(obj.query.pages[0]);
+             console.log(obj.query.pages[5985739]);
+             console.log(obj.query.pages[5985739].images[0].title);
+             let front = "https://upload.wikimedia.org/wikipedia/commons/b/bd/";
+             let premiddle = obj.query.pages[5985739].images[0].title;
+             // removes the extra front characters
+             let middle = premiddle.substring(5);
+             console.log(middle);
+             let total = front+middle;
+             console.log(total);
+             this.setState({wikipedia_image_final: total});
+            // console.log(err);
+            // console.log(res);
+            // console.log(res.response);
+            // console.log(res.xhr.responseText);
+            this.setState({wikipedia_responseText: res.xhr.responseText});
+
+           })
         }
       })
   }
 
   componentWillMount() {
+
     console.log(this.props);
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
       request
        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
        .end((err, res)=>{
-         if (res !== undefined){
-           this.setState({plantdata: res.body.plant});
+         if (res.body !== undefined && res.body !== null){
+           if (res.body.plant !== undefined && res.body.plant !== null){
+             this.setState({plantdata: res.body.plant});
+           }
          }
        })
     });
@@ -58,13 +124,20 @@ export default class Plantpage extends Component {
             <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
           </div>
         </form>
+
+        <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
+        <p>{this.state.common_name}</p>
+        <p>{this.state.wikipedia_responseText}</p>
+        <p>{this.state.wikipedia_image}</p>
+        <p>Above Image Link:</p>
+        <p>{this.state.wikipedia_image_final}</p>
+        <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/>
         {this.state.plantdata ? (
           <h2>
             {this.state.plantdata.common_name}
           </h2>
         ): ""}
         <img className="plant_big_image" src="" alt="plant_img"/>
-
 
       </div>
     );
