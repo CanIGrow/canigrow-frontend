@@ -272,6 +272,9 @@ export default class Homepage extends Component {
           <h3 className="pagination-centered text-center">
             Suggestions
           </h3>
+          <p>
+            Suggestions based on {this.state.zipcode} and {this.state.date.searchSeason}
+          </p>
           {this.state.suggested.map((x, i) =>{
             let inlinelink = `/plants/${x.plant_id}`
             return (
