@@ -15,6 +15,7 @@ export default class Homepage extends Component {
       zone: false,
       zipzone: false,
       suggested: false,
+      divisionsChecked: false,
     }
     this.filterlist = this.filterlist.bind(this);
   }
@@ -209,6 +210,15 @@ export default class Homepage extends Component {
       this.updateZip(value);
     }
   }
+  handleSelectChange = (event) => {
+    event.preventDefault();
+    console.log(event.target);
+    this.setState(({ divisionsChecked }) => (
+      {divisionsChecked: !divisionsChecked}
+    ), ()=>{
+      console.log(this.state.divisionsChecked);
+    });
+  }
   render() {
     let searchResults = false;
     let suggestedResults = false;
@@ -296,12 +306,20 @@ export default class Homepage extends Component {
                   onChange={this.handleTextChange}
                   className="homepage-search-box"/>
               </div>
-              <select className="custom-select">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+              <div>
+                Seasonal Divisions:
+                <input onChange={this.handleSelectChange}
+                  id="divisions-checkBox"
+                  type="checkbox"
+                  checked={this.state.divisionsChecked}
+                  value={this.state.divisionsChecked}/>
+                <select className="custom-select">
+                  <option selected>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
             </div>
             <span>
             {this.state.zone ? this.state.zone : ""}
