@@ -151,9 +151,11 @@ export default class Homepage extends Component {
             .post(`${proxyurl}https://canigrow.herokuapp.com/api/zones/get_zone/`)
             .send({"zip": this.state.zipcode})
             .end((err,res)=>{
-              if (err){ return }
+              if (err){
+                this.setState({zone:false});
+              }
               if (res.body && res.body !== undefined && res.body.zone !== undefined){
-                this.setState({zone:res.body.zone.zone});
+                this.setState({zone:`Your USDA Cold Hardiness Zone: ${res.body.zone.zone}`});
               }
             });
         }
@@ -177,9 +179,10 @@ export default class Homepage extends Component {
   handleTextChange = (event) => {
     event.preventDefault();
     let value = event.target.value;
-    if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value , fireRedirect: false}, ()=>{
-        if (this.props.allplantdata){
+    let targetid = event.target.id;
+    if (this.state[targetid] !== undefined && !(targetid === "zipcode" && value.length > 5)){
+      this.setState({[targetid]: value , fireRedirect: false}, ()=>{
+        if (this.props.allplantdata && targetid === "searchbartext"){
           this.filterlist(value);
         }
       });
@@ -195,7 +198,7 @@ export default class Homepage extends Component {
         searchResults =
           <div>
             <h3 className="text-center">
-              There are currently {this.state.filteredplantdata.length} results... Please your search!
+              There are currently {this.state.filteredplantdata.length} results... Please refine your search!
             </h3>
           </div>
       } else if (this.state.filteredplantdata.length <= 50 && !this.state.expandResults) {
@@ -245,7 +248,7 @@ export default class Homepage extends Component {
             onChange={this.handleTextChange}
             className="homepage-search-box"/><br/>
           <span>
-          Your USDA Cold Hardiness Zone: {this.state.zone}
+          {this.state.zone ? this.state.zone : ""}
           </span>
           </p>
           {searchResults ? searchResults : ""}
