@@ -213,7 +213,9 @@ export default class Plantpage extends Component {
   plantInfoGet(event) {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-     event.preventDefault();
+     if( event !== undefined){
+       event.preventDefault();
+     }
      let search_term = 'Potentilla';
      let returned_value = false;
     //  Keep this while testing.
@@ -358,9 +360,13 @@ export default class Plantpage extends Component {
       request
        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
        .end((err, res)=>{
-         if (res.body !== undefined && res.body !== null){
-           if (res.body.plant !== undefined && res.body.plant !== null){
-             this.setState({plantdata: res.body.plant});
+         if (res !== undefined && res !== null){
+           if (res.body !== undefined && res.body !== null){
+             if (res.body.plant !== undefined && res.body.plant !== null){
+               console.log(res.body.plant.common_name);
+               this.plantInfoGet();
+               this.setState({plantdata: res.body.plant});
+             }
            }
          }
        })
