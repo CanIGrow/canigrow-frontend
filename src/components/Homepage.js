@@ -190,11 +190,25 @@ export default class Homepage extends Component {
           arrayofsuggested.push(x)
         }
       });
-      for (let i = 0; i < 6; i++){
-        let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
-        randomsuggested.push(newSuggestion[0]);
+      console.log(this.state.date.searchSeason);
+      console.log(arrayofsuggested.length);
+      if (arrayofsuggested.length < 6){
+        // if(this.state.date.searchSeason.includes('-')){
+        //   this.setState({date : {...this.state.date, searchSeason: this.state.date.searchSeason.split("-")[1]}},()=>{
+        //     this.filterlist(false);
+        //   })
+        // } else {
+          randomsuggested.push(false);
+          console.log(randomsuggested);
+          this.setState({suggested:randomsuggested});
+        // }
+      } else {
+        for (let i = 0; i < 6; i++){
+          let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
+          randomsuggested.push(newSuggestion[0]);
+        }
+        this.setState({suggested:randomsuggested});
       }
-      this.setState({suggested:randomsuggested});
     }
   }
   handleTextChange = (event) => {
@@ -266,7 +280,7 @@ export default class Homepage extends Component {
         </div>
       }
     }
-    if (this.props.allplantdata && this.state.suggested){
+    if (this.props.allplantdata && this.state.suggested && this.state.suggested[1] !== undefined){
       suggestedResults =
         <div className="container text-center">
           <h3 className="pagination-centered text-center">
@@ -292,6 +306,20 @@ export default class Homepage extends Component {
             className="btn btn-success btn-sm">
             Show more suggestions
           </button>
+        </div>
+    }
+    if (!this.state.suggested[0]){
+      suggestedResults =
+        <div className="container text-center">
+          <h3 className="pagination-centered text-center">
+            Suggestions
+          </h3>
+          <p>
+            Suggestions based on {this.state.zipcode} and {this.state.date.searchSeason}
+          </p>
+          <p>
+            There are no results. Sorry!
+          </p>
         </div>
     }
     if (!this.props.allplantdata){
@@ -326,14 +354,14 @@ export default class Homepage extends Component {
               </div>
               {this.state.date ? (
                 <div>
-                  Seasonal Divisions:
                   <input onChange={this.handleSelectChange}
-                    id="divisions-checkBox"
-                    type="checkbox"
+                    id="divisions-checkBox" type="checkbox"
+                    className="styled-checkbox"
                     checked={this.state.divisionsChecked}
                     value={this.state.divisionsChecked}/>
+                  <label htmlFor="divisions-checkBox">Seasonal Divisions:</label>
                   {this.state.divisionsChecked ? (
-                    <select className="custom-select" id="divisons-select-options"
+                    <select className="custom-select homepage-season-selection" id="divisons-select-options"
                       value={this.state.date.searchSeason}
                       onChange={this.handleSelectChange}>
                       <option value="Early-Winter">Early-Winter</option>
@@ -350,7 +378,7 @@ export default class Homepage extends Component {
                       <option value="Late-Fall">Late-Fall</option>
                     </select>
                   ):(
-                    <select className="custom-select" id="divisons-select-options"
+                    <select className="custom-select homepage-season-selection" id="divisons-select-options"
                       value={this.state.date.searchSeason}
                       onChange={this.handleSelectChange}>
                       <option value="Winter">Winter</option>

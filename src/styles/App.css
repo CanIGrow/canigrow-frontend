@@ -30,6 +30,63 @@ html, body, #root, .body{
 .header-hamburger:active{
   color: rgba(200,200,200, 1);
 }
+.homepage-season-selection{
+  margin: 0 15px;
+  width: 150px;
+}
+.styled-checkbox {
+  /*position: absolute;*/
+  opacity: 0;
+
+  & + label {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+  & + label:before {
+    content: '';
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 20px;
+    height: 20px;
+    background: white;
+  }
+  &:hover + label:before {
+    background: #f35429;
+  }
+  &:focus + label:before {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+  &:checked + label:before {
+    background: #f35429;
+  }
+  &:disabled + label {
+    color: #b8b8b8;
+    cursor: auto;
+  }
+  &:disabled + label:before {
+    box-shadow: none;
+    background: #ddd;
+  }
+  &:checked + label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    background: white;
+    width: 2px;
+    height: 2px;
+    box-shadow:
+      2px 0 0 white,
+      4px 0 0 white,
+      4px -2px 0 white,
+      4px -4px 0 white,
+      4px -6px 0 white,
+      4px -8px 0 white;
+    transform: rotate(45deg);
+  }
+}
 .homepage-search-container{
   background-color: rgba(117,181,80, 1);
 }
