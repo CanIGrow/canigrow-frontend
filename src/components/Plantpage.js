@@ -273,12 +273,16 @@ export default class Plantpage extends Component {
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
                 console.log(obj);
-                if(obj !== undefined){
+                console.log(obj.query);
+                if(obj.query !== undefined){
                   let imageNum = Object.keys(obj.query.pages)[0];
                   console.log(obj.query.pages);
                   console.log(obj.query.pages[0]);
                   console.log(obj.query.pages[0].thumbnail.source);
                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                } else {
+                  console.log("Try to get images another way");
+
                 }
 
               })
