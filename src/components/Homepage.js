@@ -181,18 +181,18 @@ export default class Homepage extends Component {
       }
     } else if (!searchbar && this.props.allplantdata){
       let arrayofsuggested = [];
+      let randomsuggested = [];
       list.map((x, i) => {
-        if (x.zone){
-          console.log(x.zone);
-        }
-        if(x.zone !== null && x.zone.includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.includes(this.state.date.season) || x.seasonal_interest.includes(this.state.date.season.replace(/-/g, ' ')))){
+        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase()) || x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
       })
       console.log(arrayofsuggested);
-      if (arrayofsuggested.length < 4){
-        console.log("nope");
+      for (let i = 0; i < 6; i++){
+        let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
+        randomsuggested.push(newSuggestion[0]);
       }
+      console.log(randomsuggested);
     }
   }
   handleTextChange = (event) => {
