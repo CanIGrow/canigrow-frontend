@@ -8,6 +8,7 @@ import Plantpage from './Plantpage.js';
 import Register from './Register.js';
 import Userpage from './Userpage.js';
 import BaseLayout from './Base-Layout.js';
+import Userlisting from './Userlisting.js';
 // These are for redux.
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
@@ -89,6 +90,7 @@ class App extends Component {
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
                 <Route path="/user/:user" render={(props) => ( <Userpage newTemplate={this.changeTemplate.bind(this)}/> )}/>
+                <Route path="/users"  component={Userlisting} />
                 <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>
                 {/* <Route path="/login" component={Login} /> */}
                 <Route path="/register" component={Register} />
