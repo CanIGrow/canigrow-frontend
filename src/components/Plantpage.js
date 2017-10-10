@@ -244,16 +244,16 @@ export default class Plantpage extends Component {
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
               .end((err, res)=>{
-                console.log(res);
-                console.log(res.xhr.responseText);
+                // console.log(res);
+                // console.log(res.xhr.responseText);
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
-                console.log(obj);
-                console.log(obj.query);
+                // console.log(obj);
+                // console.log(obj.query);
                 if(obj.query !== undefined){
                   let imageNum = Object.keys(obj.query.pages)[0];
-                  console.log(obj.query.pages);
-                  console.log(obj.query.pages[0]);
+                  // console.log(obj.query.pages);
+                  // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
                     console.log('No Image to Show');
                     this.setState({image_message : "There are no images currently available for this plant."});
@@ -262,31 +262,43 @@ export default class Plantpage extends Component {
                     this.setState({image_message : "null"});
                     console.log(obj.query.pages[0].thumbnail.source);
                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                    // If the search was for Hosta.
+                    if(search_term === 'Hosta'){
+                      this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
+                    }
                   }
                 } else {
                   // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
                   console.log("Try to get images another way");
-                  console.log(res);
+                  // console.log(res);
                   let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
                   console.log(only_first_search_term);
                   request
                   .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
                    .end((err, res)=>{
-                     console.log(res);
-                     console.log(res.xhr.responseText);
+                    //  console.log(res);
+                    //  console.log(res.xhr.responseText);
                      let string = res.xhr.responseText
                      let obj = JSON.parse(string);
-                     console.log(obj);
-                     console.log(obj.query.pages[0]);
-                     let imageNum = Object.keys(obj.query.pages)[0];
-                     console.log(obj.query.pages[0].thumbnail.source);
-                     this.setState({image_message : "null"});
-                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                    //  console.log(obj);
+                    //  console.log(obj.query.pages[0]);
+                      let imageNum = Object.keys(obj.query.pages)[0];
+                      console.log(obj.query.pages[0].thumbnail.source);
+
+                      // If the search was for Hosta Hosta ventricosa.
+                      if(search_term === 'Hosta ventricosa'){
+                        this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
+                      } else {
+                        this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                      }
+                      this.setState({image_message : "null"});
+
                    })
 
                 }
 
               })
+
 
           }
 
