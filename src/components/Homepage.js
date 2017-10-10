@@ -259,6 +259,11 @@ export default class Homepage extends Component {
               </div>
             )
           })}
+          <button type="button"
+            onClick={event => this.filterlist(false)}
+            className="btn btn-success btn-sm">
+            Show more suggestions
+          </button>
         </div>
     }
     if (!this.props.allplantdata){
