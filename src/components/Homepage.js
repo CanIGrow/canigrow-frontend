@@ -193,15 +193,15 @@ export default class Homepage extends Component {
       console.log(this.state.date.searchSeason);
       console.log(arrayofsuggested.length);
       if (arrayofsuggested.length < 6){
-        // if(this.state.date.searchSeason.includes('-')){
-        //   this.setState({date : {...this.state.date, searchSeason: this.state.date.searchSeason.split("-")[1]}},()=>{
-        //     this.filterlist(false);
-        //   })
-        // } else {
+        if(this.state.date.searchSeason.includes('-')){
+          this.setState({date : {...this.state.date, searchSeason: this.state.date.searchSeason.split("-")[1]}},()=>{
+            this.filterlist(false);
+          })
+        } else {
           randomsuggested.push(false);
           console.log(randomsuggested);
           this.setState({suggested:randomsuggested});
-        // }
+        }
       } else {
         for (let i = 0; i < 6; i++){
           let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
@@ -307,8 +307,7 @@ export default class Homepage extends Component {
             Show more suggestions
           </button>
         </div>
-    }
-    if (!this.state.suggested[0]){
+    } else if (this.props.allplantdata && this.state.suggested && this.state.suggested[0] === false){
       suggestedResults =
         <div className="container text-center">
           <h3 className="pagination-centered text-center">
