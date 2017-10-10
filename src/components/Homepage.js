@@ -180,15 +180,19 @@ export default class Homepage extends Component {
         this.setState({filteredplantdata: false});
       }
     } else if (!searchbar && this.props.allplantdata){
-      console.log(list);
-      console.log(this.state.date);
       let arrayofsuggested = [];
       list.map((x, i) => {
-        if(x.zone !== null && x.zone.includes(this.state.zipzone[0]) && (x.seasonal_interest.includes(this.state.date.season) || x.seasonal_interest.includes(this.state.date.season.replace(/-/g, ' ')))){
+        if (x.zone){
+          console.log(x.zone);
+        }
+        if(x.zone !== null && x.zone.includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.includes(this.state.date.season) || x.seasonal_interest.includes(this.state.date.season.replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
       })
       console.log(arrayofsuggested);
+      if (arrayofsuggested.length < 4){
+        console.log("nope");
+      }
     }
   }
   handleTextChange = (event) => {
