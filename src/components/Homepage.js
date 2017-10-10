@@ -186,13 +186,12 @@ export default class Homepage extends Component {
         if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase()) || x.seasonal_interest.toLowerCase().includes(this.state.date.season.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
-      })
-      console.log(arrayofsuggested);
+      });
       for (let i = 0; i < 6; i++){
         let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
         randomsuggested.push(newSuggestion[0]);
       }
-      console.log(randomsuggested);
+      this.setState({suggested:randomsuggested});
     }
   }
   handleTextChange = (event) => {
@@ -212,6 +211,7 @@ export default class Homepage extends Component {
   }
   render() {
     let searchResults = false;
+    let suggestedResults = false;
     if (this.state.filteredplantdata){
       if (this.state.filteredplantdata.length > 50){
         searchResults =
@@ -240,6 +240,14 @@ export default class Homepage extends Component {
           })}
         </div>
       }
+    }
+    if (this.props.allplantdata && this.state.suggested){
+      suggestedResults = this.state.suggested.map((x, i) =>{
+        console.log(x);
+        return(
+          
+        )
+      })
     }
     if (!this.props.allplantdata){
       searchResults =
@@ -272,6 +280,7 @@ export default class Homepage extends Component {
           </span>
           </p>
           {searchResults ? searchResults : ""}
+          {this.state.suggested ? searchResults : ""}
         </form>
       </div>
     );
