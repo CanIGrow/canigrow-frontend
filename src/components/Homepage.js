@@ -211,12 +211,11 @@ export default class Homepage extends Component {
     }
   }
   handleSelectChange = (event) => {
-    event.preventDefault();
     console.log(event.target);
     this.setState(({ divisionsChecked }) => (
       {divisionsChecked: !divisionsChecked}
     ), ()=>{
-      console.log(this.state.divisionsChecked);
+      // this.forceUpdate();
     });
   }
   render() {
@@ -292,7 +291,7 @@ export default class Homepage extends Component {
               <h2 className="homepage-search-title">Can I Grow...
               <input type="search" id="searchbartext"
                 value={this.state.searchbartext}
-                onChange={this.handleTextChange}
+                onClick={this.handleTextChange}
                 className="homepage-search-box"/>
               </h2>
             </div>
@@ -313,12 +312,29 @@ export default class Homepage extends Component {
                   type="checkbox"
                   checked={this.state.divisionsChecked}
                   value={this.state.divisionsChecked}/>
-                <select className="custom-select">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
+                {this.state.divisionsChecked ? (
+                  <select className="custom-select">
+                    <option value="Early-Winter">Early-Winter</option>
+                    <option value="Mid-Winter">Mid-Winter</option>
+                    <option value="Late-Winter">Late-Winter</option>
+                    <option value="Early-Spring">Early-Spring</option>
+                    <option value="Mid-Spring">Mid-Spring</option>
+                    <option value="Late-Spring">Late-Spring</option>
+                    <option value="Early-Summer">Early-Summer</option>
+                    <option value="Mid-Summer">Mid-Summer</option>
+                    <option value="Late-Summer">Late-Summer</option>
+                    <option value="Early-Fall">Early-Fall</option>
+                    <option value="Mid-Fall">Mid-Fall</option>
+                    <option value="Late-Fall">Late-Fall</option>
+                  </select>
+                ):(
+                  <select className="custom-select">
+                    <option value="Winter">Winter</option>
+                    <option value="Spring">Spring</option>
+                    <option value="Summer">Summer</option>
+                    <option value="Fall">Fall</option>
+                  </select>
+                )}
               </div>
             </div>
             <span>
