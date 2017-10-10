@@ -169,22 +169,26 @@ export default class Homepage extends Component {
   }
   filterlist(searchbar, letter){
     let list = this.props.allplantdata;
-    if (searchbar){
-      if (this.props.allplantdata){
-        list = list.filter(function(item){
-          return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
-            letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
-        });
-      }
+    if (searchbar && this.props.allplantdata){
+      list = list.filter(function(item){
+        return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
+          letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
+      });
       if (this.state.searchbartext.length > 1){
         this.setState({filteredplantdata: list});
       } else {
         this.setState({filteredplantdata: false});
       }
-    } else {
+    } else if (!searchbar && this.props.allplantdata){
+      console.log(list);
       console.log(this.state.date);
-      console.log(this.state.zipzone);
-      console.log("nope");
+      let arrayofsuggested = [];
+      list.map((x, i) => {
+        if(x.zone !== null && x.zone.includes(this.state.zipzone[0]) && (x.seasonal_interest.includes(this.state.date.season) || x.seasonal_interest.includes(this.state.date.season.replace(/-/g, ' ')))){
+          arrayofsuggested.push(x)
+        }
+      })
+      console.log(arrayofsuggested);
     }
   }
   handleTextChange = (event) => {
