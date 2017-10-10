@@ -237,7 +237,7 @@ export default class Plantpage extends Component {
           // This obtains an image from wikipedia
 
           if(returned_value){
-            console.log(search_term);
+            console.log("Search Term: " + search_term);
             // request
             // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
             //  .end((err, res)=>{
@@ -264,7 +264,7 @@ export default class Plantpage extends Component {
             //   }
             //  })
 
-
+            console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
               .end((err, res)=>{
