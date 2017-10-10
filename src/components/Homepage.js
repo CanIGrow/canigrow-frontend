@@ -15,6 +15,7 @@ export default class Homepage extends Component {
       zone: false,
       zipzone: false,
       suggested: false,
+      date: false,
       divisionsChecked: false,
     }
     this.filterlist = this.filterlist.bind(this);
@@ -215,7 +216,7 @@ export default class Homepage extends Component {
     this.setState(({ divisionsChecked }) => (
       {divisionsChecked: !divisionsChecked}
     ), ()=>{
-      // this.forceUpdate();
+      console.log(this.state.date);
     });
   }
   render() {
@@ -312,8 +313,8 @@ export default class Homepage extends Component {
                   type="checkbox"
                   checked={this.state.divisionsChecked}
                   value={this.state.divisionsChecked}/>
-                {this.state.divisionsChecked ? (
-                  <select className="custom-select">
+                {this.state.divisionsChecked && this.state.date ? (
+                  <select defaultValue={this.state.date.season} className="custom-select">
                     <option value="Early-Winter">Early-Winter</option>
                     <option value="Mid-Winter">Mid-Winter</option>
                     <option value="Late-Winter">Late-Winter</option>
@@ -328,7 +329,7 @@ export default class Homepage extends Component {
                     <option value="Late-Fall">Late-Fall</option>
                   </select>
                 ):(
-                  <select className="custom-select">
+                  <select defaultValue={this.state.date.generalseason} className="custom-select">
                     <option value="Winter">Winter</option>
                     <option value="Spring">Spring</option>
                     <option value="Summer">Summer</option>
