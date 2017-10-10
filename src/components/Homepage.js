@@ -287,22 +287,26 @@ export default class Homepage extends Component {
               </h2>
             </div>
           </div>
-          <p className="pagination-centered text-center">zip code
-          <input type="search" id="zipcode"
-            value={this.state.zipcode}
-            onChange={this.handleTextChange}
-            className="homepage-search-box"/>
-          <select className="custom-select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-          <br/>
-          <span>
-          {this.state.zone ? this.state.zone : ""}
-          </span>
-          </p>
+          <div className="pagination-centered text-center">
+            <div className="homepage-settings-section">
+              <div>
+                zip code
+                <input type="search" id="zipcode"
+                  value={this.state.zipcode}
+                  onChange={this.handleTextChange}
+                  className="homepage-search-box"/>
+              </div>
+              <select className="custom-select">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <span>
+            {this.state.zone ? this.state.zone : ""}
+            </span>
+          </div>
           {searchResults ? searchResults : ""}
           {suggestedResults ? suggestedResults : ""}
         </form>

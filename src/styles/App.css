@@ -22,6 +22,11 @@ html, body, #root, .body{
   border: 0;
   background: 0;
 }
+.homepage-settings-section{
+  padding: 5px 0;
+  display: flex;
+  justify-content: space-around;
+}
 .header-hamburger:active{
   color: rgba(200,200,200, 1);
 }
