@@ -310,7 +310,7 @@ export default class Homepage extends Component {
               <h2 className="homepage-search-title">Can I Grow...
               <input type="search" id="searchbartext"
                 value={this.state.searchbartext}
-                onClick={this.handleTextChange}
+                onChange={this.handleTextChange}
                 className="homepage-search-box"/>
               </h2>
             </div>
@@ -365,8 +365,10 @@ export default class Homepage extends Component {
             <span>
             {this.state.zone ? this.state.zone : ""}
             </span>
+            <br/>
           </div>
           {searchResults ? searchResults : ""}
+          <br/>
           {suggestedResults ? suggestedResults : ""}
         </form>
       </div>
