@@ -25,7 +25,7 @@ Monday, October 9th:
 We met as a group to discuss our progress thus far. Jocelyn presented her API call options and continued working on authentication as well as controls and actions for adding plants to plots. Kevin worked on getting the login and registration pages to work with the ruby API, added some user stories to the trello board, and began work on the plant id page. JT worked on location services, wire-framing, and making the homepage search functionality work.
 
 Tuesday, October 10th:
-
+Jocelyn worked on adding authentication and user plots. JT worked on the location data and making a sample set of plants appear on the homepage based on season and location. Kevin worked on getting images for the plants from wikipedia and other API sources.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
