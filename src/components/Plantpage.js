@@ -227,29 +227,36 @@ export default class Plantpage extends Component {
 
           // This obtains an image from wikipedia
           request
-           .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=asparagus&prop=images&format=json&imlimit=5`)
+           .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=carrot&prop=images&format=json&imlimit=5`)
            .end((err, res)=>{
             console.log(err);
-            console.log(res.xhr);
-            console.log(res.xhr.responseText[5]);
+            // console.log(res.xhr);
+            // console.log(res.xhr.responseText[5]);
+
             // It's a string.
             console.log(res.xhr.responseText);
             let string = res.xhr.responseText
             let obj = JSON.parse(string);
-            console.log(obj.query.pages);
-            console.log(obj.query.pages[46319].images);
-            console.log(obj.query.pages[46319].images[0].title);
-            this.setState({wikipedia_image: obj.query.pages[46319].images[0].title});
-            let front = "https://upload.wikimedia.org/wikipedia/commons/8/8d/";
-            let premiddle = obj.query.pages[46319].images[0].title;
+            let imageNum = Object.keys(obj.query.pages)[0];
+            console.log(imageNum);
+            let numString = JSON.stringify(obj.query.pages);
+            console.log(numString);
+            console.log(obj.query.pages[imageNum].images);
+            console.log(obj.query.pages[imageNum].images[0].title);
+            this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
+            let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
+            let premiddle = obj.query.pages[imageNum].images[0].title;
             // removes the extra front characters
             let middle = premiddle.substring(5);
             console.log(middle);
             let hash = this.md5(middle);
             console.log(hash);
+            let hashA = hash.substring(0, 1);
+            let hashB = hash.substring(0, 2);
+            let front = front_no_hash + hashA + '/' + hashB + '/'
             let total = front+middle;
             console.log(total);
-            // this.setState({wikipedia_image_final: total});
+            this.setState({wikipedia_image_final: total});
            })
 
           request
@@ -271,7 +278,7 @@ export default class Plantpage extends Component {
              console.log(middle);
              let total = front+middle;
              console.log(total);
-             this.setState({wikipedia_image_final: total});
+            //  this.setState({wikipedia_image_final: total});
             // console.log(err);
             // console.log(res);
             // console.log(res.response);
