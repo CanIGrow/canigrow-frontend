@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
 import request from 'superagent';
+import zipcodearray from './../zipcodes.json';
 import { Link } from 'react-router-dom';
 
 export default class Homepage extends Component {
@@ -142,28 +143,23 @@ export default class Homepage extends Component {
       })
   }
   updateZip = (zip) => {
-    request
-      .get(`https://freegeoip.net/json/`)
-      .end((err,res)=>{
-        if (res !== undefined && this.state.zipcode.length > 3){
-          const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-          request
-            .post(`${proxyurl}https://canigrow.herokuapp.com/api/zones/get_zone/`)
-            .send({"zip": this.state.zipcode})
-            .end((err,res)=>{
-              if (err){
-                this.setState({zone:false});
-              }
-              if (res.body && res.body !== undefined && res.body.zone !== undefined){
-                this.setState({zone:`Your USDA Cold Hardiness Zone: ${res.body.zone.zone}`});
-              }
-            });
-        }
-      })
+    let zipzone = false
+    zipcodearray.map((x, i) =>{
+      if (x.zipcode === zip){
+        zipzone = x.zone
+        return
+      }
+    })
+    if (zipzone && zipzone !== undefined){
+      this.setState({zone:`Your USDA Cold Hardiness Zone: ${zipzone}`});
+    } else if (zip.length === 5){
+      this.setState({zone:`Invalid US Zipcode`});
+    } else {
+      this.setState({zone:`Please enter full zip code`});
+    }
   }
   filterlist(letter){
     let list = this.props.allplantdata;
-    console.log(letter);
     if (this.props.allplantdata){
       list = list.filter(function(item){
         return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
@@ -187,7 +183,7 @@ export default class Homepage extends Component {
         }
       });
     }
-    if (event.target.id === "zipcode"){
+    if (event.target.id === "zipcode" && !(targetid === "zipcode" && value.length > 5)){
       this.updateZip(value);
     }
   }
