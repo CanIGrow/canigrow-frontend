@@ -213,15 +213,25 @@ export default class Homepage extends Component {
     }
   }
   handleSelectChange = (event) => {
-    console.log(event.target);
-    if (event.target.id === "divisions-checkBox"){
-      this.setState(({ divisionsChecked }) => (
-        {divisionsChecked: !divisionsChecked}
+    if (event.target.id === "divisions-checkBox" && this.state.date){
+      let seasonSearchChange = "";
+      if (this.state.date.searchSeason.includes('-')){
+        seasonSearchChange = this.state.date.generalseason;
+      } else {
+        seasonSearchChange = this.state.date.season;
+      }
+      this.setState(({ divisionsChecked, date }) => (
+        {divisionsChecked: !divisionsChecked, date : {...this.state.date, searchSeason: seasonSearchChange}}
       ), ()=>{
-        console.log(this.state.date);
+        this.filterlist(false);
       });
-    } else if (event.target.id === "divisons-select-options"){
-
+    } else if (event.target.id === "divisons-select-options" && this.state.date){
+      let newValue = event.target.value;
+      this.setState(({ date }) => (
+        {date : {...this.state.date, searchSeason: newValue}}
+      ), ()=>{
+        this.filterlist(false);
+      });
     }
   }
   render() {
@@ -321,7 +331,7 @@ export default class Homepage extends Component {
                     value={this.state.divisionsChecked}/>
                   {this.state.divisionsChecked ? (
                     <select className="custom-select" id="divisons-select-options"
-                      value={this.state.date.season}
+                      value={this.state.date.searchSeason}
                       onChange={this.handleSelectChange}>
                       <option value="Early-Winter">Early-Winter</option>
                       <option value="Mid-Winter">Mid-Winter</option>
@@ -338,7 +348,7 @@ export default class Homepage extends Component {
                     </select>
                   ):(
                     <select className="custom-select" id="divisons-select-options"
-                      value={this.state.date.generalseason}
+                      value={this.state.date.searchSeason}
                       onChange={this.handleSelectChange}>
                       <option value="Winter">Winter</option>
                       <option value="Spring">Spring</option>
