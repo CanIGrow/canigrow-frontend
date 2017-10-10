@@ -276,17 +276,17 @@ export default class Plantpage extends Component {
                   request
                   .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
                    .end((err, res)=>{
-                    //  console.log(res);
-                    //  console.log(res.xhr.responseText);
-                     let string = res.xhr.responseText
-                     let obj = JSON.parse(string);
-                    //  console.log(obj);
-                    //  console.log(obj.query.pages[0]);
+                      //  console.log(res);
+                      //  console.log(res.xhr.responseText);
+                      let string = res.xhr.responseText
+                      let obj = JSON.parse(string);
+                      //  console.log(obj);
+                      //  console.log(obj.query.pages[0]);
                       let imageNum = Object.keys(obj.query.pages)[0];
                       console.log(obj.query.pages[0].thumbnail.source);
 
                       // If the search was for Hosta Hosta ventricosa.
-                      if(search_term === 'Hosta ventricosa'){
+                      if(search_term === 'Hosta ventricosa' || search_term === 'Hosta plantaginea'){
                         this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
                       } else {
                         this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
@@ -298,7 +298,6 @@ export default class Plantpage extends Component {
                 }
 
               })
-
 
           }
 
@@ -378,16 +377,20 @@ export default class Plantpage extends Component {
     console.log(this.state.image_message);
     return (
       <div className="plantpage-container main-component-container">
-        <p>This is a Plantpage</p>
-        <form className="enterForm" onSubmit={this.handleFormSubmit}>
-          <div className="form-group">
-            <h6>Plant ID:</h6>
-            <input type="text" onChange={this.updateFromField('plant_id')} value={this.state.plant_id} placeholder="plant_id"/>
-          </div>
-          <div className="form-group pull-right">
-            <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
-          </div>
-        </form>
+
+
+        <div className="testing_plant_by_id_box">
+          <form className="enterForm" onSubmit={this.handleFormSubmit}>
+            <div className="form-group">
+              <h6>Plant ID:</h6>
+              <input type="text" onChange={this.updateFromField('plant_id')} value={this.state.plant_id} placeholder="plant_id"/>
+            </div>
+            <div className="form-group pull-right">
+              <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
+            </div>
+          </form>
+        </div>
+
 
         <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
         <p>{this.state.common_name}</p>
