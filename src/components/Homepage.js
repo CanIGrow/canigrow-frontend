@@ -174,8 +174,8 @@ export default class Homepage extends Component {
     let list = this.props.allplantdata;
     if (searchbar && this.props.allplantdata){
       list = list.filter(function(item){
-        return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase().search(
-          letter.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "").toLowerCase()) !== -1;
+        return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase().search(
+          letter.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase()) !== -1;
       });
       if (this.state.searchbartext.length > 1){
         this.setState({filteredplantdata: list});
@@ -186,7 +186,7 @@ export default class Homepage extends Component {
       let arrayofsuggested = [];
       let randomsuggested = [];
       list.map((x, i) => {
-        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.replace(/\u003B/g, "").toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().replace(/\u003B/g, "").includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
+        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
       });
@@ -268,7 +268,7 @@ export default class Homepage extends Component {
               <div className="rounded" key={x.plant_id}>
                 <h4>
                   <Link to={inlinelink}>
-                    {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                    {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '')}
                   </Link>
                 </h4>
               </div>
