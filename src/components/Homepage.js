@@ -242,12 +242,24 @@ export default class Homepage extends Component {
       }
     }
     if (this.props.allplantdata && this.state.suggested){
-      suggestedResults = this.state.suggested.map((x, i) =>{
-        console.log(x);
-        return(
-          
-        )
-      })
+      suggestedResults =
+        <div className="container text-center">
+          <h3 className="pagination-centered text-center">
+            Suggestions
+          </h3>
+          {this.state.suggested.map((x, i) =>{
+            let inlinelink = `/plants/${x.plant_id}`
+            return (
+              <div className="rounded" key={x.plant_id}>
+                <h4>
+                  <Link to={inlinelink}>
+                    {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                  </Link>
+                </h4>
+              </div>
+            )
+          })}
+        </div>
     }
     if (!this.props.allplantdata){
       searchResults =
@@ -280,7 +292,7 @@ export default class Homepage extends Component {
           </span>
           </p>
           {searchResults ? searchResults : ""}
-          {this.state.suggested ? searchResults : ""}
+          {suggestedResults ? suggestedResults : ""}
         </form>
       </div>
     );
