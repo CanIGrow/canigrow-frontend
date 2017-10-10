@@ -186,12 +186,10 @@ export default class Homepage extends Component {
       let arrayofsuggested = [];
       let randomsuggested = [];
       list.map((x, i) => {
-        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
+        if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.replace(/\u003B/g, "").toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().replace(/\u003B/g, "").includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
       });
-      console.log(this.state.date.searchSeason);
-      console.log(arrayofsuggested.length);
       if (arrayofsuggested.length < 6){
         if(this.state.date.searchSeason.includes('-')){
           this.setState({date : {...this.state.date, searchSeason: this.state.date.searchSeason.split("-")[1]}},()=>{
@@ -199,7 +197,6 @@ export default class Homepage extends Component {
           })
         } else {
           randomsuggested.push(false);
-          console.log(randomsuggested);
           this.setState({suggested:randomsuggested});
         }
       } else {
