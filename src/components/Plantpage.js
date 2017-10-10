@@ -13,6 +13,7 @@ export default class Plantpage extends Component {
         wikipedia_image_final: null,
         wikipedia_responseText: null,
         plantdata: false,
+        image_message: null,
       };
   }
 
@@ -235,35 +236,10 @@ export default class Plantpage extends Component {
           }
 
           // This obtains an image from wikipedia
-
           if(returned_value){
             console.log("Search Term: " + search_term);
-            // request
-            // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
-            //  .end((err, res)=>{
-            //   console.log(err);
-            //   console.log(res.xhr);
-            //   console.log(res.xhr.responseText);
-            //   let string = res.xhr.responseText
-            //   let obj = JSON.parse(string);
-            //   let imageNum = Object.keys(obj.query.pages)[0];
-            //   let numString = JSON.stringify(obj.query.pages);
-            //   if (obj.query.pages[imageNum].images !== undefined) {
-            //     console.log(obj.query.pages[imageNum].images[0].title);
-            //     this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
-            //     let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
-            //     let premiddle = obj.query.pages[imageNum].images[0].title;
-            //     let middle = premiddle.substring(5);
-            //     let hash = this.md5(middle);
-            //     let hashA = hash.substring(0, 1);
-            //     let hashB = hash.substring(0, 2);
-            //     let front = front_no_hash + hashA + '/' + hashB + '/'
-            //     let total = front+middle;
-            //     console.log(total);
-            //     this.setState({wikipedia_image_final: total});
-            //   }
-            //  })
 
+            let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
             console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
@@ -278,14 +254,40 @@ export default class Plantpage extends Component {
                   let imageNum = Object.keys(obj.query.pages)[0];
                   console.log(obj.query.pages);
                   console.log(obj.query.pages[0]);
-                  console.log(obj.query.pages[0].thumbnail.source);
+                  if( obj.query.pages[0].thumbnail === undefined){
+                    console.log('No Image to Show');
+                    this.setState({image_message : "There are no images currently available for this plant."});
+                    this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                  } else {
+                    this.setState({image_message : "null"});
+                    console.log(obj.query.pages[0].thumbnail.source);
                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                  }
                 } else {
+                  // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
                   console.log("Try to get images another way");
+                  console.log(res);
+                  let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
+                  console.log(only_first_search_term);
+                  request
+                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
+                   .end((err, res)=>{
+                     console.log(res);
+                     console.log(res.xhr.responseText);
+                     let string = res.xhr.responseText
+                     let obj = JSON.parse(string);
+                     console.log(obj);
+                     console.log(obj.query.pages[0]);
+                     let imageNum = Object.keys(obj.query.pages)[0];
+                     console.log(obj.query.pages[0].thumbnail.source);
+                     this.setState({image_message : "null"});
+                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                   })
 
                 }
 
               })
+
           }
 
           // request
@@ -306,6 +308,32 @@ export default class Plantpage extends Component {
           //    let total = front+middle;
           //    console.log(total);
           //   this.setState({wikipedia_responseText: res.xhr.responseText});
+          //  })
+
+          // request
+          // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
+          //  .end((err, res)=>{
+          //   console.log(err);
+          //   console.log(res.xhr);
+          //   console.log(res.xhr.responseText);
+          //   let string = res.xhr.responseText
+          //   let obj = JSON.parse(string);
+          //   let imageNum = Object.keys(obj.query.pages)[0];
+          //   let numString = JSON.stringify(obj.query.pages);
+          //   if (obj.query.pages[imageNum].images !== undefined) {
+          //     console.log(obj.query.pages[imageNum].images[0].title);
+          //     this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
+          //     let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
+          //     let premiddle = obj.query.pages[imageNum].images[0].title;
+          //     let middle = premiddle.substring(5);
+          //     let hash = this.md5(middle);
+          //     let hashA = hash.substring(0, 1);
+          //     let hashB = hash.substring(0, 2);
+          //     let front = front_no_hash + hashA + '/' + hashB + '/'
+          //     let total = front+middle;
+          //     console.log(total);
+          //     this.setState({wikipedia_image_final: total});
+          //   }
           //  })
 
         }
@@ -335,6 +363,7 @@ export default class Plantpage extends Component {
   }
 
   render() {
+    console.log(this.state.image_message);
     return (
       <div className="plantpage-container main-component-container">
         <p>This is a Plantpage</p>
@@ -354,14 +383,13 @@ export default class Plantpage extends Component {
         <p>{this.state.wikipedia_image}</p>
         <p>Above Image Link:</p>
         <p>{this.state.wikipedia_image_final}</p>
-        <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/>
+        {/* <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/> */}
         {this.state.plantdata ? (
           <h2>
             {this.state.plantdata.common_name}
           </h2>
         ): ""}
-        <img className="plant_big_image" src="" alt="plant_img"/>
-
+        {/* <img className="plant_big_image" src="" alt="plant_img"/> */}
       </div>
     );
   }
