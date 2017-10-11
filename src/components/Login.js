@@ -21,6 +21,7 @@ class Login extends Component {
   }
 
   componentWillMount() {
+    console.log(window.location.href.split("="));
       console.log(this.props);
   }
 
@@ -42,6 +43,7 @@ class Login extends Component {
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
+         console.log(res);
          if (err) {
            if (res !== undefined){
              this.setState({error: res.body.error});
@@ -58,6 +60,7 @@ class Login extends Component {
              .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
              .end((err, res)=>{
                if (res !== undefined){
+                 console.log(res);
                 username = res.body.user.username;
                 // This call functions from actions to send the username to the reducer then the store.
                 this.props.reloadUsername(username);

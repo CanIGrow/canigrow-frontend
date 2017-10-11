@@ -8,7 +8,6 @@
 
 // This handles all changes to the token state within the store.
 const loginReducer = function (state = null, action) {
-  // console.log(action.payload);
     switch (action.type) {
         // This adds the token to the store upon login.
         case 'USER_TOKEN':

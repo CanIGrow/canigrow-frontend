@@ -63,6 +63,7 @@ class App extends Component {
               if (x.common_name !== null){
                 plantsarray.push(x);
               }
+              return null
             });
             this.setState({ allplantdata:plantsarray });
           }

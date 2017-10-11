@@ -156,9 +156,9 @@ export default class Homepage extends Component {
     let zipzone = false
     zipcodearray.map((x, i) =>{
       if (x.zipcode === zip){
-        zipzone = x.zone
-        return
+        return zipzone = x.zone
       }
+      return null
     })
     if (zipzone && zipzone !== undefined){
       this.setState({zone:`Your USDA Cold Hardiness Zone: ${zipzone}`, zipzone:zipzone}, ()=>{
@@ -189,6 +189,7 @@ export default class Homepage extends Component {
         if(x.zone !== null && x.zone.toLowerCase().includes(this.state.zipzone.slice(0, -1)) && (x.seasonal_interest.replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase().includes(this.state.date.searchSeason.toLowerCase()) || x.seasonal_interest.toLowerCase().replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').includes(this.state.date.searchSeason.toLowerCase().replace(/-/g, ' ')))){
           arrayofsuggested.push(x)
         }
+        return null
       });
       if (arrayofsuggested.length < 6){
         if(this.state.date.searchSeason.includes('-')){
