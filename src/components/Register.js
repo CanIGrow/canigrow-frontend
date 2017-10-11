@@ -14,7 +14,6 @@ class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userName: '',
       token: this.props.token,
       usernameinput: '',
       email: '',
@@ -22,6 +21,7 @@ class Register extends Component {
       password2: '',
       bio: '',
       location: '',
+      fireredirect: false,
     };
   }
 
@@ -43,7 +43,7 @@ class Register extends Component {
         .send(
          {
           user: {
-                username: this.state.username,
+                username: this.state.usernameinput,
                 email: this.state.email,
                 password: this.state.password,
                 bio: this.state.bio,
@@ -79,7 +79,10 @@ class Register extends Component {
           }
         })
    }
-
+   registertest(event) {
+      event.preventDefault();
+      this.setState({fireredirect:true});
+    }
   render() {
     let registerContents = null;
     console.log(this.props.token);
@@ -128,6 +131,11 @@ class Register extends Component {
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
                   </div>
                 </form>
+                <form className="enterForm" onSubmit={this.handleFormSubmit}>
+                  <div className="form-group pull-right">
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.registertest(event)}>Register</button>
+                  </div>
+                </form>
               </div>
             </div>
         </div>
@@ -141,6 +149,9 @@ class Register extends Component {
       {this.props.token && (
          <Redirect to={`/`}/>
        )}
+       {this.state.fireredirect && (
+          <Redirect to={`/login=registrationSuccessful`}/>
+        )}
       </div>
     )
   }
