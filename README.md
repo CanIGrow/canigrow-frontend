@@ -27,6 +27,9 @@ We met as a group to discuss our progress thus far. Jocelyn presented her API ca
 Tuesday, October 10th:
 Jocelyn worked on adding authentication and user plots. JT worked on the location data and making a sample set of plants appear on the homepage based on season and location. Kevin worked on getting images for the plants from wikipedia and other API sources.
 
+Wednesday, October 11th:
+Jocelyn added the ability for a user to add a plant to a plot. She continued to work on plot features. JT worked on the user page, specifically working with plots. Kevin worked on styling and displaying images on the plant page.
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
