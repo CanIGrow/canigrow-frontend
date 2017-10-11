@@ -64,7 +64,7 @@ class Register extends Component {
   }
   register(event) {
      event.preventDefault();
-     if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
+     if (this.state.usernameinput.length > 4 && this.state.password.length > 4 && this.state.password2.length > 4 && (!this.state.passworderror) && (!this.state.usernameinputerror)){
        const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
        request
           .post(`${proxyurl}https://canigrow.herokuapp.com/api/users`)
@@ -81,9 +81,9 @@ class Register extends Component {
               )
           .end((err, res) => {
            if (err) {
-             console.log(err);
-             console.log(res.body.errors);
-             this.setState({error: res.body.errors.username});
+            //  console.log(err);
+            //  console.log(res.body.errors);
+             this.setState({error: ["Email "+res.body.errors.username]});
             } else {
             this.props.redirectAction(["/login", "Registration successful, please log in!"]);
             }
@@ -116,7 +116,7 @@ class Register extends Component {
       registerContents =
         <div className="container-fluid">
             <div className="card">
-              {this.state.error && <div className="alert">Email {this.state.error}</div>}
+              {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <h3>Registration Form:</h3>
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>

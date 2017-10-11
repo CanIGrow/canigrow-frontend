@@ -43,8 +43,6 @@ class Login extends Component {
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      let username = null;
      event.preventDefault();
-     console.log(this.state.username);
-     console.log(this.state.password);
      request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
@@ -60,7 +58,6 @@ class Login extends Component {
            setLogin(res.body.token);
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
-
           //  This request is to get the user's username.
            request
              .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
@@ -72,7 +69,6 @@ class Login extends Component {
                 this.props.reloadUsername(username);
                 // These save the username to a cookie.
                 cookie.save('username', username);
-                console.log(res.body.user);
                }
              })
          }
@@ -82,7 +78,6 @@ class Login extends Component {
   render() {
     // This render's contents are determined by whether the user is logged in.
     let loginContents = null;
-    console.log(this.props.token);
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">

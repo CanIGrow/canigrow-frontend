@@ -18,12 +18,10 @@ class Header extends Component {
   }
 
   componentWillMount(){
-    // console.log(this.props.token);
     this.checklogin();
   }
 
   checklogin(){
-    // console.log(cookie.load('token'));
     if(cookie.load('token') !== undefined){
       this.props.reloadContents(cookie.load('token'), cookie.load('username'));
       if(cookie.load('username') !== undefined){
@@ -59,7 +57,7 @@ class Header extends Component {
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <span className='btn btn-outline-primary' type='submit'>User: {this.props.username} </span>
+              <input className='btn btn-outline-primary' type='submit' value={this.props.username}/>
             </NavLink>
           </li>
         </div>;
