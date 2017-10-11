@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -14,24 +15,40 @@ class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userName: '',
-      password: '',
       token: this.props.token,
+      usernameinput: '',
+      email: '',
+      password: '',
+      password2: '',
       bio: '',
+      location: '',
+      forumerrors: '',
+      fireredirect: false,
     };
   }
 
   componentWillMount() {
       console.log(this.props);
+      this.props.redirectAction([false, false]);
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
-  updateFromField(stateKey) {
-      return (event) => {
-        this.setState({[stateKey]: event.target.value});
-      }
+  // updateFromField(stateKey) {
+  //   return (event) => {
+  //     this.setState({[stateKey]: event.target.value});
+  //   }
+  // }
+  handleTextChange = (event) => {
+    event.preventDefault();
+    if (this.state[event.target.id] !== undefined){
+      this.setState({[event.target.id]: event.target.value, fireRedirect: false}, ()=>{
+        this.validate();
+      });
+    }
   }
-
+  validate = () => {
+    console.log("fired");
+  }
   register(event) {
      event.preventDefault();
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
@@ -40,7 +57,7 @@ class Register extends Component {
         .send(
          {
           user: {
-                username: this.state.username,
+                username: this.state.usernameinput,
                 email: this.state.email,
                 password: this.state.password,
                 bio: this.state.bio,
@@ -50,36 +67,23 @@ class Register extends Component {
             )
         .end((err, res) => {
          if (err) {
+           console.log(err);
+           console.log(res.body.errors);
            this.setState({error: res.body.errors.username});
-           console.log("error");
-           console.log(res.body.errors.password);
-           console.log(res.body.errors.username);
           } else {
           console.log("registered");
-          // This logs the user in if registration was successful.
-          request
-          .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-          .send({email: this.state.email, password: this.state.password})
-          .end((err, res) => {
-            if (err) {
-              this.setState({error: res.body.error});
-              console.log("error");
-            } else {
-              let setLogin = this.props.setLogin;
-              setLogin(res.body.token, this.state.username);
-              this.props.reloadUsername(this.state.username);
-              // These save the username and token to cookies.
-              cookie.save('token', res.body.token);
-              cookie.save('username', this.state.username);
-            }
-          })
+          this.props.redirectAction(["/login", "registrationSuccessful"]);
           }
         })
-   }
-
+    }
+   componentDidUpdate(){
+       console.log(this.props.redirection[0]);
+       if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+         this.setState({fireredirect:true});
+       }
+     }
   render() {
     let registerContents = null;
-    console.log(this.props.token);
     if (this.props.token) {
       registerContents =
       <div className="centerHomeButton">
@@ -99,23 +103,27 @@ class Register extends Component {
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>User Name:</h6>
-                    <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="username"/>
+                    <input type="text" onChange={this.handleTextChange} value={this.state.usernameinput} id="usernameinput" placeholder="Username"/>
                   </div>
                   <div className="form-group">
                     <h6>Email:</h6>
-                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} placeholder="example@email.org"/>
+                    <input type="email" onChange={this.handleTextChange} value={this.state.email} id="email" placeholder="example@email.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
-                    <input type="password" onChange={this.updateFromField('password')} value={this.state.password} placeholder="********"/>
+                    <input type="password" onChange={this.handleTextChange} value={this.state.password} id="password" placeholder="********"/>
+                  </div>
+                  <div className="form-group">
+                    <h6>Retype Password:</h6>
+                    <input type="password" onChange={this.handleTextChange} value={this.state.password2} id="password2" placeholder="********"/>
                   </div>
                   <div className="form-group">
                     <h6>Personal Bio:</h6>
-                    <textarea type="text" onChange={this.updateFromField('bio')} value={this.state.bio} id='wmd-input' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+                    <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
                   </div>
                   <div className="form-group">
                     <h6>Location:</h6>
-                    <input type="test" onChange={this.updateFromField('location')} value={this.state.location} placeholder="Hometown, Region"/>
+                    <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
@@ -134,6 +142,9 @@ class Register extends Component {
       {this.props.token && (
          <Redirect to={`/`}/>
        )}
+       {this.state.fireredirect && (
+          <Redirect to={this.props.redirection[0]}/>
+        )}
       </div>
     )
   }
@@ -142,13 +153,14 @@ class Register extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Register);

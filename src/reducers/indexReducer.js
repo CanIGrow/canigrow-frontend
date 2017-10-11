@@ -2,6 +2,7 @@ import {combineReducers} from 'redux';
 import loginReducer from './loginReducer';
 import usernameReducer from './usernameReducer';
 import templateReducer from './templateReducer';
+import redirectionReducer from './redirectionReducer';
 /*
  * This combines all reducers into a single object before updated data is dispatched (sent) to store.
  * The entire application's state (store) is just whatever gets returned from all the reducers.
@@ -10,7 +11,8 @@ import templateReducer from './templateReducer';
 const allReducers = combineReducers({
     token: loginReducer,
     username: usernameReducer,
-    template: templateReducer
+    template: templateReducer,
+    redirection: redirectionReducer,
 });
 
 export default allReducers
