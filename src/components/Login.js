@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -17,12 +18,17 @@ class Login extends Component {
         password: '',
         token: this.props.token,
         error: '',
+        message: false,
       };
   }
 
   componentWillMount() {
-    console.log(window.location.href.split("="));
-      console.log(this.props);
+    console.log(this.props);
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
   }
 
   updateFromField(stateKey) {
@@ -103,6 +109,7 @@ class Login extends Component {
                     <h6>Password:</h6>
                     <input type="password" onChange={this.updateFromField('password')} value={this.state.password} placeholder="********"/>
                   </div>
+                  {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.login(event)}>Login</button>
                   </div>
@@ -126,13 +133,14 @@ class Login extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);

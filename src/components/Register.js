@@ -85,7 +85,7 @@ class Register extends Component {
              console.log(res.body.errors);
              this.setState({error: res.body.errors.username});
             } else {
-            this.props.redirectAction(["/login", "registrationSuccessful"]);
+            this.props.redirectAction(["/login", "Registration successful, please log in!"]);
             }
           })
      } else {
@@ -96,6 +96,10 @@ class Register extends Component {
        if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
          this.setState({fireredirect:true});
        }
+     }
+     testit = (event) => {
+       event.preventDefault();
+       this.props.redirectAction(["/login", "Registration successful, please log in!"]);
      }
   render() {
     let fourmready = false;
@@ -148,6 +152,11 @@ class Register extends Component {
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
+                  </div>
+                </form>
+                <form className="enterForm" onSubmit={this.handleFormSubmit}>
+                  <div className="form-group pull-right">
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.testit(event)}>Register</button>
                   </div>
                 </form>
               </div>
