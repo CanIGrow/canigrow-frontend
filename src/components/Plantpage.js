@@ -369,6 +369,8 @@ export default class Plantpage extends Component {
               //  console.log(res.body.plant.common_name);
                this.plantInfoGet();
                this.setState({plantdata: res.body.plant});
+               console.log('Plant Data');
+               console.log(res.body.plant);
              }
            }
          }
@@ -410,8 +412,20 @@ export default class Plantpage extends Component {
                 <h2>
                   {this.state.plantdata.common_name}
                 </h2>  ): ""}
-            </div>
-              <div className="top_items_plant_page_right_plant_info"></div>
+              </div>
+              <hr/>
+
+              <div className="top_items_plant_page_right_plant_info">
+                {this.state.plantdata ? (
+                  <div>
+                    <p className="plant_info_scientific_name">{this.state.plantdata.scientific_name}</p>
+                    <p>Grows to: {this.state.plantdata.height} tall,</p>
+                    <p>and {this.state.plantdata.spread} wide</p>
+                    <p>This plant grows: {this.state.plantdata.form}</p>
+                    <p>Grows best during: {this.state.plantdata.seasonal_interest}</p>
+                  </div>
+                   ): ""}
+              </div>
             </div>
           </div>
 
