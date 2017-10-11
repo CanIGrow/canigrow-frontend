@@ -28,6 +28,7 @@ class Register extends Component {
 
   componentWillMount() {
       console.log(this.props);
+      this.props.redirectAction([false, false]);
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
@@ -81,14 +82,18 @@ class Register extends Component {
           }
         })
    }
+   componentDidUpdate(){
+     console.log(this.props.redirection[0]);
+     if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+       this.setState({fireredirect:true});
+     }
+   }
    registertest(event) {
       event.preventDefault();
       this.props.redirectAction(["/login", "registrationSuccessful"]);
-      // this.setState({fireredirect:true});
     }
   render() {
     let registerContents = null;
-    console.log(this.props.token);
     if (this.props.token) {
       registerContents =
       <div className="centerHomeButton">
@@ -153,7 +158,7 @@ class Register extends Component {
          <Redirect to={`/`}/>
        )}
        {this.state.fireredirect && (
-          <Redirect to={`/login=registrationSuccessful`}/>
+          <Redirect to={this.props.redirection[0]}/>
         )}
       </div>
     )
@@ -164,6 +169,7 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
+      redirection: state.redirection,
     };
 }
 
