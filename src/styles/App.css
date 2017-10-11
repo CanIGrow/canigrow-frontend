@@ -184,3 +184,25 @@ TEMP MODAL STYLES
   cursor: pointer;
   overflow: hidden;
 }
+.plantpage-sub-container {
+  background-color: #FDF8E2;
+  width: 1130px;
+}
+.top_items_plant_page{
+  display: flex;
+  width: 1100px;
+  margin-top:20pt;
+}
+.all_plant_page_images, .top_items_plant_page_right{
+  margin-left: 20pt;
+  margin-top: 20pt;
+  margin-bottom: 20pt;
+}
+.top_items_plant_page_right{
+  background-color: #fff;
+  width: 420pt;
+}
+.top_items_plant_page_right_tile{
+  display: flex;
+  justify-content: center;
+}

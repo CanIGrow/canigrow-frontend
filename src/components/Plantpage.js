@@ -213,7 +213,9 @@ export default class Plantpage extends Component {
   plantInfoGet(event) {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-     event.preventDefault();
+     if( event !== undefined){
+       event.preventDefault();
+     }
      let search_term = 'Potentilla';
      let returned_value = false;
     //  Keep this while testing.
@@ -225,8 +227,8 @@ export default class Plantpage extends Component {
           console.log(res.body);
           if (res.body !== undefined && res.body !== null){
             if (res.body.plant !== undefined && res.body.plant !== null){
-              console.log(res.body.plant.common_name);
-              console.log(res.body.plant.scientific_name);
+              // console.log(res.body.plant.common_name);
+              // console.log(res.body.plant.scientific_name);
 
               search_term = res.body.plant.scientific_name;
               this.setState({common_name: res.body.plant.common_name});
@@ -276,29 +278,31 @@ export default class Plantpage extends Component {
                   request
                   .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
                    .end((err, res)=>{
-                    //  console.log(res);
-                    //  console.log(res.xhr.responseText);
-                     let string = res.xhr.responseText
-                     let obj = JSON.parse(string);
-                    //  console.log(obj);
-                    //  console.log(obj.query.pages[0]);
+                      //  console.log(res);
+                      //  console.log(res.xhr.responseText);
+                      let string = res.xhr.responseText
+                      let obj = JSON.parse(string);
+                      //  console.log(obj);
+                      //  console.log(obj.query.pages[0]);
                       let imageNum = Object.keys(obj.query.pages)[0];
-                      console.log(obj.query.pages[0].thumbnail.source);
+                      // console.log(obj.query.pages[0].thumbnail.source);
 
                       // If the search was for Hosta Hosta ventricosa.
-                      if(search_term === 'Hosta ventricosa'){
+                      if(search_term === 'Hosta ventricosa' || search_term === 'Hosta plantaginea'){
                         this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
                       } else {
-                        this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                        if(obj.query.pages[0].thumbnail !== undefined){
+                          this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                        } else {
+                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                        }
                       }
                       this.setState({image_message : "null"});
-
                    })
 
                 }
 
               })
-
 
           }
 
@@ -359,9 +363,13 @@ export default class Plantpage extends Component {
       request
        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
        .end((err, res)=>{
-         if (res.body !== undefined && res.body !== null){
-           if (res.body.plant !== undefined && res.body.plant !== null){
-             this.setState({plantdata: res.body.plant});
+         if (res !== undefined && res !== null){
+           if (res.body !== undefined && res.body !== null){
+             if (res.body.plant !== undefined && res.body.plant !== null){
+              //  console.log(res.body.plant.common_name);
+               this.plantInfoGet();
+               this.setState({plantdata: res.body.plant});
+             }
            }
          }
        })
@@ -378,30 +386,51 @@ export default class Plantpage extends Component {
     console.log(this.state.image_message);
     return (
       <div className="plantpage-container main-component-container">
-        <p>This is a Plantpage</p>
-        <form className="enterForm" onSubmit={this.handleFormSubmit}>
-          <div className="form-group">
-            <h6>Plant ID:</h6>
-            <input type="text" onChange={this.updateFromField('plant_id')} value={this.state.plant_id} placeholder="plant_id"/>
-          </div>
-          <div className="form-group pull-right">
-            <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
-          </div>
-        </form>
+        <div className="plantpage-sub-container main-component-container">
+          {/* <div className="testing_plant_by_id_box">
+            <form className="enterForm" onSubmit={this.handleFormSubmit}>
+              <div className="form-group">
+                <h6>Plant ID:</h6>
+                <input type="text" onChange={this.updateFromField('plant_id')} value={this.state.plant_id} placeholder="plant_id"/>
+              </div>
+              <div className="form-group pull-right">
+                <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
+              </div>
+            </form>
+          </div> */}
 
-        <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
-        <p>{this.state.common_name}</p>
-        <p>{this.state.wikipedia_responseText}</p>
-        <p>{this.state.wikipedia_image}</p>
-        <p>Above Image Link:</p>
-        <p>{this.state.wikipedia_image_final}</p>
-        {/* <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/> */}
-        {this.state.plantdata ? (
-          <h2>
-            {this.state.plantdata.common_name}
-          </h2>
-        ): ""}
-        {/* <img className="plant_big_image" src="" alt="plant_img"/> */}
+
+
+          <div className="top_items_plant_page">
+            <div className="all_plant_page_images">
+              <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
+            </div>
+            <div className="top_items_plant_page_right">
+              <div className="top_items_plant_page_right_tile">{this.state.plantdata ? (
+                <h2>
+                  {this.state.plantdata.common_name}
+                </h2>  ): ""}
+            </div>
+              <div className="top_items_plant_page_right_plant_info"></div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+          {/* <p>{this.state.common_name}</p> */}
+          {/* <p>{this.state.wikipedia_responseText}</p>
+          <p>{this.state.wikipedia_image}</p>
+          <p>Above Image Link:</p>
+          <p>{this.state.wikipedia_image_final}</p> */}
+          {/* <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/> */}
+
+          {/* <img className="plant_big_image" src="" alt="plant_img"/> */}
+        </div>
       </div>
     );
   }
