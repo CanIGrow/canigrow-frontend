@@ -386,7 +386,7 @@ export default class Plantpage extends Component {
     console.log(this.state.image_message);
     return (
       <div className="plantpage-container main-component-container">
-        <div className="plantpage-sub-container main-component-container">
+        <div className="plantpage-sub-container">
           {/* <div className="testing_plant_by_id_box">
             <form className="enterForm" onSubmit={this.handleFormSubmit}>
               <div className="form-group">
