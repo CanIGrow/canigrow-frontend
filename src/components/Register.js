@@ -22,6 +22,7 @@ class Register extends Component {
       password2: '',
       bio: '',
       location: '',
+      forumerrors: '',
       fireredirect: false,
     };
   }
@@ -32,10 +33,21 @@ class Register extends Component {
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
-  updateFromField(stateKey) {
-    return (event) => {
-      this.setState({[stateKey]: event.target.value});
+  // updateFromField(stateKey) {
+  //   return (event) => {
+  //     this.setState({[stateKey]: event.target.value});
+  //   }
+  // }
+  handleTextChange = (event) => {
+    event.preventDefault();
+    if (this.state[event.target.id] !== undefined){
+      this.setState({[event.target.id]: event.target.value, fireRedirect: false}, ()=>{
+        this.validate();
+      });
     }
+  }
+  validate = () => {
+    console.log("fired");
   }
   register(event) {
      event.preventDefault();
@@ -55,43 +67,21 @@ class Register extends Component {
             )
         .end((err, res) => {
          if (err) {
+           console.log(err);
+           console.log(res.body.errors);
            this.setState({error: res.body.errors.username});
-           console.log("error");
-           console.log(res.body.errors.password);
-           console.log(res.body.errors.username);
           } else {
           console.log("registered");
-          // This logs the user in if registration was successful.
-          // request
-          // .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-          // .send({email: this.state.email, password: this.state.password})
-          // .end((err, res) => {
-          //   if (err) {
-          //     this.setState({error: res.body.error});
-          //     console.log("error");
-          //   } else {
-          //     console.log(res);
-          //     let setLogin = this.props.setLogin;
-          //     setLogin(res.body.token, this.state.username);
-          //     this.props.reloadUsername(this.state.username);
-          //     // These save the username and token to cookies.
-          //     cookie.save('token', res.body.token);
-          //     cookie.save('username', this.state.username);
-          //   }
-          // })
+          this.props.redirectAction(["/login", "registrationSuccessful"]);
           }
         })
-   }
-   componentDidUpdate(){
-     console.log(this.props.redirection[0]);
-     if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
-       this.setState({fireredirect:true});
-     }
-   }
-   registertest(event) {
-      event.preventDefault();
-      this.props.redirectAction(["/login", "registrationSuccessful"]);
     }
+   componentDidUpdate(){
+       console.log(this.props.redirection[0]);
+       if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+         this.setState({fireredirect:true});
+       }
+     }
   render() {
     let registerContents = null;
     if (this.props.token) {
@@ -113,35 +103,30 @@ class Register extends Component {
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>User Name:</h6>
-                    <input type="text" onChange={this.updateFromField('usernameinput')} value={this.state.usernameinput} id="username" placeholder="username"/>
+                    <input type="text" onChange={this.handleTextChange} value={this.state.usernameinput} id="usernameinput" placeholder="Username"/>
                   </div>
                   <div className="form-group">
                     <h6>Email:</h6>
-                    <input type="email" onChange={this.updateFromField('email')} value={this.state.email} id="email" placeholder="example@email.org"/>
+                    <input type="email" onChange={this.handleTextChange} value={this.state.email} id="email" placeholder="example@email.org"/>
                   </div>
                   <div className="form-group">
                     <h6>Password:</h6>
-                    <input type="password" onChange={this.updateFromField('password')} value={this.state.password} id="password" placeholder="********"/>
+                    <input type="password" onChange={this.handleTextChange} value={this.state.password} id="password" placeholder="********"/>
                   </div>
                   <div className="form-group">
                     <h6>Retype Password:</h6>
-                    <input type="password" onChange={this.updateFromField('password2')} value={this.state.password2} id="password" placeholder="********"/>
+                    <input type="password" onChange={this.handleTextChange} value={this.state.password2} id="password2" placeholder="********"/>
                   </div>
                   <div className="form-group">
                     <h6>Personal Bio:</h6>
-                    <textarea type="text" onChange={this.updateFromField('bio')} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+                    <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
                   </div>
                   <div className="form-group">
                     <h6>Location:</h6>
-                    <input type="text" onChange={this.updateFromField('location')} value={this.state.location} id="location" placeholder="Hometown, Region"/>
+                    <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
-                  </div>
-                </form>
-                <form className="enterForm" onSubmit={this.handleFormSubmit}>
-                  <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.registertest(event)}>Register</button>
                   </div>
                 </form>
               </div>
