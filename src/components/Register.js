@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -60,28 +61,30 @@ class Register extends Component {
           } else {
           console.log("registered");
           // This logs the user in if registration was successful.
-          request
-          .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-          .send({email: this.state.email, password: this.state.password})
-          .end((err, res) => {
-            if (err) {
-              this.setState({error: res.body.error});
-              console.log("error");
-            } else {
-              let setLogin = this.props.setLogin;
-              setLogin(res.body.token, this.state.username);
-              this.props.reloadUsername(this.state.username);
-              // These save the username and token to cookies.
-              cookie.save('token', res.body.token);
-              cookie.save('username', this.state.username);
-            }
-          })
+          // request
+          // .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
+          // .send({email: this.state.email, password: this.state.password})
+          // .end((err, res) => {
+          //   if (err) {
+          //     this.setState({error: res.body.error});
+          //     console.log("error");
+          //   } else {
+          //     console.log(res);
+          //     let setLogin = this.props.setLogin;
+          //     setLogin(res.body.token, this.state.username);
+          //     this.props.reloadUsername(this.state.username);
+          //     // These save the username and token to cookies.
+          //     cookie.save('token', res.body.token);
+          //     cookie.save('username', this.state.username);
+          //   }
+          // })
           }
         })
    }
    registertest(event) {
       event.preventDefault();
-      this.setState({fireredirect:true});
+      this.props.redirectAction(["/login", "registrationSuccessful"]);
+      // this.setState({fireredirect:true});
     }
   render() {
     let registerContents = null;
@@ -160,13 +163,13 @@ class Register extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Register);
