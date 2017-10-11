@@ -97,10 +97,6 @@ class Register extends Component {
          this.setState({fireredirect:true});
        }
      }
-     testit = (event) => {
-       event.preventDefault();
-       this.props.redirectAction(["/login", "Registration successful, please log in!"]);
-     }
   render() {
     let fourmready = false;
     if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
@@ -152,11 +148,6 @@ class Register extends Component {
                   </div>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
-                  </div>
-                </form>
-                <form className="enterForm" onSubmit={this.handleFormSubmit}>
-                  <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.testit(event)}>Register</button>
                   </div>
                 </form>
               </div>
