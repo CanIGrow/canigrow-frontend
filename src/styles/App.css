@@ -175,6 +175,11 @@ TEMP MODAL STYLES
 }
 .modal.left.fade.in .modal-dialog{
   left: 0;
+
+/*******************************/
+  /*For Plantpage.js*/
+/*******************************/
+
 }
 .plant_big_image {
   width: 570px;
@@ -187,6 +192,8 @@ TEMP MODAL STYLES
 .plantpage-sub-container {
   background-color: #FDF8E2;
   width: 1130px;
+  border-radius: 10px;
+  margin: 10px auto;
 }
 .top_items_plant_page{
   display: flex;
@@ -202,7 +209,15 @@ TEMP MODAL STYLES
   background-color: #fff;
   width: 420pt;
 }
-.top_items_plant_page_right_tile{
-  display: flex;
-  justify-content: center;
+.top_items_plant_page_right_plant_info, .top_items_plant_page_right_tile{
+  margin-top: 20pt;
+  margin-left: 10pt;
+}
+.top_items_plant_page_right_plant_info{
+  border: #FDF8E2;
+  border-radius: 10px;
+}
+.plant_info_scientific_name {
+  font-style: italic;
+  justify-content: flex-start;
 }
