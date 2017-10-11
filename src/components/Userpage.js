@@ -22,12 +22,13 @@ class Userpage extends Component {
 
   updateFromField(stateKey) {
       return (event) => {
-        this.setState({[stateKey]: event.target.value});
+        this.setState({[stateKey]: event.target.value},()=>{
+          this.updateTemplate();
+        });
       }
     }
 
-  updateTemplate(event) {
-    event.preventDefault()
+  updateTemplate() {
     console.log(this.props.template);
     let changeTemplate = this.props.changeTemplate;
     changeTemplate(this.state.template);
@@ -59,7 +60,6 @@ class Userpage extends Component {
                       <option value="7">Cherry Blossom</option>
                     </select>
                     <br/>
-                    <input onClick={event => this.updateTemplate(event)} className='btn btn-outline-primary' type="submit"/>
                     {/* onClick={event => this.updateTemplate(event)} */}
                     </form>
                   </div>
