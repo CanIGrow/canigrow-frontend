@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -17,12 +18,17 @@ class Login extends Component {
         password: '',
         token: this.props.token,
         error: '',
+        message: false,
       };
   }
 
   componentWillMount() {
-    console.log(window.location.href.split("="));
-      console.log(this.props);
+    console.log(this.props);
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
   }
 
   updateFromField(stateKey) {
@@ -37,8 +43,6 @@ class Login extends Component {
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      let username = null;
      event.preventDefault();
-     console.log(this.state.username);
-     console.log(this.state.password);
      request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
@@ -54,7 +58,6 @@ class Login extends Component {
            setLogin(res.body.token);
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
-
           //  This request is to get the user's username.
            request
              .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
@@ -66,7 +69,6 @@ class Login extends Component {
                 this.props.reloadUsername(username);
                 // These save the username to a cookie.
                 cookie.save('username', username);
-                console.log(res.body.user);
                }
              })
          }
@@ -76,7 +78,6 @@ class Login extends Component {
   render() {
     // This render's contents are determined by whether the user is logged in.
     let loginContents = null;
-    console.log(this.props.token);
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">
@@ -103,6 +104,7 @@ class Login extends Component {
                     <h6>Password:</h6>
                     <input type="password" onChange={this.updateFromField('password')} value={this.state.password} placeholder="********"/>
                   </div>
+                  {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
                     <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.login(event)}>Login</button>
                   </div>
@@ -126,13 +128,14 @@ class Login extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);
