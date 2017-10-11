@@ -64,7 +64,7 @@ class Register extends Component {
   }
   register(event) {
      event.preventDefault();
-     if (!this.state.passworderror && !this.state.usernameinputerror){
+     if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
        const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
        request
           .post(`${proxyurl}https://canigrow.herokuapp.com/api/users`)
@@ -85,19 +85,23 @@ class Register extends Component {
              console.log(res.body.errors);
              this.setState({error: res.body.errors.username});
             } else {
-            console.log("registered");
             this.props.redirectAction(["/login", "registrationSuccessful"]);
             }
           })
+     } else {
+       this.setState({error: "Please complete the form and correct errors"});
      }
     }
    componentDidUpdate(){
-       console.log(this.props.redirection[0]);
        if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
          this.setState({fireredirect:true});
        }
      }
   render() {
+    let fourmready = false;
+    if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
+      fourmready = true;
+    }
     let registerContents = null;
     if (this.props.token) {
       registerContents =
