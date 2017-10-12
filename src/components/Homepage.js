@@ -27,11 +27,6 @@ class Homepage extends Component {
   }
   componentWillMount(){
     if (this.props.redirection && this.props.redirection[0] !== undefined){
-      console.log("HOMEPAGE DETECTED");
-      if (this.props.redirection[1] === "reload"){
-        console.log("HOMEPAGE RELOAD TRIGGERED");
-        window.location.reload();
-      }
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
         console.log("HOMEPAGE REDIRECT FALSE FIRED");

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import { NavLink } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
-import request from 'superagent';
 import cookie from 'react-cookies';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
@@ -16,21 +14,16 @@ class Logout extends Component {
     super(props)
     this.state = {
       fireredirect: false,
-      message: false,
     };
   }
   componentWillMount(){
-    cookie.remove('token');
-    cookie.remove('username');
-    cookie.remove('template');
-    if (this.props.redirection && this.props.redirection[0] !== undefined){
-      console.log("LOGOUT DETECTED");
-      this.props.redirectAction(["/logout"]);
-      this.setState({message:this.props.redirection[1]}, ()=>{
-        this.props.redirectAction(["/", "You Have Been Logged Out"]);
-      });
+    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined){
+      cookie.remove('token');
+      cookie.remove('username');
+      cookie.remove('template');
+      window.location.reload();
     } else {
-
+      this.props.redirectAction(["/", "You Have Been Logged Out"]);
     }
   }
   componentDidUpdate(){
@@ -39,8 +32,15 @@ class Logout extends Component {
     }
   }
   render() {
+    let message = false;
+    if (this.props.redirection[1] !== undefined){
+      message = this.props.redirection[1];
+    }
     return (
       <div>
+      <h1 className="pagination-centered text-center">
+        {message ? message : ""}
+      </h1>
        {this.state.fireredirect && (
           <Redirect to={this.props.redirection[0]}/>
         )}
