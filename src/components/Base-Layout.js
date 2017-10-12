@@ -37,7 +37,7 @@ export default class BaseLayout extends Component {
       outerStyle = {
           "backgroundImage": "url(http://31.media.tumblr.com/tumblr_mbfs7bd2q31rwjzpqo1_500.gif)",
           "minHeight": "800px",
-          "font-family": '"STARWARS", Georgia, Times'
+          "fontFamily": '"STARWARS", Georgia, Times'
       }
     } else if (style_number === 4) {
       outerStyle = {

@@ -1,0 +1,65 @@
+import React, { Component } from 'react';
+import '../styles/App.css';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { Redirect } from 'react-router-dom';
+import cookie from 'react-cookies';
+import {setLogin} from '../actions/loginAction.js';
+import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
+import '../styles/App.css';
+
+class Logout extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      fireredirect: false,
+    };
+  }
+  componentWillMount(){
+    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined){
+      cookie.remove('token');
+      cookie.remove('username');
+      cookie.remove('template');
+      window.location.reload();
+    } else {
+      this.props.redirectAction(["/", "You Have Been Logged Out"]);
+    }
+  }
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
+  render() {
+    let message = false;
+    if (this.props.redirection[1] !== undefined){
+      message = this.props.redirection[1];
+    }
+    return (
+      <div>
+      <h1 className="pagination-centered text-center">
+        {message ? message : ""}
+      </h1>
+       {this.state.fireredirect && (
+          <Redirect to={this.props.redirection[0]}/>
+        )}
+      </div>
+    )
+  }
+}
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username,
+      redirection: state.redirection,
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Logout);

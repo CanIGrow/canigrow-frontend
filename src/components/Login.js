@@ -14,23 +14,28 @@ class Login extends Component {
   constructor(props) {
       super(props)
       this.state = {
+        fireredirect: false,
+        message: false,
         username: '',
         password: '',
         token: this.props.token,
         error: '',
-        message: false,
+        testing: "",
       };
   }
 
   componentWillMount() {
-    console.log(this.props);
     if (this.props.redirection && this.props.redirection[0] !== undefined){
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
       });
     }
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   updateFromField(stateKey) {
       return (event) => {
         this.setState({[stateKey]: event.target.value});
@@ -120,6 +125,9 @@ class Login extends Component {
         {this.props.token && (
            <Redirect to={`/`}/>
          )}
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     )
   }

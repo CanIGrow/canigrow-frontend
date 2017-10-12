@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import {redirectAction} from '../actions/redirectionAction.js';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default class Homepage extends Component {
+class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
+      fireredirect: false,
+      message: false,
       searchbartext: "",
       zipcode: "",
       filteredplantdata: false,
@@ -20,8 +25,12 @@ export default class Homepage extends Component {
     }
     this.filterlist = this.filterlist.bind(this);
   }
-  submitForm = (event) => {
-    event.preventDefault();
+  componentWillMount(){
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
   }
   componentDidMount(){
     request
@@ -148,6 +157,9 @@ export default class Homepage extends Component {
       })
   }
   componentDidUpdate(prevProps, prevState){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
     if (this.props.allplantdata !== prevProps.allplantdata){
       this.filterlist(false);
     }
@@ -170,14 +182,19 @@ export default class Homepage extends Component {
       this.setState({zone:`Please enter full zip code`});
     }
   }
-  filterlist(searchbar, letter){
+  filterlist(searchbar, searchterm, preventOverflow){
     let list = this.props.allplantdata;
     if (searchbar && this.props.allplantdata){
       list = list.filter(function(item){
         return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase().search(
-          letter.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase()) !== -1;
+          searchterm.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase()) !== -1;
       });
-      if (this.state.searchbartext.length > 1){
+      if (this.state.searchbartext.length > 0 && list.length > 0){
+        this.setState({filteredplantdata: list});
+      } else if (this.state.searchbartext.length > 1 && list.length === 0 && preventOverflow === undefined && searchterm.includes(" ")){
+        let newterm = searchterm.replace(/\s+/g, '');
+        return this.filterlist(true, newterm, true);
+      } else if (this.state.searchbartext.length > 0 && list.length === 0){
         this.setState({filteredplantdata: list});
       } else {
         this.setState({filteredplantdata: false});
@@ -329,7 +346,7 @@ export default class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <form onSubmit={this.submitForm}>
+        <form>
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
               <h2 className="homepage-search-title">Can I Grow...
@@ -396,7 +413,26 @@ export default class Homepage extends Component {
           <br/>
           {suggestedResults ? suggestedResults : ""}
         </form>
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username,
+      template: state.template,
+      redirection: state.redirection,
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Homepage);

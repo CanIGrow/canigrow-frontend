@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, Redirect } from 'react-router-dom';
 import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reloadContents, logout} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
 
 class Header extends Component {
   constructor(props) {
       super(props)
       this.state = {
+        fireredirect: false,
+        message: false,
         username: '',
         token: this.props.token,
       };
@@ -19,6 +22,7 @@ class Header extends Component {
 
   componentWillMount(){
     this.checklogin();
+    this.props.redirectAction([false, false]);
   }
 
   checklogin(){
@@ -31,15 +35,8 @@ class Header extends Component {
   }
 
   handleLogoutClick() {
-    console.log("logout clicked");
-    console.log(this.props.token);
-    // this.setState({isLoggedIn: false});
-    cookie.remove('token');
-    cookie.remove('username');
-    cookie.remove('template');
-    let logout = this.props.logout;
-    console.log(this.props.token);
-    logout();
+    this.props.logout();
+    this.props.redirectAction(["/logout", "Logging out..."]);
   }
 
   render() {
@@ -112,6 +109,9 @@ class Header extends Component {
             </div>
           </div>
         </div>
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
     // <div className="header-container">
@@ -130,13 +130,14 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);
