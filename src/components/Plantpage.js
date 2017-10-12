@@ -417,13 +417,13 @@ export default class Plantpage extends Component {
             label: 'Resources',
             data: [sun_min_value, 10, 3, 5],
             backgroundColor: [
-                'rgba(255, 255, 0, 0.2)',
+                '#ffffff',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
             ],
             borderColor: [
-                'rgba(255, 206, 86, 1)',
+                '#ffff00',
                 'rgba(54, 162, 235, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(75, 192, 192, 1)',
@@ -431,19 +431,19 @@ export default class Plantpage extends Component {
             borderWidth: 1
         },
         {
-          label: 'Resources',
-          data: [sun_max_value-sun_min_value, 19, 3, 5],
+          label: 'Sunlight Hours',
+          data: [sun_max_value-sun_min_value, 0, 0, 0],
           backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
+              // 'rgba(54, 162, 235, 0.2)',
+              // 'rgba(153, 102, 255, 0.2)',
+              // 'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
-              'rgba(255, 206, 86, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(75, 192, 192, 1)',
+              '#ffff00',
+              // 'rgba(54, 162, 235, 1)',
+              // 'rgba(153, 102, 255, 1)',
+              // 'rgba(75, 192, 192, 1)',
           ],
           borderWidth: 1
       }
