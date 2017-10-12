@@ -91,7 +91,7 @@ class Userpage extends Component {
           {this.state.userdata.plots.map((plot, i)=>{
             console.log(plot);
             return (
-              <div key={plot.plot_name} className="userpage-inner-plot-holder">
+              <div key={`${plot.plot_name}${i}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
                   console.log(plant);
