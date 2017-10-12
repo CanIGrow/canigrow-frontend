@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import request from 'superagent';
+import Chart from 'chart.js';
 import '../styles/App.css';
 
 export default class Plantpage extends Component {
@@ -259,7 +260,7 @@ export default class Plantpage extends Component {
                   // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
                     console.log('No Image to Show');
-                    this.setState({image_message : "There are no images currently available for this plant."});
+                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
                   } else {
                     this.setState({image_message : "null"});
@@ -357,12 +358,108 @@ export default class Plantpage extends Component {
       })
   }
 
+  // This generates a wikipedia link.
   createWikiLink(scientific_name) {
     // console.log(scientific_name);
     let add_on = scientific_name.replace(" ","_");
     let link = "https://en.wikipedia.org/wiki/" + add_on;
     console.log("Wiki: "+link);
     this.setState({wiki_link: link});
+  }
+
+  // This generates the chart data.
+  createSunChart(){
+    console.log(this.state.plantdata.light);
+
+    // This generates a number of hours that the plant needs sunlight.
+    let light_string = this.state.plantdata.light;
+    let sun_max_value = 2;
+    let sun_min_value = 0;
+    // Handles minimum sunlight.
+    if(light_string.includes('Full sun')){
+      sun_min_value = 6;
+    }
+    if(light_string.includes("Part sun")){
+      sun_min_value = 4;
+    }
+    if(light_string.includes("Part shade")){
+      sun_min_value = 2;
+    }
+    if(light_string.includes("Full shade")){
+      sun_min_value = 0;
+    }
+    // Handles maximum sunlinght.
+    if(light_string.includes('Full shade')){
+      sun_max_value = 3;
+    }
+    if(light_string.includes("Part shade")){
+      sun_max_value = 4;
+    }
+    if(light_string.includes("Part sun")){
+      sun_max_value = 6;
+    }
+    if(light_string.includes("Full sun")){
+      console.log("full");
+      sun_max_value = 10;
+    }
+
+
+
+    let ctx = document.getElementById("myChart").getContext('2d');
+    // Chart.defaults.global.defaultFontColor = 'black';
+    // Chart.defaults.global.defaultFontSize = '12';
+    let myChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+        labels: ["Sunlight", "Water", "Soil Quality", "Time"],
+        datasets: [
+          {
+            label: 'Resources',
+            data: [sun_min_value, 10, 3, 5],
+            backgroundColor: [
+                'rgba(255, 255, 0, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+          label: 'Resources',
+          data: [sun_max_value-sun_min_value, 19, 3, 5],
+          backgroundColor: [
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: [
+              'rgba(255, 206, 86, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1
+      }
+      ]
+    },
+    options: {
+      scales: {
+          xAxes: [{
+              stacked: true
+          }],
+          yAxes: [{
+              stacked: true
+          }]
+      }
+    }
+    });
   }
 
   componentWillMount() {
@@ -381,6 +478,7 @@ export default class Plantpage extends Component {
                console.log('Plant Data');
                console.log(res.body.plant);
                this.createWikiLink(res.body.plant.scientific_name);
+               this.createSunChart();
              }
            }
          }
@@ -396,6 +494,23 @@ export default class Plantpage extends Component {
 
   render() {
     console.log(this.state.image_message);
+    // This makes the additional notes only appear if the plant actually has additional notes.
+    let plantdata_notes = true;
+    if(this.state.plantdata.notes === ' ' || this.state.plantdata.notes === null || this.state.plantdata.notes === undefined){
+      plantdata_notes = false;
+    }
+
+    // This replaces all the ';' with ',' in the this.state.plantdata.seasonal_interest and form.
+    let plantdata_seasonal_interest_comma = null;
+    let plantdata_form_comma = null;
+    if(this.state.plantdata){
+      let plantdata_seasonal_interest = this.state.plantdata.seasonal_interest;
+      plantdata_seasonal_interest_comma = plantdata_seasonal_interest.replace(new RegExp(';', 'g'), ",");
+      let plantdata_form = this.state.plantdata.form;
+      plantdata_form_comma = plantdata_form.replace(new RegExp(';', 'g'), ",");
+    }
+
+
     return (
       <div className="plantpage-container main-component-container">
         <div className="plantpage-sub-container">
@@ -416,6 +531,26 @@ export default class Plantpage extends Component {
           <div className="top_items_plant_page">
             <div className="all_plant_page_images">
               <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
+
+
+              <div className="plant_page_graph">
+                {this.state.plantdata ? (
+                <div>
+                  <div className="outer_chart_for_plant">
+                    <p className="font-size-16px">{this.state.plantdata.common_name}'s Growth Needs</p>
+                  </div>
+
+                  <div className="outer_chart_for_plant">
+                    <div className="chart_for_plant">
+                      <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                  </div>
+
+                </div> ): ""}
+
+              </div>
+
+
             </div>
             <div className="top_items_plant_page_right">
               <div className="top_items_plant_page_right_tile">{this.state.plantdata ? (
@@ -427,18 +562,25 @@ export default class Plantpage extends Component {
               <div className="top_items_plant_page_right_plant_info">
                 {this.state.plantdata ? (
                   <div>
-                    <p className="plant_info_scientific_name">{this.state.plantdata.scientific_name}</p>
-                    <p>Grows to: {this.state.plantdata.height} tall</p>
-                    <p>Grows to: {this.state.plantdata.spread} wide</p>
-                    <p>Growth Form: {this.state.plantdata.form}</p>
-                    <p>Grows best during: {this.state.plantdata.seasonal_interest}</p>
+                    <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/>
+                    <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p>
+                    <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p>
+                    {/* <p>Grows to: {this.state.plantdata.spread} wide</p> */}
+                    <p className="font-size-16px">General shape: {plantdata_form_comma}</p>
+                    <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p>
 
-                    {this.state.plantdata.notes ? (
-                      <p>Additional Notes: {this.state.plantdata.notes}</p>
+                    {plantdata_notes ? (
+                      <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
                     ): ""}
+                    <a href={this.state.wiki_link} className="font-size-16px">Learn More</a>
                   </div>
                    ): ""}
               </div>
+
+              <div>
+
+              </div>
+
             </div>
           </div>
 
