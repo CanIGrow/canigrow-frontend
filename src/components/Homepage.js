@@ -34,7 +34,7 @@ class Homepage extends Component {
       }
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
-        console.log("REDIRECT ACTION FIRED");
+        console.log("HOMEPAGE REDIRECT FALSE FIRED");
       });
     }
   }
