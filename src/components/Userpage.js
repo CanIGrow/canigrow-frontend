@@ -14,9 +14,11 @@ class Userpage extends Component {
     super(props)
     this.state = {
       fireredirect: false,
+      userexists: true,
       message: false,
       username: this.props.username,
       user: null,
+      userdata: false,
       template: this.props.template,
       bio: ''
     };
@@ -30,16 +32,16 @@ class Userpage extends Component {
     }
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
-      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/`)
-      .end((err,res)=>{
-        console.log(res);
-        // request
-        //   .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
-        //   .end((err, res)=>{
-        //     if (res !== undefined){
-        //       console.log(res);
-        //     }
-        //   })
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+      .end((err, res)=>{
+        if (err){
+          //If user does not exist:
+          this.setState({userexists: false});
+        }
+        if (res !== undefined){
+          //If user does not exist: this.setState({userexists: false});
+          this.setState({userdata: res.body.user});
+        }
       })
   }
 
@@ -65,13 +67,28 @@ class Userpage extends Component {
     }
   }
   render() {
+    let userobjectdata = false;
+    if (!this.state.userexists){
+      userobjectdata =
+        <h1 className="pagination-centered text-center">
+          User Does Not Exist
+        </h1>
+    } else if (!this.state.userdata){
+      userobjectdata =
+        <h1 className="pagination-centered text-center">
+          Loading...
+        </h1>
+    } else {
+      let user = this.state.userdata;
+      console.log(user);
+      userobjectdata = "hi"
+    }
     let askQuestion = {
         "marginTop": "30pt",
     }
     return (
       <div className="userpage-container main-component-container">
-        <h1>This is a Userpage</h1>
-
+        {userobjectdata}
         <div style={askQuestion}>
                     <div>Change the Background</div>
                     <form >
