@@ -42,27 +42,23 @@ class Login extends Component {
   }
 
   login(event) {
-     let setLogin = this.props.setLogin;
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-     let username = null;
      event.preventDefault();
      request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
-         console.log(res);
          if (err) {
             this.setState({error: res.body.error});
-            console.log("error");
          } else {
            if (res !== undefined){
-           // This call functions from actions to send the token to the reducer then the store.
-           setLogin(res.body.token);
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
            cookie.save('username', res.body.username);
-           this.props.reloadUsername(username);
+           // This call functions from actions to send the token to the reducer then the store.
+           this.props.setLogin(res.body.token);
+           this.props.reloadUsername(res.body.username);
            }
          }
        })
