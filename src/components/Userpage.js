@@ -82,6 +82,10 @@ class Userpage extends Component {
       this.setState({fireredirect:true});
     }
   }
+  edituser(event){
+    event.preventDefault();
+    console.log("edit test");
+  }
   render() {
     let userobjectdata = false;
     if (!this.state.userexists){
@@ -103,7 +107,8 @@ class Userpage extends Component {
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
         {this.state.canedit ? (
-          <button>Edit</button>
+          <button className="btn-danger"
+            onClick={event => this.edituser(event)}>Edit</button>
         ):("")}
         <p className="userpage-bio-info">{bio}</p>
         <div className="userpage-outer-plots-holder">
