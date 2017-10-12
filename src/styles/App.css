@@ -236,3 +236,12 @@ TEMP MODAL STYLES
 .style-margin-bottom-20px{
   margin-bottom: 20px;
 }
+.outer_chart_for_plant{
+  display: flex;
+  justify-content: center;
+}
+.chart_for_plant{
+  position: relative;
+  height: 420px;
+  width: 420px;
+}

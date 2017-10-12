@@ -260,7 +260,7 @@ export default class Plantpage extends Component {
                   // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
                     console.log('No Image to Show');
-                    this.setState({image_message : "There are no images currently available for this plant."});
+                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
                   } else {
                     this.setState({image_message : "null"});
@@ -369,6 +369,7 @@ export default class Plantpage extends Component {
 
   // This generates the chart data.
   createSunChart(){
+    console.log(this.state.plantdata);
     let ctx = document.getElementById("myChart").getContext('2d');
     // Chart.defaults.global.defaultFontColor = 'black';
     // Chart.defaults.global.defaultFontSize = '12';
@@ -480,8 +481,15 @@ export default class Plantpage extends Component {
               <div className="plant_page_graph">
                 {this.state.plantdata ? (
                 <div>
-                  <p className="font-size-16px style-margin-left-20px">{this.state.plantdata.common_name}'s Growth Needs</p>
-                  <canvas id="myChart" width="400" height="280"></canvas>
+                  <div className="outer_chart_for_plant">
+                    <p className="font-size-16px">{this.state.plantdata.common_name}'s Growth Needs</p>
+                  </div>
+
+                  <div className="outer_chart_for_plant">
+                    <div className="chart_for_plant">
+                      <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                  </div>
 
                 </div> ): ""}
 
