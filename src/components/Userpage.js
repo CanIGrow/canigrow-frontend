@@ -39,7 +39,6 @@ class Userpage extends Component {
           this.setState({userexists: false});
         }
         if (res !== undefined){
-          //If user does not exist: this.setState({userexists: false});
           this.setState({userdata: res.body.user});
         }
       })
@@ -79,9 +78,18 @@ class Userpage extends Component {
           Loading...
         </h1>
     } else {
+
       let user = this.state.userdata;
+      let bio = ""
+      if (this.state.userdata.bio !== ""){
+        bio = `Bio: ${this.state.userdata.bio}`;
+      }
       console.log(user);
-      userobjectdata = "hi"
+      userobjectdata =
+      <div className="container pagination-centered text-center">
+        <h2>{this.state.userdata.username}</h2>
+        <p>{bio}</p>
+      </div>
     }
     let askQuestion = {
         "marginTop": "30pt",
