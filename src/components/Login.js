@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { NavLink } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
