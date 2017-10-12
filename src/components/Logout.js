@@ -22,6 +22,14 @@ class Logout extends Component {
       cookie.remove('username');
       cookie.remove('template');
       window.location.reload();
+    }
+  }
+  componentDidMount(){
+    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined){
+      cookie.remove('token');
+      cookie.remove('username');
+      cookie.remove('template');
+      window.location.reload();
     } else {
       this.props.redirectAction(["/", "You Have Been Logged Out"]);
     }

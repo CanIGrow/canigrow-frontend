@@ -43,7 +43,7 @@ class Header extends Component {
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
       // If the user is logged in show:
-      if (this.props.token) {
+      if (this.props.token && this.props.username) {
         rightButtons =
         <div className="changeButtons">
           <li>
