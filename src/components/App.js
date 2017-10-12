@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import cookie from 'react-cookies';
 import Homepage from './Homepage.js';
 import Login from './Login.js';
+import Logout from './Logout.js';
 import Plantpage from './Plantpage.js';
 import Register from './Register.js';
 import Userpage from './Userpage.js';
@@ -96,6 +97,7 @@ class App extends Component {
                 <Route path="/user/:user" render={(props) => ( <Userpage newTemplate={this.changeTemplate.bind(this)}/> )}/>
                 <Route path="/users"  component={Userlisting} />
                 <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>
+                <Route path="/logout" render={(props) => ( <Logout/> )}/>
                 {/* <Route path="/login" component={Login} /> */}
                 <Route path="/register" component={Register} />
               </Switch>

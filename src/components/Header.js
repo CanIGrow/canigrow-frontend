@@ -38,14 +38,10 @@ class Header extends Component {
   handleLogoutClick() {
     console.log("logout clicked");
     console.log(this.props.token);
-    // this.setState({isLoggedIn: false});
-    cookie.remove('token');
-    cookie.remove('username');
-    cookie.remove('template');
     let logout = this.props.logout;
     console.log(this.props.logout);
     console.log(this.props.token);
-    this.props.redirectAction(["/logout", "reload"]);
+    this.props.redirectAction(["/logout", "YOU ARE BEING LOGGED OUT"]);
     logout();
   }
 
