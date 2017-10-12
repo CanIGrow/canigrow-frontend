@@ -28,6 +28,19 @@ class Userpage extends Component {
         this.props.redirectAction([false, false]);
       });
     }
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    request
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/`)
+      .end((err,res)=>{
+        console.log(res);
+        // request
+        //   .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+        //   .end((err, res)=>{
+        //     if (res !== undefined){
+        //       console.log(res);
+        //     }
+        //   })
+      })
   }
 
   updateFromField(stateKey) {

@@ -35,7 +35,6 @@ class Header extends Component {
   }
 
   handleLogoutClick() {
-    this.props.logout();
     this.props.redirectAction(["/logout", "Logging out..."]);
   }
 
