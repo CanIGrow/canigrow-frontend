@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {setToken,setUsername,setEmail,logout,redirectAction} from '../actions/actions.js';
+import {setToken,setUsername,setEmail,redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -128,7 +128,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setEmail:setEmail, setToken: setToken, setUsername:setUsername, setToken:setToken, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setEmail:setEmail, setUsername:setUsername, setToken:setToken, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);

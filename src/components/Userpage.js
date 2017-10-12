@@ -13,17 +13,17 @@ class Userpage extends Component {
     super(props)
     this.state = {
       fireredirect: false,
-      userexists: true,
-      canedit: false,
-      password: '',
-      passworderror: false,
-      passwordconfirmation: false,
       message: false,
+      userexists: true,
       username: this.props.username,
       user: null,
       userdata: false,
       template: this.props.template,
-      bio: ''
+      bio: '',
+      canedit: false,
+      password: '',
+      passworderror: false,
+      passwordconfirmation: false,
     };
   }
 
@@ -138,12 +138,12 @@ class Userpage extends Component {
         <div className="userpage-outer-plots-holder">
           <h3>Plots</h3>
           {this.state.userdata.plots.map((plot, i)=>{
-            {/* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/}
+            /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
               <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
-                  {/* {plant_id: 2205, plant: "Silver Moon Clematis"}*/}
+                  /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
                   return (
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
