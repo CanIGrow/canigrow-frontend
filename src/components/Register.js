@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {redirectAction} from '../actions/actions.js';
 import '../styles/App.css';
 
 class Register extends Component {

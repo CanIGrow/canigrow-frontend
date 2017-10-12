@@ -3,7 +3,7 @@ import '../styles/App.css';
 import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
 import { Link, Redirect } from 'react-router-dom';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {redirectAction} from '../actions/actions.js';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 

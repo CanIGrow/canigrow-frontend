@@ -5,7 +5,7 @@ import '../styles/App.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {redirectAction} from '../actions/actions.js';
 
 class Plantpage extends Component {
   constructor(props) {

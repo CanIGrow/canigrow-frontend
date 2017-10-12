@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {setToken,setUsername,setEmail,logout} from '../actions/actions.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {setToken,setUsername,setEmail,logout,redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 

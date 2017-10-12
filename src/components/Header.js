@@ -4,8 +4,7 @@ import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {setToken,setUsername,setEmail,logout} from '../actions/actions.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {setToken,setUsername,setEmail,logout,redirectAction} from '../actions/actions.js';
 
 class Header extends Component {
   constructor(props) {

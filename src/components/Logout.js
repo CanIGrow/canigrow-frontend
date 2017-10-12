@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import cookie from 'react-cookies';
-import {setToken,setUsername,setEmail,logout} from '../actions/actions.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {setToken,setUsername,setEmail,logout,redirectAction} from '../actions/actions.js';
 import '../styles/App.css';
 
 class Logout extends Component {

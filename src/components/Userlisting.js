@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {redirectAction} from '../actions/actions.js';
 import request from 'superagent';
 import { Redirect } from 'react-router-dom';
 
