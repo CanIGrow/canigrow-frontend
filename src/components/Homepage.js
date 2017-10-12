@@ -25,6 +25,19 @@ class Homepage extends Component {
     }
     this.filterlist = this.filterlist.bind(this);
   }
+  componentWillMount(){
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      console.log("DETECTED");
+      if (this.props.redirection[1] === "reload"){
+        console.log("RELOAD TRIGGERED");
+        window.location.reload();
+      }
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+        console.log("REDIRECT ACTION FIRED");
+      });
+    }
+  }
   componentDidMount(){
     request
       .get(`https://freegeoip.net/json/`)

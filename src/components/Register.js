@@ -8,7 +8,6 @@ import request from 'superagent';
 import {setLogin} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
-import cookie from 'react-cookies';
 import '../styles/App.css';
 
 class Register extends Component {
@@ -106,7 +105,7 @@ class Register extends Component {
     }
   render() {
     let fourmready = false;
-    if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
+    if (this.state.usernameinput.length > 4 && this.state.password.length > 5 && this.state.password2.length > 5 && !this.state.passworderror && !this.state.usernameinputerror){
       fourmready = true;
     }
     let registerContents = null;
@@ -154,7 +153,7 @@ class Register extends Component {
                     <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
                   </div>
                   <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)}>Register</button>
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)} disabled={!fourmready}>Register</button>
                   </div>
                 </form>
               </div>
