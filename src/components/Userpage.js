@@ -91,12 +91,17 @@ class Userpage extends Component {
           {this.state.userdata.plots.map((plot, i)=>{
             console.log(plot);
             return (
-              <div key={`${plot.plot_name}${i}`} className="userpage-inner-plot-holder">
+              <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
                   console.log(plant);
                   return (
-                    <div className="userpage-plant-div">
+                    <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
+                      className="userpage-plant-div">
+                      <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                        className="userpage-plant-link">
+                      <h5>{plant.plant}</h5>
+                      </a>
                     </div>
                   )
                 })}
