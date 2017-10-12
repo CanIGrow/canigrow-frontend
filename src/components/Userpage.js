@@ -4,11 +4,17 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
 import {changeTemplate} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
+import cookie from 'react-cookies';
+import { Redirect } from 'react-router-dom';
+import request from 'superagent';
 
 class Userpage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      fireredirect: false,
+      message: false,
       username: this.props.username,
       user: null,
       template: this.props.template,
@@ -17,17 +23,22 @@ class Userpage extends Component {
   }
 
   componentWillMount() {
-      console.log(this.props);
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
   }
 
   updateFromField(stateKey) {
       return (event) => {
-        this.setState({[stateKey]: event.target.value});
+        this.setState({[stateKey]: event.target.value},()=>{
+          this.updateTemplate();
+        });
       }
     }
 
-  updateTemplate(event) {
-    event.preventDefault()
+  updateTemplate() {
     console.log(this.props.template);
     let changeTemplate = this.props.changeTemplate;
     changeTemplate(this.state.template);
@@ -35,7 +46,11 @@ class Userpage extends Component {
     console.log(this.props.template);
     console.log(this.props);
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   render() {
     let askQuestion = {
         "marginTop": "30pt",
@@ -48,7 +63,7 @@ class Userpage extends Component {
                     <div>Change the Background</div>
                     <form >
                       {/* onSubmit={this.handleSubmit} */}
-                    <select name="templates" onChange={this.updateFromField('template')} value={this.state.template}>
+                    <select name="templates" onChange={this.updateFromField('template')} value={cookie.load('template')}>
                       <option value="0">Classic</option>
                       <option value="1">Blue</option>
                       <option value="2">Shooting Stars</option>
@@ -59,10 +74,12 @@ class Userpage extends Component {
                       <option value="7">Cherry Blossom</option>
                     </select>
                     <br/>
-                    <input onClick={event => this.updateTemplate(event)} className='btn btn-outline-primary' type="submit"/>
                     {/* onClick={event => this.updateTemplate(event)} */}
                     </form>
                   </div>
+                  {this.state.fireredirect && (
+                      <Redirect to={this.props.redirection[0]}/>
+                    )}
       </div>
     );
   }
@@ -72,13 +89,14 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
-      template: state.template
+      template: state.template,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({changeTemplate: changeTemplate}, dispatch);
+    return bindActionCreators({changeTemplate: changeTemplate, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Userpage);
