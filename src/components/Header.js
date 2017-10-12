@@ -23,7 +23,6 @@ class Header extends Component {
   componentWillMount(){
     this.checklogin();
     this.props.redirectAction([false, false]);
-    console.log("HEADER REDIRECT FALSE FIRED");
   }
 
   checklogin(){
@@ -36,8 +35,8 @@ class Header extends Component {
   }
 
   handleLogoutClick() {
-    this.props.redirectAction(["/logout", "Logging out..."]);
     this.props.logout();
+    this.props.redirectAction(["/logout", "Logging out..."]);
   }
 
   render() {

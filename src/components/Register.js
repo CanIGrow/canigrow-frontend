@@ -84,9 +84,8 @@ class Register extends Component {
               )
           .end((err, res) => {
            if (err) {
-            //  console.log(err);
-            //  console.log(res.body.errors);
-             this.setState({error: ["Email "+res.body.errors.username]});
+             let propertyname = Object.getOwnPropertyNames(res.body.errors)[0];
+             this.setState({error: [propertyname+" "+res.body.errors[propertyname]]});
             } else {
             this.props.redirectAction(["/login", "Registration successful, please log in!"]);
             }

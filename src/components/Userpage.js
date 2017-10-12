@@ -7,6 +7,7 @@ import {changeTemplate} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
+import request from 'superagent';
 
 class Userpage extends Component {
   constructor(props) {
