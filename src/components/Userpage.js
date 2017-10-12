@@ -15,6 +15,7 @@ class Userpage extends Component {
     this.state = {
       fireredirect: false,
       userexists: true,
+      canedit: false,
       message: false,
       username: this.props.username,
       user: null,
@@ -31,6 +32,7 @@ class Userpage extends Component {
       });
     }
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    //This request gets the users information
     request
       .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
       .end((err, res)=>{
@@ -42,6 +44,21 @@ class Userpage extends Component {
           this.setState({userdata: res.body.user});
         }
       })
+    //This request authorizes the user if they are logged in
+    if (window.location.href.split("/user/")[1] === cookie.load("username")){
+      this.setState({canedit: true});
+    }
+    // request
+    //   .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+    //   .end((err, res)=>{
+    //     if (err){
+    //       //If user does not exist:
+    //       this.setState({userexists: false});
+    //     }
+    //     if (res !== undefined){
+    //       this.setState({userdata: res.body.user});
+    //     }
+    //   })
   }
 
   updateFromField(stateKey) {
@@ -85,6 +102,9 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
+        {this.state.canedit ? (
+          <button>Edit</button>
+        ):("")}
         <p className="userpage-bio-info">{bio}</p>
         <div className="userpage-outer-plots-holder">
           <h3>Plots</h3>
