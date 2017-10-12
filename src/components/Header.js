@@ -12,6 +12,8 @@ class Header extends Component {
   constructor(props) {
       super(props)
       this.state = {
+        fireredirect: false,
+        message: false,
         username: '',
         token: this.props.token,
       };

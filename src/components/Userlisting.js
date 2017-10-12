@@ -11,6 +11,8 @@ class Userlisiting extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      fireredirect: false,
+      message: false,
       data: false,
     };
   }

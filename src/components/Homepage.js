@@ -11,6 +11,8 @@ class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
+      fireredirect: false,
+      message: false,
       searchbartext: "",
       zipcode: "",
       filteredplantdata: false,
@@ -406,6 +408,9 @@ class Homepage extends Component {
           <br/>
           {suggestedResults ? suggestedResults : ""}
         </form>
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
   }

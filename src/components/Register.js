@@ -15,6 +15,8 @@ class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      fireredirect: false,
+      message: false,
       token: this.props.token,
       usernameinput: '',
       usernameinputerror: false,
@@ -25,7 +27,6 @@ class Register extends Component {
       bio: '',
       location: '',
       forumerrors: '',
-      fireredirect: false,
     };
   }
 
@@ -35,7 +36,6 @@ class Register extends Component {
         this.props.redirectAction([false, false]);
       });
     }
-      console.log(this.props);
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js

@@ -14,11 +14,12 @@ class Login extends Component {
   constructor(props) {
       super(props)
       this.state = {
+        fireredirect: false,
+        message: false,
         username: '',
         password: '',
         token: this.props.token,
         error: '',
-        message: false,
       };
   }
 
@@ -120,6 +121,9 @@ class Login extends Component {
         {this.props.token && (
            <Redirect to={`/`}/>
          )}
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     )
   }

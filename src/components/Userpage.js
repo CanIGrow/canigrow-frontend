@@ -11,6 +11,8 @@ class Userpage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      fireredirect: false,
+      message: false,
       username: this.props.username,
       user: null,
       template: this.props.template,
