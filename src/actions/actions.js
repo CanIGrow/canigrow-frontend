@@ -2,7 +2,6 @@
 
 // Action Creator - the entire function, returns action object.
 export const setToken = (token) => {
-    console.log("You have the token: ", token);
     // Action - contains a type and a payload. type is an identifier.
     return {
         // This type is read in tokenReducer.js
