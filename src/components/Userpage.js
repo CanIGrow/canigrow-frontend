@@ -72,6 +72,9 @@ class Userpage extends Component {
                     {/* onClick={event => this.updateTemplate(event)} */}
                     </form>
                   </div>
+                  {this.state.fireredirect && (
+                      <Redirect to={this.props.redirection[0]}/>
+                    )}
       </div>
     );
   }

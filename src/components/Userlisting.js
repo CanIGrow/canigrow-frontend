@@ -37,6 +37,9 @@ class Userlisiting extends Component {
   render() {
     return (
       <div className="userpage-container main-component-container">
+      {this.state.fireredirect && (
+          <Redirect to={this.props.redirection[0]}/>
+        )}
       </div>
     );
   }

@@ -118,6 +118,9 @@ class Header extends Component {
             </div>
           </div>
         </div>
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
     // <div className="header-container">
