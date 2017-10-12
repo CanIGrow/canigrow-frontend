@@ -47,7 +47,7 @@ class Header extends Component {
     logout();
     window.location.reload();
   }
-
+  
   render() {
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;

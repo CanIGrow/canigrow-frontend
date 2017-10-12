@@ -20,18 +20,22 @@ class Login extends Component {
         password: '',
         token: this.props.token,
         error: '',
+        testing: "",
       };
   }
 
   componentWillMount() {
-    console.log(this.props);
     if (this.props.redirection && this.props.redirection[0] !== undefined){
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
       });
     }
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   updateFromField(stateKey) {
       return (event) => {
         this.setState({[stateKey]: event.target.value});

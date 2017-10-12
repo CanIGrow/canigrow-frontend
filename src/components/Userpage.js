@@ -27,7 +27,6 @@ class Userpage extends Component {
         this.props.redirectAction([false, false]);
       });
     }
-      console.log(this.props);
   }
 
   updateFromField(stateKey) {
@@ -46,7 +45,11 @@ class Userpage extends Component {
     console.log(this.props.template);
     console.log(this.props);
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   render() {
     let askQuestion = {
         "marginTop": "30pt",

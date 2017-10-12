@@ -101,6 +101,9 @@ class Register extends Component {
         this.setState({fireredirect:true});
       }
     }
+    registertest(event){
+      this.props.redirectAction(["/login", "Registration successful, please log in!"]);
+    }
   render() {
     let fourmready = false;
     if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){

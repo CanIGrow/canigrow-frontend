@@ -153,6 +153,9 @@ class Homepage extends Component {
       })
   }
   componentDidUpdate(prevProps, prevState){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
     if (this.props.allplantdata !== prevProps.allplantdata){
       this.filterlist(false);
     }

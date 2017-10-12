@@ -34,7 +34,11 @@ class Userlisiting extends Component {
         // }
       })
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   render() {
     return (
       <div className="userpage-container main-component-container">
