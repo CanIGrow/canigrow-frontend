@@ -22,6 +22,11 @@ const loginReducer = function (state = null, action) {
             return action.payload;
             // update(state, { })
             // break;
+        // This adds the email
+        case 'USER_EMAIL':
+            return action.payload;
+            // update(state, { })
+            // break;
         default:
             return state;
     }

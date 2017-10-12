@@ -11,3 +11,15 @@ export const setLogin = (token) => {
         payload: token
     }
 };
+
+
+// Action Creator - the entire function, returns action object.
+export const setEmail = (email) => {
+    // Action - contains a type and a payload. type is an identifier.
+    return {
+        // This type is read in loginReducer.js
+        type: 'USER_EMAIL',
+        // payload is information given to the app to be conveyed to state.
+        payload: email
+    }
+};

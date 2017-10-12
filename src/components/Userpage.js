@@ -46,21 +46,10 @@ class Userpage extends Component {
           this.setState({userdata: res.body.user});
         }
       })
-    //This request authorizes the user if they are logged in
+    //This adds an edit button if the user matches the saved user token
     if (window.location.href.split("/user/")[1] === cookie.load("username")){
       this.setState({canedit: true});
     }
-    // request
-    //   .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
-    //   .end((err, res)=>{
-    //     if (err){
-    //       //If user does not exist:
-    //       this.setState({userexists: false});
-    //     }
-    //     if (res !== undefined){
-    //       this.setState({userdata: res.body.user});
-    //     }
-    //   })
   }
 
   updateFromField(stateKey) {
@@ -92,10 +81,23 @@ class Userpage extends Component {
   }
   edituser(event){
     event.preventDefault();
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     if (!this.state.passwordconfirmation){
       this.setState({passwordconfirmation:true});
     } else if (this.state.passwordconfirmation && this.state.password !== ''){
-
+      request
+       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
+       .send({email: this.state.username, password: this.state.password})
+        .end((err, res) => {
+          console.log(err);
+          console.log(res);
+          // if (err) {
+          //    this.setState({error: res.body.error});
+          // } else {
+          //   if (res !== undefined){
+          //   }
+          // }
+        })
     }
   }
   render() {

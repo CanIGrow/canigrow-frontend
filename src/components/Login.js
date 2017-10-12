@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {setLogin} from '../actions/loginAction.js';
+import {setLogin,setEmail} from '../actions/loginAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
@@ -59,6 +59,7 @@ class Login extends Component {
            // This call functions from actions to send the token to the reducer then the store.
            this.props.setLogin(res.body.token);
            this.props.reloadUsername(res.body.username);
+           this.props.setEmail(this.state.username);
            }
          }
        })
@@ -122,12 +123,13 @@ function mapStateToProps(state) {
       token: state.token,
       username: state.username,
       redirection: state.redirection,
+      email: state.email
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setEmail:setEmail, setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);
