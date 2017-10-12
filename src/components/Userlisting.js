@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {changeTemplate} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import request from 'superagent';
 import { Redirect } from 'react-router-dom';

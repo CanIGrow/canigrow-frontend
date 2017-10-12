@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import cookie from 'react-cookies';
-import {setLogin} from '../actions/loginAction.js';
-import {reloadContents, logout,reloadUsername} from '../actions/reloadToken.js';
+import {logout} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import '../styles/App.css';
 
