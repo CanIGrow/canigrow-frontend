@@ -6,6 +6,7 @@ import '../styles/App.css';
 import {changeTemplate} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import request from 'superagent';
+import { Redirect } from 'react-router-dom';
 
 class Userlisiting extends Component {
   constructor(props) {

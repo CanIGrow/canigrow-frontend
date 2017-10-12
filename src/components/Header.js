@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, Redirect } from 'react-router-dom';
 import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';

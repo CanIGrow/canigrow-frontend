@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {redirectAction} from '../actions/redirectionAction.js';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -176,7 +176,6 @@ class Homepage extends Component {
     }
   }
   filterlist(searchbar, searchterm, preventOverflow){
-    console.log(searchbar, searchterm, preventOverflow);
     let list = this.props.allplantdata;
     if (searchbar && this.props.allplantdata){
       list = list.filter(function(item){
@@ -211,7 +210,6 @@ class Homepage extends Component {
           randomsuggested.push(false);
           this.setState({suggested:randomsuggested});
         }
-        //TODO ADD AN IF STATEMENT, IF THERE ARE NO RESULTS AND THE SPLIT THE WORD IN TWO, REMOVE THE SPACE (IE BLUE BERRY TO BLUEBERRY)
       } else {
         for (let i = 0; i < 6; i++){
           let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);

@@ -96,11 +96,11 @@ class Register extends Component {
        this.setState({error: "Please complete the form and correct errors"});
      }
     }
-   componentDidUpdate(){
-       if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
-         this.setState({fireredirect:true});
-       }
-     }
+    componentDidUpdate(){
+      if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+        this.setState({fireredirect:true});
+      }
+    }
   render() {
     let fourmready = false;
     if (this.state.usernameinput.length < 4 && this.state.password.length < 5 && this.state.password2.length < 5 && !this.state.passworderror && !this.state.usernameinputerror){
