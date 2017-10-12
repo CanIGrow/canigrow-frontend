@@ -3,8 +3,11 @@ import '../styles/App.css';
 import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
 import { Link } from 'react-router-dom';
+import {redirectAction} from '../actions/redirectionAction.js';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default class Homepage extends Component {
+class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -407,3 +410,19 @@ export default class Homepage extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username,
+      template: state.template,
+      redirection: state.redirection,
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Homepage);

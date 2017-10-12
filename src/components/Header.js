@@ -5,6 +5,7 @@ import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {reloadContents, logout} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 import {reloadUsername} from '../actions/reloadToken.js';
 
 class Header extends Component {
@@ -19,6 +20,7 @@ class Header extends Component {
 
   componentWillMount(){
     this.checklogin();
+    this.props.redirectAction([false, false]);
   }
 
   checklogin(){
@@ -132,13 +134,14 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
       token: state.token,
-      username: state.username
+      username: state.username,
+      redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername}, dispatch);
+    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);

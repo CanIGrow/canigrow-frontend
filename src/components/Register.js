@@ -30,8 +30,12 @@ class Register extends Component {
   }
 
   componentWillMount() {
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
       console.log(this.props);
-      this.props.redirectAction([false, false]);
   }
 
   // from: https://github.com/tiycnd/library-frontend/blob/master/src/components/LoginRegister.js
