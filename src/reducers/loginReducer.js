@@ -11,7 +11,7 @@ const loginReducer = function (state = null, action) {
   console.log(action);
     switch (action.type) {
         // This adds the token to the store upon login.
-        case 'USER_TOKEN':
+        case 'TOKEN_ADD':
             return action.payload;
             // break;
         // This adds the token to the store upon page-refresh if the user was logged in.

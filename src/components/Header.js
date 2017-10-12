@@ -4,7 +4,7 @@ import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reloadContents, logout,reloadUsername,reloadEmail} from '../actions/reloadToken.js';
+import {setToken,setUsername,setEmail,logout} from '../actions/actions.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 
 class Header extends Component {
@@ -26,9 +26,9 @@ class Header extends Component {
 
   checklogin(){
     if(cookie.load('token') !== undefined && cookie.load('username') !== undefined && cookie.load('email') !== undefined){
-      this.props.reloadContents(cookie.load('token'));
-      this.props.reloadUsername(cookie.load('username'));
-      this.props.reloadEmail(cookie.load('email'));
+      this.props.setToken(cookie.load('token'));
+      this.props.setUsername(cookie.load('username'));
+      this.props.setEmail(cookie.load('email'));
       // if(cookie.load('username') !== undefined){
       //   this.props.reloadUsername(cookie.load('username'));
       // }
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadEmail:reloadEmail,reloadUsername:reloadUsername,reloadContents: reloadContents, logout: logout, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setEmail:setEmail,setUsername:setUsername,setToken: setToken, logout: logout, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);

@@ -56,6 +56,7 @@ class App extends Component {
       token: cookie.load('token'),
       username: cookie.load('username'),
       template: cookie.load('template'),
+      email: cookie.load('email'),
     }, ()=>{
       if (cookie.load("template") !== undefined){
         this.changeTemplate(cookie.load('template'));

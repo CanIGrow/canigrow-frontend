@@ -11,7 +11,7 @@ const usernameReducer = function (state = null, action) {
   // console.log(action.payload);
     switch (action.type) {
         // This adds the username to the store on successful login.
-        case 'USER_NAME':
+        case 'USERNAME_ADD':
             return action.payload;
             // break;
         // This adds the token to the store upon page-refresh if the user was logged in.

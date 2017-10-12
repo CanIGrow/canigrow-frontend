@@ -33,3 +33,20 @@ export const setEmail = (email) => {
         payload: email
     }
 };
+
+
+export const logout = () => {
+    let payload = null;
+    return {
+        type: 'USER_LOGOUT',
+        payload: payload
+    }
+};
+
+export const changeTemplate = (template) => {
+    console.log("Template ID: ", template);
+    return {
+        type: 'USER_TEMPLATE',
+        payload: template
+    }
+};

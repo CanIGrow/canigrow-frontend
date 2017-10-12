@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {changeTemplate} from '../actions/reloadToken.js';
+import {changeTemplate} from '../actions/actions.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
