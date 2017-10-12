@@ -4,7 +4,7 @@
 export const redirectAction = (redirection) => {
     // Action - contains a type and a payload. type is an identifier.
     return {
-        // This type is read in loginReducer.js
+        // This type is read in tokenReducer.js
         type: 'REDIRECT_DATA',
         // payload is information given to the app to be conveyed to state.
         payload: redirection
