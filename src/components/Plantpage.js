@@ -14,6 +14,7 @@ export default class Plantpage extends Component {
         wikipedia_responseText: null,
         plantdata: false,
         image_message: null,
+        wiki_link: null,
       };
   }
 
@@ -356,6 +357,14 @@ export default class Plantpage extends Component {
       })
   }
 
+  createWikiLink(scientific_name) {
+    // console.log(scientific_name);
+    let add_on = scientific_name.replace(" ","_");
+    let link = "https://en.wikipedia.org/wiki/" + add_on;
+    console.log("Wiki: "+link);
+    this.setState({wiki_link: link});
+  }
+
   componentWillMount() {
     console.log(this.props);
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
@@ -369,6 +378,9 @@ export default class Plantpage extends Component {
               //  console.log(res.body.plant.common_name);
                this.plantInfoGet();
                this.setState({plantdata: res.body.plant});
+               console.log('Plant Data');
+               console.log(res.body.plant);
+               this.createWikiLink(res.body.plant.scientific_name);
              }
            }
          }
@@ -386,7 +398,7 @@ export default class Plantpage extends Component {
     console.log(this.state.image_message);
     return (
       <div className="plantpage-container main-component-container">
-        <div className="plantpage-sub-container main-component-container">
+        <div className="plantpage-sub-container">
           {/* <div className="testing_plant_by_id_box">
             <form className="enterForm" onSubmit={this.handleFormSubmit}>
               <div className="form-group">
@@ -407,11 +419,26 @@ export default class Plantpage extends Component {
             </div>
             <div className="top_items_plant_page_right">
               <div className="top_items_plant_page_right_tile">{this.state.plantdata ? (
-                <h2>
-                  {this.state.plantdata.common_name}
-                </h2>  ): ""}
-            </div>
-              <div className="top_items_plant_page_right_plant_info"></div>
+                <h2>{this.state.plantdata.common_name}</h2>
+                ): ""}
+              </div>
+              <hr/>
+
+              <div className="top_items_plant_page_right_plant_info">
+                {this.state.plantdata ? (
+                  <div>
+                    <p className="plant_info_scientific_name">{this.state.plantdata.scientific_name}</p>
+                    <p>Grows to: {this.state.plantdata.height} tall</p>
+                    <p>Grows to: {this.state.plantdata.spread} wide</p>
+                    <p>Growth Form: {this.state.plantdata.form}</p>
+                    <p>Grows best during: {this.state.plantdata.seasonal_interest}</p>
+
+                    {this.state.plantdata.notes ? (
+                      <p>Additional Notes: {this.state.plantdata.notes}</p>
+                    ): ""}
+                  </div>
+                   ): ""}
+              </div>
             </div>
           </div>
 
