@@ -88,7 +88,18 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        <p>{bio}</p>
+        <p className="userpage-bio-info">{bio}</p>
+        <div className="userpage-outer-plots-holder">
+          <h3>Plots</h3>
+          {this.state.userdata.plots.map((plot, i)=>{
+            console.log(plot);
+            return (
+              <div className="userpage-inner-plot-holder">
+                <h4>{plot.plot_name}</h4>
+              </div>
+            )
+          })}
+        </div>
       </div>
     }
     let askQuestion = {
