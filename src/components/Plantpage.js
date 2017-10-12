@@ -256,7 +256,7 @@ class Plantpage extends Component {
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
               .end((err, res)=>{
-                // console.log(res);
+                console.log(res);
                 // console.log(res.xhr.responseText);
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
@@ -375,10 +375,9 @@ class Plantpage extends Component {
     this.setState({wiki_link: link});
   }
 
-  // This generates the chart data.
+  // This generates the sun chart data.
   createSunChart(){
     console.log(this.state.plantdata.light);
-
     // This generates a number of hours that the plant needs sunlight.
     let light_string = this.state.plantdata.light;
     let sun_max_value = 2;
@@ -411,21 +410,21 @@ class Plantpage extends Component {
       sun_max_value = 10;
     }
 
+    let max_water_value = sun_max_value - sun_min_value + 1;
 
-
-    let ctx = document.getElementById("myChart").getContext('2d');
+    let ctx = document.getElementById("mySunChart").getContext('2d');
     // Chart.defaults.global.defaultFontColor = 'black';
     // Chart.defaults.global.defaultFontSize = '12';
-    let myChart = new Chart(ctx, {
+    let mySunChart = new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-        labels: ["Sunlight", "Water", "Soil Quality", "Time"],
+        labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil Quality", "Time to Maturity(weeks)"],
         datasets: [
           {
-            label: 'Resources',
-            data: [sun_min_value, 10, 3, 5],
+            label: 'Minimum Required',
+            data: [sun_min_value, 2, 3, 5],
             backgroundColor: [
-                '#ffffff',
+                '#e5e5e5',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
@@ -439,17 +438,17 @@ class Plantpage extends Component {
             borderWidth: 1
         },
         {
-          label: 'Sunlight Hours',
-          data: [sun_max_value-sun_min_value, 0, 0, 0],
+          label: 'Maximum Tolerated',
+          data: [sun_max_value-sun_min_value, max_water_value, 0, 0],
           backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
-              // 'rgba(54, 162, 235, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
               // 'rgba(153, 102, 255, 0.2)',
               // 'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
               '#ffff00',
-              // 'rgba(54, 162, 235, 1)',
+              'rgba(54, 162, 235, 1)',
               // 'rgba(153, 102, 255, 1)',
               // 'rgba(75, 192, 192, 1)',
           ],
@@ -559,7 +558,7 @@ class Plantpage extends Component {
 
                   <div className="outer_chart_for_plant">
                     <div className="chart_for_plant">
-                      <canvas id="myChart" width="400" height="400"></canvas>
+                      <canvas id="mySunChart" width="400" height="400"></canvas>
                     </div>
                   </div>
 
@@ -569,44 +568,64 @@ class Plantpage extends Component {
 
 
             </div>
-            <div className="top_items_plant_page_right">
-              <div className="top_items_plant_page_right_tile">{this.state.plantdata ? (
-                <h2>{this.state.plantdata.common_name}</h2>
-                ): ""}
-              </div>
-              <hr/>
 
-              <div className="top_items_plant_page_right_plant_info">
+
+
+
+
+            <div className="all_plant_page_right_items">
+              <div className="top_items_plant_page_right">
+                <div className="top_items_plant_page_right_tile">{this.state.plantdata ? (
+                  <h2>{this.state.plantdata.common_name}</h2>
+                  ): ""}
+                </div>
+                <hr/>
+
+                <div className="top_items_plant_page_right_plant_info">
+                  {this.state.plantdata ? (
+                    <div>
+                      <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/>
+                      <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p>
+                      <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p>
+                      <p className="font-size-16px">General shape: {plantdata_form_comma}</p>
+                      <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p>
+
+                      {plantdata_notes ? (
+                        <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
+                      ): ""}
+                      <a href={this.state.wiki_link} className="font-size-16px">Learn More</a>
+                    </div>
+                     ): ""}
+                </div>
+
+                {/* <div  className="plant_page_graph_messages margin-top-50px">
+                  <p>Test</p>
+                </div> */}
+              </div>
+
+              <div className="plant_page_graph_messages margin-left-20pt">
+                <p>Specific Data</p>
                 {this.state.plantdata ? (
                   <div>
-                    <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/>
-                    <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p>
-                    <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p>
-                    {/* <p>Grows to: {this.state.plantdata.spread} wide</p> */}
-                    <p className="font-size-16px">General shape: {plantdata_form_comma}</p>
-                    <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p>
+                    {/* <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/> */}
+                    {/* <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p> */}
+                    {/* <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p> */}
+                    {/* <p className="font-size-16px">General shape: {plantdata_form_comma}</p> */}
+                    {/* <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p> */}
 
-                    {plantdata_notes ? (
+                    {/* {plantdata_notes ? (
                       <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
-                    ): ""}
-                    <a href={this.state.wiki_link} className="font-size-16px">Learn More</a>
+                    ): ""} */}
+                    {/* <a href={this.state.wiki_link} className="font-size-16px">Learn More</a> */}
                   </div>
                    ): ""}
               </div>
-
-              <div>
-
-              </div>
-
             </div>
+
+
+
+
           </div>
-
-
-
-
-
-
-
 
           {/* <p>{this.state.common_name}</p> */}
           {/* <p>{this.state.wikipedia_responseText}</p>
