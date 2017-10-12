@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import request from 'superagent';
 import Chart from 'chart.js';
 import '../styles/App.css';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { Redirect } from 'react-router-dom';
+import {setLogin} from '../actions/loginAction.js';
+import {reloadUsername} from '../actions/reloadToken.js';
+import {redirectAction} from '../actions/redirectionAction.js';
 
-export default class Plantpage extends Component {
+class Plantpage extends Component {
   constructor(props) {
       super(props)
       this.state = {
+        fireredirect: false,
+        message: false,
         plant_id: 1,
         common_name: null,
         main_image: null,
@@ -463,6 +471,11 @@ export default class Plantpage extends Component {
   }
 
   componentWillMount() {
+    if (this.props.redirection && this.props.redirection[0] !== undefined){
+      this.setState({message:this.props.redirection[1]}, ()=>{
+        this.props.redirectAction([false, false]);
+      });
+    }
     console.log(this.props);
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
@@ -485,7 +498,11 @@ export default class Plantpage extends Component {
        })
     });
   }
-
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   updateFromField(stateKey) {
       return (event) => {
         this.setState({[stateKey]: event.target.value});
@@ -600,7 +617,26 @@ export default class Plantpage extends Component {
 
           {/* <img className="plant_big_image" src="" alt="plant_img"/> */}
         </div>
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
   }
 }
+
+
+function mapStateToProps(state) {
+    return {
+      token: state.token,
+      username: state.username,
+      redirection: state.redirection,
+    };
+}
+
+function matchDispatchToProps(dispatch){
+    // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
+    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Plantpage);
