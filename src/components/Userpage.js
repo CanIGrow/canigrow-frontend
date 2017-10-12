@@ -101,6 +101,7 @@ class Userpage extends Component {
     }
   }
   render() {
+    console.log(this);
     let edittext = "Edit";
     if (this.state.passwordconfirmation){
       edittext = "Confirm Password"

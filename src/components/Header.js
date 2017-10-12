@@ -33,7 +33,6 @@ class Header extends Component {
       }
     }
   }
-
   handleLogoutClick() {
     this.props.redirectAction(["/logout", "Logging out..."]);
   }
@@ -46,10 +45,8 @@ class Header extends Component {
         rightButtons =
         <div className="changeButtons">
           <li>
-            <NavLink activeClassName="selected" onClick={this.handleLogoutClick} to="/">
             {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-outline-primary' type='submit' value='LogOut'/>
-            </NavLink>
+              <input className='btn btn-outline-primary' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
