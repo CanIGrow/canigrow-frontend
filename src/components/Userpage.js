@@ -16,6 +16,8 @@ class Userpage extends Component {
       fireredirect: false,
       userexists: true,
       canedit: false,
+      password: '',
+      passwordconfirmation: false,
       message: false,
       username: this.props.username,
       user: null,
@@ -82,11 +84,25 @@ class Userpage extends Component {
       this.setState({fireredirect:true});
     }
   }
+  handleTextChange = (event) => {
+    event.preventDefault();
+    if (this.state[event.target.id] !== undefined){
+      this.setState({[event.target.id]: event.target.value});
+    }
+  }
   edituser(event){
     event.preventDefault();
-    console.log("edit test");
+    if (!this.state.passwordconfirmation){
+      this.setState({passwordconfirmation:true});
+    } else if (this.state.passwordconfirmation && this.state.password !== ''){
+
+    }
   }
   render() {
+    let edittext = "Edit";
+    if (this.state.passwordconfirmation){
+      edittext = "Confirm Password"
+    }
     let userobjectdata = false;
     if (!this.state.userexists){
       userobjectdata =
@@ -106,9 +122,12 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
+        {this.state.passwordconfirmation ? (
+          <input type="password" onChange={this.handleTextChange} id="password" value={this.state.password} placeholder="********"/>
+        ):("")}
         {this.state.canedit ? (
           <button className="btn-danger"
-            onClick={event => this.edituser(event)}>Edit</button>
+            onClick={event => this.edituser(event)}>{edittext}</button>
         ):("")}
         <p className="userpage-bio-info">{bio}</p>
         <div className="userpage-outer-plots-holder">
