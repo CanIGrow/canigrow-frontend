@@ -369,7 +369,42 @@ export default class Plantpage extends Component {
 
   // This generates the chart data.
   createSunChart(){
-    console.log(this.state.plantdata);
+    console.log(this.state.plantdata.light);
+
+    // This generates a number of hours that the plant needs sunlight.
+    let light_string = this.state.plantdata.light;
+    let sun_max_value = 2;
+    let sun_min_value = 0;
+    // Handles minimum sunlight.
+    if(light_string.includes('Full sun')){
+      sun_min_value = 6;
+    }
+    if(light_string.includes("Part sun")){
+      sun_min_value = 4;
+    }
+    if(light_string.includes("Part shade")){
+      sun_min_value = 2;
+    }
+    if(light_string.includes("Full shade")){
+      sun_min_value = 0;
+    }
+    // Handles maximum sunlinght.
+    if(light_string.includes('Full shade')){
+      sun_max_value = 3;
+    }
+    if(light_string.includes("Part shade")){
+      sun_max_value = 4;
+    }
+    if(light_string.includes("Part sun")){
+      sun_max_value = 6;
+    }
+    if(light_string.includes("Full sun")){
+      console.log("full");
+      sun_max_value = 10;
+    }
+
+
+
     let ctx = document.getElementById("myChart").getContext('2d');
     // Chart.defaults.global.defaultFontColor = 'black';
     // Chart.defaults.global.defaultFontSize = '12';
@@ -377,11 +412,12 @@ export default class Plantpage extends Component {
     type: 'horizontalBar',
     data: {
         labels: ["Sunlight", "Water", "Soil Quality", "Time"],
-        datasets: [{
+        datasets: [
+          {
             label: 'Resources',
-            data: [12, 19, 3, 5],
+            data: [sun_min_value, 10, 3, 5],
             backgroundColor: [
-                'rgba(255, 206, 86, 0.2)',
+                'rgba(255, 255, 0, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
@@ -393,16 +429,35 @@ export default class Plantpage extends Component {
                 'rgba(75, 192, 192, 1)',
             ],
             borderWidth: 1
-        }]
+        },
+        {
+          label: 'Resources',
+          data: [sun_max_value-sun_min_value, 19, 3, 5],
+          backgroundColor: [
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: [
+              'rgba(255, 206, 86, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1
+      }
+      ]
     },
     options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+      scales: {
+          xAxes: [{
+              stacked: true
+          }],
+          yAxes: [{
+              stacked: true
+          }]
+      }
     }
     });
   }
