@@ -57,7 +57,7 @@ class Login extends Component {
            cookie.save('email', this.state.username);
            // This call functions from actions to send the token to the reducer then the store.
            this.props.setToken(res.body.token);
-           this.props.reloadUsername(res.body.username);
+           this.props.setUsername(res.body.username);
            this.props.setEmail(this.state.username);
            }
          }

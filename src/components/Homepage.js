@@ -422,7 +422,6 @@ class Homepage extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
     return {
       token: state.token,
       username: state.username,

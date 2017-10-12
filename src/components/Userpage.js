@@ -16,6 +16,7 @@ class Userpage extends Component {
       userexists: true,
       canedit: false,
       password: '',
+      passworderror: false,
       passwordconfirmation: false,
       message: false,
       username: this.props.username,
@@ -75,7 +76,7 @@ class Userpage extends Component {
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value});
+      this.setState({[event.target.id]: event.target.value, passworderror: false});
     }
   }
   edituser(event){
@@ -86,21 +87,22 @@ class Userpage extends Component {
     } else if (this.state.passwordconfirmation && this.state.password !== ''){
       request
        .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-       .send({email: this.state.username, password: this.state.password})
+       .send({email: this.props.email, password: this.state.password})
         .end((err, res) => {
+
           console.log(err);
           console.log(res);
-          // if (err) {
-          //    this.setState({error: res.body.error});
-          // } else {
-          //   if (res !== undefined){
-          //   }
-          // }
+          if (err) {
+             this.setState({passworderror: res.body.error});
+          } else {
+            if (res !== undefined){
+              this.setState({canedit: false,password: '',passworderror: false,passwordconfirmation: false,});
+            }
+          }
         })
     }
   }
-  render() {
-    console.log(this);
+  render() {;
     let edittext = "Edit";
     if (this.state.passwordconfirmation){
       edittext = "Confirm Password"
@@ -131,16 +133,17 @@ class Userpage extends Component {
           <button className="btn-danger"
             onClick={event => this.edituser(event)}>{edittext}</button>
         ):("")}
+        {this.state.passworderror ? (<p>Incorrect Password</p>):""}
         <p className="userpage-bio-info">{bio}</p>
         <div className="userpage-outer-plots-holder">
           <h3>Plots</h3>
           {this.state.userdata.plots.map((plot, i)=>{
-            console.log(plot);
+            {/* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/}
             return (
               <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
-                  console.log(plant);
+                  {/* {plant_id: 2205, plant: "Silver Moon Clematis"}*/}
                   return (
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
@@ -195,6 +198,7 @@ function mapStateToProps(state) {
       username: state.username,
       template: state.template,
       redirection: state.redirection,
+      email: state.email
     };
 }
 
