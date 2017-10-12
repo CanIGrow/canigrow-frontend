@@ -34,12 +34,14 @@ class Header extends Component {
     console.log("logout clicked");
     console.log(this.props.token);
     // this.setState({isLoggedIn: false});
-    cookie.remove('token');
-    cookie.remove('username');
+    cookie.remove('token', { path: '/' });
+    cookie.remove('username', { path: '/' });
     cookie.remove('template');
     let logout = this.props.logout;
+    console.log(this.props.logout);
     console.log(this.props.token);
     logout();
+    window.location.reload();
   }
 
   render() {

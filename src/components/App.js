@@ -72,7 +72,7 @@ class App extends Component {
           this.setState({ allplantdata:plantsarray });
         }
       })
-}
+    }
 
   changeTemplate(new_style){
     new_style = parseInt(new_style, 10);
