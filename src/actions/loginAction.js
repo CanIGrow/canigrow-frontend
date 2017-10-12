@@ -18,7 +18,7 @@ export const setEmail = (email) => {
     // Action - contains a type and a payload. type is an identifier.
     return {
         // This type is read in loginReducer.js
-        type: 'USER_EMAIL',
+        type: 'EMAIL_ADD',
         // payload is information given to the app to be conveyed to state.
         payload: email
     }

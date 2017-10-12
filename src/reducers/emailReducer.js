@@ -7,17 +7,17 @@
 // }
 
 // This handles all changes to the token state within the store.
-const loginReducer = function (state = null, action) {
+const emailReducer = function (state = null, action) {
     switch (action.type) {
         // This adds the token to the store upon login.
-        case 'USER_TOKEN':
+        case 'EMAIL_ADD':
             return action.payload;
             // break;
         // This adds the token to the store upon page-refresh if the user was logged in.
-        case 'USER_RELOAD':
+        case 'EMAIL_RELOAD':
             return action.payload;
             // break;
-        // This removes the token from the store upon logout.
+        // This removes the Email from the store upon logout.
         case 'USER_LOGOUT':
             return action.payload;
             // update(state, { })
@@ -29,4 +29,4 @@ const loginReducer = function (state = null, action) {
     // return state;
 }
 
-export default loginReducer;
+export default emailReducer;
