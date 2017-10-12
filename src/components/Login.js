@@ -53,28 +53,17 @@ class Login extends Component {
        .end((err, res) => {
          console.log(res);
          if (err) {
-           if (res !== undefined){
-             this.setState({error: res.body.error});
-           }
-           console.log("error");
+            this.setState({error: res.body.error});
+            console.log("error");
          } else {
+           if (res !== undefined){
            // This call functions from actions to send the token to the reducer then the store.
            setLogin(res.body.token);
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
-          //  This request is to get the user's username.
-           request
-             .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
-             .end((err, res)=>{
-               if (res !== undefined){
-                 console.log(res);
-                username = res.body.user.username;
-                // This call functions from actions to send the username to the reducer then the store.
-                this.props.reloadUsername(username);
-                // These save the username to a cookie.
-                cookie.save('username', username);
-               }
-             })
+           cookie.save('username', res.body.username);
+           this.props.reloadUsername(username);
+           }
          }
        })
   }

@@ -78,13 +78,10 @@ class Userpage extends Component {
           Loading...
         </h1>
     } else {
-
-      let user = this.state.userdata;
       let bio = ""
       if (this.state.userdata.bio !== ""){
         bio = `Bio: ${this.state.userdata.bio}`;
       }
-      console.log(user);
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
@@ -94,8 +91,15 @@ class Userpage extends Component {
           {this.state.userdata.plots.map((plot, i)=>{
             console.log(plot);
             return (
-              <div className="userpage-inner-plot-holder">
+              <div key={plot.plot_name} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
+                {plot.plants.map((plant, i)=>{
+                  console.log(plant);
+                  return (
+                    <div className="userpage-plant-div">
+                    </div>
+                  )
+                })}
               </div>
             )
           })}
