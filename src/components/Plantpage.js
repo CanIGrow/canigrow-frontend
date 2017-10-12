@@ -27,6 +27,13 @@ class Plantpage extends Component {
       };
   }
 
+  componentDidMount(){
+    console.log(this.props);
+    console.log(this.props.zipcode);
+    console.log(this.state.zipcode);
+
+  }
+
   // This gets and md5 hash for a given string.
   // Source: https://css-tricks.com/snippets/javascript/javascript-md5/
   md5(string) {
@@ -650,6 +657,7 @@ function mapStateToProps(state) {
       token: state.token,
       username: state.username,
       redirection: state.redirection,
+      zipcode: state.zipcode,
     };
 }
 
