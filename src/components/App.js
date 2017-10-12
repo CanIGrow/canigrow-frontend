@@ -48,30 +48,33 @@ class App extends Component {
   }
 
   componentWillMount() {
-      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-      this.setState({
-        token: cookie.load('token'),
-        username: cookie.load('username'),
-        template: cookie.load('template')
-      });
-      request
-        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
-        .end((err,res)=>{
-          if (res !== undefined){
-            let plantsarray = [];
-            res.body.plants.map((x, i) =>{
-              if (x.common_name !== null){
-                plantsarray.push(x);
-              }
-              return null
-            });
-            this.setState({ allplantdata:plantsarray });
-          }
-        })
-  }
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    this.setState({
+      token: cookie.load('token'),
+      username: cookie.load('username'),
+      template: cookie.load('template')
+    }, ()=>{
+      if (cookie.load("template") !== undefined){
+        this.changeTemplate(cookie.load('template'));
+      }
+    });
+    request
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
+      .end((err,res)=>{
+        if (res !== undefined){
+          let plantsarray = [];
+          res.body.plants.map((x, i) =>{
+            if (x.common_name !== null){
+              plantsarray.push(x);
+            }
+            return null
+          });
+          this.setState({ allplantdata:plantsarray });
+        }
+      })
+}
 
   changeTemplate(new_style){
-    console.log("Style changed in app.",new_style)
     new_style = parseInt(new_style, 10);
     this.setState({template: new_style});
     cookie.save('template', new_style);
@@ -79,7 +82,7 @@ class App extends Component {
 
 
   render() {
-    console.log(store.getState(this.state.template));
+    console.log(store.getState());
     return (
       // Provides store data to all subcomponents
       <Provider store={store}>

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
 import {changeTemplate} from '../actions/reloadToken.js';
+import cookie from 'react-cookies';
 
 class Userpage extends Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Userpage extends Component {
                     <div>Change the Background</div>
                     <form >
                       {/* onSubmit={this.handleSubmit} */}
-                    <select name="templates" onChange={this.updateFromField('template')} value={this.state.template}>
+                    <select name="templates" onChange={this.updateFromField('template')} value={cookie.load('template')}>
                       <option value="0">Classic</option>
                       <option value="1">Blue</option>
                       <option value="2">Shooting Stars</option>
