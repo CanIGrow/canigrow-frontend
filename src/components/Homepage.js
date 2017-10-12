@@ -170,14 +170,20 @@ export default class Homepage extends Component {
       this.setState({zone:`Please enter full zip code`});
     }
   }
-  filterlist(searchbar, letter){
+  filterlist(searchbar, searchterm, preventOverflow){
+    console.log(searchbar, searchterm, preventOverflow);
     let list = this.props.allplantdata;
     if (searchbar && this.props.allplantdata){
       list = list.filter(function(item){
         return item.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase().search(
-          letter.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase()) !== -1;
+          searchterm.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '').toLowerCase()) !== -1;
       });
-      if (this.state.searchbartext.length > 1){
+      if (this.state.searchbartext.length > 0 && list.length > 0){
+        this.setState({filteredplantdata: list});
+      } else if (this.state.searchbartext.length > 1 && list.length === 0 && preventOverflow === undefined && searchterm.includes(" ")){
+        let newterm = searchterm.replace(/\s+/g, '');
+        return this.filterlist(true, newterm, true);
+      } else if (this.state.searchbartext.length > 0 && list.length === 0){
         this.setState({filteredplantdata: list});
       } else {
         this.setState({filteredplantdata: false});
