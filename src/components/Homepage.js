@@ -25,9 +25,6 @@ class Homepage extends Component {
     }
     this.filterlist = this.filterlist.bind(this);
   }
-  submitForm = (event) => {
-    event.preventDefault();
-  }
   componentDidMount(){
     request
       .get(`https://freegeoip.net/json/`)
@@ -342,7 +339,7 @@ class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <form onSubmit={this.submitForm}>
+        <form>
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
               <h2 className="homepage-search-title">Can I Grow...
