@@ -200,6 +200,7 @@ export default class Homepage extends Component {
           randomsuggested.push(false);
           this.setState({suggested:randomsuggested});
         }
+        //TODO ADD AN IF STATEMENT, IF THERE ARE NO RESULTS AND THE SPLIT THE WORD IN TWO, REMOVE THE SPACE (IE BLUE BERRY TO BLUEBERRY)
       } else {
         for (let i = 0; i < 6; i++){
           let newSuggestion = arrayofsuggested.splice(Math.floor(Math.random()*arrayofsuggested.length), 1);
