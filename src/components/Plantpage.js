@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import {setLogin} from '../actions/loginAction.js';
-import {reloadUsername} from '../actions/reloadToken.js';
+import {reloadContents,reloadUsername} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 
 class Plantpage extends Component {
@@ -628,15 +628,13 @@ class Plantpage extends Component {
 
 function mapStateToProps(state) {
     return {
-      token: state.token,
-      username: state.username,
       redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Plantpage);

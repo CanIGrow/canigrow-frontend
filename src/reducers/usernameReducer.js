@@ -14,6 +14,10 @@ const usernameReducer = function (state = null, action) {
         case 'USER_NAME':
             return action.payload;
             // break;
+        // This adds the token to the store upon page-refresh if the user was logged in.
+        case 'USER_RELOAD':
+            return action.payload;
+            // break;
         // This removes the username from the store on logout.
         case 'USER_LOGOUT':
             return action.payload;

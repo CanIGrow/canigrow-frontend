@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import cookie from 'react-cookies';
 import {setLogin} from '../actions/loginAction.js';
-import {reloadUsername,reloadContents, logout} from '../actions/reloadToken.js';
+import {reloadContents, logout,reloadUsername} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
 import '../styles/App.css';
 
@@ -58,13 +58,14 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
+      email: state.username,
       redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, logout: logout, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({logout: logout, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Logout);

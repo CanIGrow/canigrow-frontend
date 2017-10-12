@@ -52,16 +52,13 @@ class Userlisiting extends Component {
 
 function mapStateToProps(state) {
     return {
-      token: state.token,
-      username: state.username,
-      template: state.template,
       redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({changeTemplate: changeTemplate, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Userlisiting);

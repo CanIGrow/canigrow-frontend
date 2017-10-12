@@ -4,9 +4,8 @@ import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reloadContents, logout} from '../actions/reloadToken.js';
+import {reloadContents, logout,reloadUsername,reloadEmail} from '../actions/reloadToken.js';
 import {redirectAction} from '../actions/redirectionAction.js';
-import {reloadUsername} from '../actions/reloadToken.js';
 
 class Header extends Component {
   constructor(props) {
@@ -26,11 +25,13 @@ class Header extends Component {
   }
 
   checklogin(){
-    if(cookie.load('token') !== undefined){
-      this.props.reloadContents(cookie.load('token'), cookie.load('username'));
-      if(cookie.load('username') !== undefined){
-        this.props.reloadUsername(cookie.load('username'));
-      }
+    if(cookie.load('token') !== undefined && cookie.load('username') !== undefined && cookie.load('email') !== undefined){
+      this.props.reloadContents(cookie.load('token'));
+      this.props.reloadUsername(cookie.load('username'));
+      this.props.reloadEmail(cookie.load('email'));
+      // if(cookie.load('username') !== undefined){
+      //   this.props.reloadUsername(cookie.load('username'));
+      // }
     }
   }
   handleLogoutClick() {
@@ -128,12 +129,13 @@ function mapStateToProps(state) {
       token: state.token,
       username: state.username,
       redirection: state.redirection,
+      email: state.email,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({reloadEmail:reloadEmail,reloadUsername:reloadUsername,reloadContents: reloadContents, logout: logout, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);
