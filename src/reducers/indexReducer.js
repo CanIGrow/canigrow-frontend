@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
 import tokenReducer from './tokenReducer';
 import usernameReducer from './usernameReducer';
-import templateReducer from './templateReducer';
 import redirectionReducer from './redirectionReducer';
 import zipcodeReducer from './zipcodeReducer';
 import emailReducer from './emailReducer';
@@ -15,7 +14,6 @@ tokenReducer
 const allReducers = combineReducers({
     token: tokenReducer,
     username: usernameReducer,
-    template: templateReducer,
     redirection: redirectionReducer,
     zipcode: zipcodeReducer,
     email: emailReducer

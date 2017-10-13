@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {changeTemplate,redirectAction} from '../actions/actions.js';
+import {redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
@@ -74,20 +74,9 @@ class Userpage extends Component {
   }
   updateFromField(stateKey) {
       return (event) => {
-        this.setState({[stateKey]: event.target.value},()=>{
-          this.updateTemplate();
-        });
+        this.setState({[stateKey]: event.target.value});
       }
     }
-
-  updateTemplate() {
-    console.log(this.props.template);
-    let changeTemplate = this.props.changeTemplate;
-    changeTemplate(this.state.template);
-    this.props.newTemplate(this.state.template);
-    console.log(this.props.template);
-    console.log(this.props);
-  }
   componentDidUpdate(){
     if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
       this.setState({fireredirect:true});
@@ -152,7 +141,8 @@ class Userpage extends Component {
       editbutton =
       <div>
         <button className="btn-danger"
-        onClick={event => this.finishediting(event)}>Finish Edit</button>
+        onClick={event => this.finishediting(event)}>Finish Editing</button>
+        <p>Click and drag plants to move, copy, or delete them!</p>
       </div>
     }
     let addnewplotdivs = false;
@@ -222,7 +212,7 @@ class Userpage extends Component {
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
                       {this.state.editing ? (
-                        <a>
+                        <a className="userpage-plant-link">
                         <h5>{plant.plant}</h5>
                         </a>
                       ):(
@@ -247,33 +237,12 @@ class Userpage extends Component {
         </div>
       </div>
     }
-    let askQuestion = {
-        "marginTop": "30pt",
-    }
     return (
       <div className="userpage-container main-component-container">
         {userobjectdata}
-        <div style={askQuestion}>
-                    <div>Change the Background</div>
-                    <form >
-                      {/* onSubmit={this.handleSubmit} */}
-                    <select name="templates" onChange={this.updateFromField('template')} value={cookie.load('template')}>
-                      <option value="0">Classic</option>
-                      <option value="1">Blue</option>
-                      <option value="2">Shooting Stars</option>
-                      <option value="3">Twinkle Stars</option>
-                      <option value="4">Mountains</option>
-                      <option value="5">Reef</option>
-                      <option value="6">Rain Drops</option>
-                      <option value="7">Cherry Blossom</option>
-                    </select>
-                    <br/>
-                    {/* onClick={event => this.updateTemplate(event)} */}
-                    </form>
-                  </div>
-                  {this.state.fireredirect && (
-                      <Redirect to={this.props.redirection[0]}/>
-                    )}
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
   }
@@ -291,7 +260,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({changeTemplate: changeTemplate, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Userpage);
