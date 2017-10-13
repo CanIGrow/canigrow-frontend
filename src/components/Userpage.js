@@ -135,9 +135,7 @@ class Userpage extends Component {
               className="userpage-new-plot userpage-inner-plot-holder">
               <h4>Add a new plot</h4>
                 <div className="userpage-plant-div">
-                  <a className="userpage-plant-link">
                   <h5>+</h5>
-                  </a>
                 </div>
             </div>
           ):("")}

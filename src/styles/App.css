@@ -157,9 +157,22 @@ USERPAGE STYLES
   margin: 10px auto;
   border: 1px solid black;
   width: 40%;
+  background-color: rgba(201,224,100, 1);
 }
 .userpage-new-plot{
   cursor: pointer;
+  transition: background-color 1s;
+  background-color: rgba(201,224,100, 0);
+}
+.userpage-plant-link{
+  cursor: pointer;
+}
+.userpage-new-plot:hover{
+  background-color: rgba(201,224,100, 1);
+}
+.userpage-new-plot:active{
+  transform: scale(1.1);
+  background-color: rgba(201,224,100, 1);
 }
 @media (min-width: 680px) {
   .userpage-outer-plots-holder{
