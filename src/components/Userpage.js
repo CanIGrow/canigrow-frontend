@@ -128,7 +128,6 @@ class Userpage extends Component {
               //If user does not exist:
               window.location.reload();
             } else if (res !== undefined){
-              console.log(res);
               this.setState({addingnewplot: false, newplotname:''});
               this.reloaduser();
             }
