@@ -137,7 +137,7 @@ class Userpage extends Component {
   drag(event, data, object, plant){
     // event.preventDefault();
     // console.log(event.target);
-    console.log(data);
+    // console.log(data);
     // console.log(object);
     if (data === "startdragging"){
       this.setState({dragging:true,dragfrom:object,plantdragging:plant});
@@ -151,11 +151,18 @@ class Userpage extends Component {
   }
   moveplant(){
     this.state.userdata.plots.map((plot, i)=>{
-      console.log(plot);
+      if (plot.plot_id === this.state.dragfrom){
+        plot.plants.map((plantobj, planti)=>{
+          if (plantobj.plant_id === this.state.plantdragging.plant_id){
+            plot.plants.splice(planti, 1);
+            return
+          }
+        })
+      }
+      if (plot.plot_id === this.state.dragto){
+        plot.plants.push(this.state.plantdragging);
+      }
     })
-    console.log(this.state.plantdragging);
-    console.log(this.state.dragfrom);
-    console.log(this.state.dragto);
   }
   render() {
     let editbutton = false;
@@ -238,7 +245,7 @@ class Userpage extends Component {
                       className="userpage-plant-div">
                       {this.state.editing ? (
                         <div draggable="true"
-                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant.plant_id)}
+                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant)}
                         onDragEnd={event => this.drag(event, "stopdragging")}
                         className="userpage-plant-link">
                         <h5>{plant.plant}</h5>
