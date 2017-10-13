@@ -178,6 +178,7 @@ USERPAGE STYLES
   .userpage-outer-plots-holder{
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
   .userpage-inner-plot-holder{
     /*width: 40%;*/
