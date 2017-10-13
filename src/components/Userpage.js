@@ -26,8 +26,11 @@ class Userpage extends Component {
       newplotname: '',
       dragging: false,
       dragto: false,
+      dragfrom: false,
+      plantdragging: false
     };
     this.reloaduser = this.reloaduser.bind(this);
+    this.moveplant = this.moveplant.bind(this);
   }
 
   componentWillMount() {
@@ -96,7 +99,7 @@ class Userpage extends Component {
   }
   finishediting(event){
     event.preventDefault();
-    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false,dragto:false});
+    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false,dragto:false,dragfrom:false,plantdragging:false});
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -130,22 +133,30 @@ class Userpage extends Component {
       }
     }
   }
-  drag(event, data){
+  dragover(event){event.preventDefault();}
+  drag(event, data, object, plant){
     // event.preventDefault();
-    console.log(event.target);
+    // console.log(event.target);
     console.log(data);
+    // console.log(object);
     if (data === "startdragging"){
-      this.setState({dragging:true});
+      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
-    } else if (data === "draggableentered"){
-      this.setState({dragto:event.target});
-    } else if (data === "draggableleft"){
-      this.setState({dragto:false});
+    } else if (data === "dropped"){
+      this.setState({dragto:object}, ()=>{
+        this.moveplant();
+      });
     }
   }
-  dragover(event, data){
-    event.preventDefault();
+  moveplant(){
+    // this.state.userdata.plots.map((plot, i)=>{
+    //
+    // })
+    console.log(this.state.plantdragging);
+    console.log(this.state.dragfrom);
+    console.log(this.state.dragto);
+    console.log(this.state.userdata.plots);
   }
   render() {
     let editbutton = false;
@@ -219,7 +230,7 @@ class Userpage extends Component {
           {this.state.userdata.plots.map((plot, i)=>{
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
-              <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
+              <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
                   /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
@@ -228,9 +239,8 @@ class Userpage extends Component {
                       className="userpage-plant-div">
                       {this.state.editing ? (
                         <div draggable="true"
-                        onDragStart={event => this.drag(event, "startdragging")}
+                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant.plant_id)}
                         onDragEnd={event => this.drag(event, "stopdragging")}
-                        onDrop={event => this.drag(event, "Dropped")}
                         className="userpage-plant-link">
                         <h5>{plant.plant}</h5>
                         </div>
@@ -249,10 +259,8 @@ onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouse
 */}
                 {this.state.dragging ? (
                   <div className="droppable-div"
-                  onDrop={event => this.drag(event, "Dropped")}
-                  onDragOver={event => this.dragover(event)}
-                  onDragLeave={event => this.drag(event, "draggableleft")}
-                  onDragEnter={event => this.drag(event, "draggableentered")}>
+                  onDrop={event => this.drag(event, "dropped", plot.plot_id)}
+                  onDragOver={event => this.dragover(event)}>
                   </div>
                 ):("")}
                 {this.state.editing ? (
