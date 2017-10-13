@@ -25,6 +25,7 @@ class Userpage extends Component {
       addingnewplot: false,
       newplotname: '',
       dragging: false,
+      dragto: false,
     };
     this.reloaduser = this.reloaduser.bind(this);
   }
@@ -95,7 +96,7 @@ class Userpage extends Component {
   }
   finishediting(event){
     event.preventDefault();
-    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false});
+    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false,dragto:false});
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -132,11 +133,19 @@ class Userpage extends Component {
   drag(event, data){
     // event.preventDefault();
     console.log(event.target);
+    console.log(data);
     if (data === "startdragging"){
       this.setState({dragging:true});
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
+    } else if (data === "draggableentered"){
+      this.setState({dragto:event.target});
+    } else if (data === "draggableleft"){
+      this.setState({dragto:false});
     }
+  }
+  dragover(event, data){
+    event.preventDefault();
   }
   render() {
     let editbutton = false;
@@ -221,6 +230,7 @@ class Userpage extends Component {
                         <div draggable="true"
                         onDragStart={event => this.drag(event, "startdragging")}
                         onDragEnd={event => this.drag(event, "stopdragging")}
+                        onDrop={event => this.drag(event, "Dropped")}
                         className="userpage-plant-link">
                         <h5>{plant.plant}</h5>
                         </div>
@@ -233,8 +243,16 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
+                {/*
+onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop
+onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp
+*/}
                 {this.state.dragging ? (
-                  <div className="droppable-div">
+                  <div className="droppable-div"
+                  onDrop={event => this.drag(event, "Dropped")}
+                  onDragOver={event => this.dragover(event)}
+                  onDragLeave={event => this.drag(event, "draggableleft")}
+                  onDragEnter={event => this.drag(event, "draggableentered")}>
                   </div>
                 ):("")}
                 {this.state.editing ? (
