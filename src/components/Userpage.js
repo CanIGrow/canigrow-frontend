@@ -114,21 +114,25 @@ class Userpage extends Component {
         "name" : data
       }
       const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-      request
-        .post(`${proxyurl}https://canigrow.herokuapp.com/api/plots`)
-        .set("Authorization", cookie.load("token"))
-        .send(newplot)
-        .end((err, res)=>{
-          if (err){
-            console.log(err);
-            //If user does not exist:
-            // window.location.reload();
-          } else if (res !== undefined){
-            console.log(res);
-            this.setState({addingnewplot: false, newplotname:''});
-            this.reloaduser();
-          }
-        })
+      let token = cookie.load("token")
+      if (token === this.props.token){
+        request
+          .post(`${proxyurl}https://canigrow.herokuapp.com/api/plots`)
+          .set("Authorization", `Token token=${token}`)
+          .send(newplot)
+          .end((err, res)=>{
+            if (err){
+              //If user does not exist:
+              window.location.reload();
+            } else if (res !== undefined){
+              console.log(res);
+              this.setState({addingnewplot: false, newplotname:''});
+              this.reloaduser();
+            }
+          })
+      } else {
+        window.location.reload();
+      }
     }
   }
 
