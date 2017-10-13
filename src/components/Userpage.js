@@ -45,7 +45,9 @@ class Userpage extends Component {
         }
       })
     //This adds an edit button if the user matches the saved user token
-    if (window.location.href.split("/user/")[1] === cookie.load("username")){
+    if (window.location.href.split("/user/")[1] === cookie.load("username")
+        && window.location.href.split("/user/")[1] === this.props.username
+        && cookie.load("username") === this.props.username){
       this.setState({canedit: true});
     }
   }
@@ -104,14 +106,10 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        {this.state.canedit ? (
-          <button className="btn-danger"
-            onClick={event => this.edituser(event)}>Edit</button>
-        ):("")}
         {this.state.passworderror ? (<p>Incorrect Password</p>):""}
         <p className="userpage-bio-info">{bio}</p>
-        <div className="userpage-outer-plots-holder">
           <h3>Plots</h3>
+        <div className="userpage-outer-plots-holder">
           {this.state.userdata.plots.map((plot, i)=>{
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
@@ -132,6 +130,17 @@ class Userpage extends Component {
               </div>
             )
           })}
+          {this.state.canedit ? (
+            <div onClick={event => this.edituser(event)}
+              className="userpage-new-plot userpage-inner-plot-holder">
+              <h4>Add a new plot</h4>
+                <div className="userpage-plant-div">
+                  <a className="userpage-plant-link">
+                  <h5>+</h5>
+                  </a>
+                </div>
+            </div>
+          ):("")}
         </div>
       </div>
     }

@@ -148,7 +148,28 @@ html, body, #root, .body{
 /*******************************
 USERPAGE STYLES
 *******************************/
-
+.userpage-outer-plots-holder{
+  display: flex;
+  border: 1px solid grey;
+  flex-direction: column;
+}
+.userpage-inner-plot-holder{
+  margin: 10px auto;
+  border: 1px solid black;
+  width: 40%;
+}
+.userpage-new-plot{
+  cursor: pointer;
+}
+@media (min-width: 680px) {
+  .userpage-outer-plots-holder{
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .userpage-inner-plot-holder{
+    /*width: 40%;*/
+  }
+}
 
 /*******************************
 TEMP MODAL STYLES
