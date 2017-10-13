@@ -21,6 +21,8 @@ class Userpage extends Component {
       template: this.props.template,
       bio: '',
       canedit: false,
+      editing: false,
+      addingnewplot: false,
     };
   }
 
@@ -44,11 +46,18 @@ class Userpage extends Component {
         }
       })
     //This adds an edit button if the user matches the saved user token
-    if (window.location.href.split("/user/")[1] === cookie.load("username")){
+    if (window.location.href.split("/user/")[1] === cookie.load("username")
+        && window.location.href.split("/user/")[1] === this.props.username
+        && cookie.load("username") === this.props.username){
       this.setState({canedit: true});
     }
   }
-
+  handleTextChange = (event) => {
+    event.preventDefault();
+    if (this.state[event.target.id] !== undefined){
+      this.setState({[event.target.id]: event.target.value});
+    }
+  }
   updateFromField(stateKey) {
       return (event) => {
         this.setState({[stateKey]: event.target.value},()=>{
@@ -76,14 +85,56 @@ class Userpage extends Component {
       this.setState({[event.target.id]: event.target.value, passworderror: false});
     }
   }
-  edituser(event){
+  beginediting(event){
+    event.preventDefault();
+    this.setState({editing: true});
+  }
+  edituser(event, target){
     event.preventDefault();
     // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    if (this.state.canedit){
-
+    console.log(target);
+    if (target === "addnewplot"){
+      this.setState({addingnewplot:true})
     }
   }
-  render() {;
+
+  render() {
+    let editbutton = false;
+    if (this.state.canedit && !this.state.editing){
+      editbutton =
+      <div>
+        <button className="btn-danger"
+        onClick={event => this.beginediting(event)}>Edit</button>
+      </div>
+    }
+    let addnewplotdivs = false;
+    if (this.state.editing && !this.state.addingnewplot){
+      addnewplotdivs =
+      <div onClick={event => this.edituser(event, "addnewplot")}
+        id="addnewplot"
+        className="userpage-new-plot userpage-inner-plot-holder">
+        <h4>Add a new plot</h4>
+          <div className="userpage-plant-div">
+            <h5>+</h5>
+          </div>
+      </div>
+    } else if (this.state.editing && this.state.addingnewplot){
+      addnewplotdivs =
+      <div onClick={event => this.edituser(event, "validate")}
+        id="addnewplot"
+        className="userpage-new-plot userpage-inner-plot-holder">
+        <h4 onClick={event => this.edituser(event, "addnewplot")}>
+        <input type="input" className="userpage-new-plot-name"
+          value={this.state.searchbartext}
+          onChange={this.handleTextChange}/></h4>
+          <div className="userpage-plant-div">
+            <h5>+ Add Plant</h5>
+          </div>
+      </div>
+    }
+
+
+
     let userobjectdata = false;
     if (!this.state.userexists){
       userobjectdata =
@@ -103,14 +154,11 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        {this.state.canedit ? (
-          <button className="btn-danger"
-            onClick={event => this.edituser(event)}>Edit</button>
-        ):("")}
         {this.state.passworderror ? (<p>Incorrect Password</p>):""}
         <p className="userpage-bio-info">{bio}</p>
-        <div className="userpage-outer-plots-holder">
           <h3>Plots</h3>
+          {editbutton}
+        <div className="userpage-outer-plots-holder">
           {this.state.userdata.plots.map((plot, i)=>{
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
@@ -128,9 +176,16 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
+                {this.state.editing ? (
+                  <div className="userpage-plant-div">
+                    <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
+                      className="userpage-plant-div-edit-button">+ Add Plant</h5>
+                  </div>
+                ):("")}
               </div>
             )
           })}
+          {addnewplotdivs}
         </div>
       </div>
     }

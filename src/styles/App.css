@@ -148,7 +148,49 @@ html, body, #root, .body{
 /*******************************
 USERPAGE STYLES
 *******************************/
-
+.userpage-outer-plots-holder{
+  display: flex;
+  border: 1px solid grey;
+  flex-direction: column;
+}
+.userpage-inner-plot-holder{
+  margin: 10px auto;
+  border: 1px solid black;
+  width: 40%;
+  background-color: rgba(201,224,100, 1);
+}
+.userpage-new-plot-name{
+  width: 100%;
+  text-align: center;
+  /*border: 0;*/
+  /*background: 0;*/
+  outline: 0;
+}
+.userpage-new-plot{
+  cursor: pointer;
+  transition: background-color 1s;
+  background-color: rgba(201,224,100, 0);
+}
+.userpage-plant-link, .userpage-plant-div-edit-button{
+  cursor: pointer;
+}
+.userpage-new-plot:hover{
+  background-color: rgba(201,224,100, 1);
+}
+.userpage-new-plot:active{
+  transform: scale(1.1);
+  background-color: rgba(201,224,100, 1);
+}
+@media (min-width: 680px) {
+  .userpage-outer-plots-holder{
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .userpage-inner-plot-holder{
+    /*width: 40%;*/
+  }
+}
 
 /*******************************
 TEMP MODAL STYLES
