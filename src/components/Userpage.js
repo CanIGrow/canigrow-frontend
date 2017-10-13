@@ -124,15 +124,11 @@ class Userpage extends Component {
         id="addnewplot"
         className="userpage-new-plot userpage-inner-plot-holder">
         <h4 onClick={event => this.edituser(event, "addnewplot")}>
-
-        <input type="search" id="searchbartext"
+        <input type="input" className="userpage-new-plot-name"
           value={this.state.searchbartext}
-          onChange={this.handleTextChange}
-          className="homepage-search-box"/>
-
-          Add a new plot</h4>
+          onChange={this.handleTextChange}/></h4>
           <div className="userpage-plant-div">
-            <h5>+</h5>
+            <h5>+ Add Plant</h5>
           </div>
       </div>
     }
@@ -183,7 +179,7 @@ class Userpage extends Component {
                 {this.state.editing ? (
                   <div className="userpage-plant-div">
                     <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
-                      className="userpage-plant-div-edit-button">+</h5>
+                      className="userpage-plant-div-edit-button">+ Add Plant</h5>
                   </div>
                 ):("")}
               </div>

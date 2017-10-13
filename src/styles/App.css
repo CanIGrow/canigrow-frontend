@@ -159,6 +159,13 @@ USERPAGE STYLES
   width: 40%;
   background-color: rgba(201,224,100, 1);
 }
+.userpage-new-plot-name{
+  width: 100%;
+  text-align: center;
+  /*border: 0;*/
+  /*background: 0;*/
+  outline: 0;
+}
 .userpage-new-plot{
   cursor: pointer;
   transition: background-color 1s;
