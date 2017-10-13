@@ -79,12 +79,10 @@ class Userpage extends Component {
       this.setState({[event.target.id]: event.target.value, passworderror: false});
     }
   }
-  edituser(event){
+  edituser(event, target){
     event.preventDefault();
     // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    if (this.state.canedit){
-
-    }
+    console.log(target);
   }
   render() {;
     let userobjectdata = false;
@@ -127,11 +125,18 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
+                {this.state.canedit ? (
+                  <div className="userpage-plant-div">
+                    <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
+                      className="userpage-plant-div-edit-button">+</h5>
+                  </div>
+                ):("")}
               </div>
             )
           })}
           {this.state.canedit ? (
-            <div onClick={event => this.edituser(event)}
+            <div onClick={event => this.edituser(event, "addnewplot")}
+              id="addnewplot"
               className="userpage-new-plot userpage-inner-plot-holder">
               <h4>Add a new plot</h4>
                 <div className="userpage-plant-div">

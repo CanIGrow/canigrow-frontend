@@ -164,7 +164,7 @@ USERPAGE STYLES
   transition: background-color 1s;
   background-color: rgba(201,224,100, 0);
 }
-.userpage-plant-link{
+.userpage-plant-link, .userpage-plant-div-edit-button{
   cursor: pointer;
 }
 .userpage-new-plot:hover{
