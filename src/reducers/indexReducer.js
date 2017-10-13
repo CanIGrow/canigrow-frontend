@@ -3,7 +3,9 @@ import tokenReducer from './tokenReducer';
 import usernameReducer from './usernameReducer';
 import templateReducer from './templateReducer';
 import redirectionReducer from './redirectionReducer';
+import zipcodeReducer from './zipcodeReducer';
 import emailReducer from './emailReducer';
+
 /*
 tokenReducer
  * This combines all reducers into a single object before updated data is dispatched (sent) to store.
@@ -15,6 +17,7 @@ const allReducers = combineReducers({
     username: usernameReducer,
     template: templateReducer,
     redirection: redirectionReducer,
+    zipcode: zipcodeReducer,
     email: emailReducer
 });
 

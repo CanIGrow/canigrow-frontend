@@ -3,6 +3,7 @@ import '../styles/App.css';
 import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
 import { Link, Redirect } from 'react-router-dom';
+import {setZip} from '../actions/zipcodeAction.js';
 import {redirectAction} from '../actions/actions.js';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -152,6 +153,7 @@ class Homepage extends Component {
           }
           this.setState({zipcode: res.body.zip_code, date:fulldatedata}, ()=>{
             this.updateZip(this.state.zipcode);
+            setZip(this.state.zipcode);
           });
         }
       })
@@ -165,6 +167,7 @@ class Homepage extends Component {
     }
   }
   updateZip = (zip) => {
+    setZip(zip);
     let zipzone = false
     zipcodearray.map((x, i) =>{
       if (x.zipcode === zip){
@@ -422,17 +425,19 @@ class Homepage extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state);
     return {
       token: state.token,
       username: state.username,
       template: state.template,
       redirection: state.redirection,
+      zipcode: state.zipcode,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setZip: setZip, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Homepage);
