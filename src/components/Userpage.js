@@ -24,6 +24,7 @@ class Userpage extends Component {
       editing: false,
       addingnewplot: false,
       newplotname: '',
+      dragging: false,
     };
     this.reloaduser = this.reloaduser.bind(this);
   }
@@ -94,7 +95,7 @@ class Userpage extends Component {
   }
   finishediting(event){
     event.preventDefault();
-    this.setState({editing: false,addingnewplot: false,newplotname: ''});
+    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false});
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -128,7 +129,15 @@ class Userpage extends Component {
       }
     }
   }
-
+  drag(event, data){
+    // event.preventDefault();
+    console.log(event.target);
+    if (data === "startdragging"){
+      this.setState({dragging:true});
+    } else if (data === "stopdragging"){
+      this.setState({dragging:false});
+    }
+  }
   render() {
     let editbutton = false;
     if (this.state.canedit && !this.state.editing){
@@ -174,9 +183,6 @@ class Userpage extends Component {
           </button>
       </div>
     }
-
-
-
     let userobjectdata = false;
     if (!this.state.userexists){
       userobjectdata =
@@ -212,9 +218,12 @@ class Userpage extends Component {
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
                       {this.state.editing ? (
-                        <a className="userpage-plant-link">
+                        <div draggable="true"
+                        onDragStart={event => this.drag(event, "startdragging")}
+                        onDragEnd={event => this.drag(event, "stopdragging")}
+                        className="userpage-plant-link">
                         <h5>{plant.plant}</h5>
-                        </a>
+                        </div>
                       ):(
                         <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
                           className="userpage-plant-link">
@@ -224,6 +233,10 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
+                {this.state.dragging ? (
+                  <div className="droppable-div">
+                  </div>
+                ):("")}
                 {this.state.editing ? (
                   <div className="userpage-plant-div">
                     <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
