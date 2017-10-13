@@ -150,13 +150,12 @@ class Userpage extends Component {
     }
   }
   moveplant(){
-    // this.state.userdata.plots.map((plot, i)=>{
-    //
-    // })
+    this.state.userdata.plots.map((plot, i)=>{
+      console.log(plot);
+    })
     console.log(this.state.plantdragging);
     console.log(this.state.dragfrom);
     console.log(this.state.dragto);
-    console.log(this.state.userdata.plots);
   }
   render() {
     let editbutton = false;
