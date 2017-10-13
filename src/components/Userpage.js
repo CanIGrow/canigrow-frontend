@@ -40,8 +40,7 @@ class Userpage extends Component {
         if (err){
           //If user does not exist:
           this.setState({userexists: false});
-        }
-        if (res !== undefined){
+        } else if (res !== undefined){
           this.setState({userdata: res.body.user});
         }
       })
@@ -120,16 +119,19 @@ class Userpage extends Component {
       </div>
     } else if (this.state.editing && this.state.addingnewplot){
       addnewplotdivs =
-      <div onClick={event => this.edituser(event, "validate")}
-        id="addnewplot"
-        className="userpage-new-plot userpage-inner-plot-holder">
-        <h4 onClick={event => this.edituser(event, "addnewplot")}>
+      <div id="addnewplot"
+        className="userpage-inner-plot-holder">
+        <h5>Name of plot:</h5>
+        <h4>
         <input type="input" className="userpage-new-plot-name"
           value={this.state.searchbartext}
           onChange={this.handleTextChange}/></h4>
           <div className="userpage-plant-div">
-            <h5>+ Add Plant</h5>
           </div>
+          <button className="btn-danger"
+            onClick={event => this.edituser(event, "validate")}>
+          Submit
+          </button>
       </div>
     }
 
