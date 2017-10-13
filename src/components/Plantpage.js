@@ -22,13 +22,15 @@ class Plantpage extends Component {
         plantdata: false,
         image_message: null,
         wiki_link: null,
+        user_plot_data: [],
       };
+      this.addPlantToPlot = this.addPlantToPlot.bind(this);
   }
 
   componentDidMount(){
-    console.log(this.props);
-    console.log(this.props.zipcode);
-    console.log(this.state.zipcode);
+    console.log(this.props.token);
+    // console.log(this.props.zipcode);
+    // console.log(this.state.zipcode);
 
   }
 
@@ -254,14 +256,14 @@ class Plantpage extends Component {
 
           // This obtains an image from wikipedia
           if(returned_value){
-            console.log("Search Term: " + search_term);
+            // console.log("Search Term: " + search_term);
 
             let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
-            console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
+            // console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
               .end((err, res)=>{
-                console.log(res);
+                // console.log(res);
                 // console.log(res.xhr.responseText);
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
@@ -277,7 +279,7 @@ class Plantpage extends Component {
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
                   } else {
                     this.setState({image_message : "null"});
-                    console.log(obj.query.pages[0].thumbnail.source);
+                    // console.log(obj.query.pages[0].thumbnail.source);
                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                     // If the search was for Hosta.
                     if(search_term === 'Hosta'){
@@ -474,6 +476,60 @@ class Plantpage extends Component {
     });
   }
 
+
+  addPlantToPlot(event, plot){
+    event.preventDefault();
+    //  This lets the user 'bypass' CORs via proxy.
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    // For the plot number
+    // console.log(plot);
+    if(this.props !== null ||this.props !== undefined){
+      if(this.props.username !== null || this.props.username !== undefined){
+        if(this.props.token !== null || this.props.token !== undefined){
+          // For the plant id
+          // console.log(this.state.plantdata.plant_id);
+          request
+          .post(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plantdata.plant_id}/favorite`)
+          .set('Authorization', 'Token token='+this.props.token)
+          .send({
+                    id: plot
+               })
+          .end((err, res) => {
+              if (err) {
+                console.log("failed to add to plot!");
+              } else {
+                console.log(res.body);
+              }
+          })
+        }
+      }
+    }
+  }
+
+  getPlots(){
+    //  This lets the user 'bypass' CORs via proxy.
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    if(this.props !== null ||this.props !== undefined){
+      if(this.props.username !== null || this.props.username !== undefined){
+        if(this.props.token !== null || this.props.token !== undefined){
+          request
+          .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
+          .end((err, res) => {
+              if (err) {
+                console.log("failed to get plots!");
+              } else {
+                console.log(res.body);
+                console.log(res.body.user.plots);
+                let user_plot_data = res.body.user.plots;
+                this.setState({user_plot_data: res.body.user.plots});
+              }
+          })
+        }
+      }
+    }
+  }
+
+
   componentWillMount() {
     if (this.props.redirection && this.props.redirection[0] !== undefined){
       this.setState({message:this.props.redirection[1]}, ()=>{
@@ -481,6 +537,7 @@ class Plantpage extends Component {
       });
     }
     console.log(this.props);
+    this.getPlots();
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
       request
@@ -515,6 +572,7 @@ class Plantpage extends Component {
 
   render() {
     console.log(this.state.image_message);
+    console.log(this.state.user_plot_data);
     // This makes the additional notes only appear if the plant actually has additional notes.
     let plantdata_notes = true;
     if(this.state.plantdata.notes === ' ' || this.state.plantdata.notes === null || this.state.plantdata.notes === undefined){
@@ -602,13 +660,34 @@ class Plantpage extends Component {
                     </div>
                      ): ""}
                 </div>
-
-                {/* <div  className="plant_page_graph_messages margin-top-50px">
-                  <p>Test</p>
-                </div> */}
               </div>
 
               <div className="plant_page_graph_messages margin-left-20pt">
+                <p>Add to plot</p>
+                <div>
+                  {this.props.token ? (
+                    <div>
+                      <div>
+                        {this.state.user_plot_data.map( (plot,i) => {
+                             return(
+                               <div key={i}>
+                                 <p>{plot.plot_name}</p>
+                                 <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
+                               </div>
+                             )
+                         })}
+                    </div>
+                    <div>
+                      <p>Add to a new plot</p>
+                    </div>
+                  </div>
+                  ): ""}
+                </div>
+
+
+
+
+                <hr/>
                 <p>Specific Data</p>
                 {this.state.plantdata ? (
                   <div>
@@ -631,15 +710,6 @@ class Plantpage extends Component {
 
 
           </div>
-
-          {/* <p>{this.state.common_name}</p> */}
-          {/* <p>{this.state.wikipedia_responseText}</p>
-          <p>{this.state.wikipedia_image}</p>
-          <p>Above Image Link:</p>
-          <p>{this.state.wikipedia_image_final}</p> */}
-          {/* <img className="plant_big_image" src="https://upload.wikimedia.org/wikipedia/commons/8/8d/2005asparagus.PNG" alt="plant_img"/> */}
-
-          {/* <img className="plant_big_image" src="" alt="plant_img"/> */}
         </div>
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
@@ -653,6 +723,7 @@ class Plantpage extends Component {
 function mapStateToProps(state) {
     return {
       redirection: state.redirection,
+      token: state.token,
       zipcode: state.zipcode,
     };
 }
