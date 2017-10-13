@@ -27,10 +27,12 @@ class Userpage extends Component {
       dragging: false,
       dragto: false,
       dragfrom: false,
-      plantdragging: false
+      plantdragging: false,
+      click:false,
     };
     this.reloaduser = this.reloaduser.bind(this);
     this.moveplant = this.moveplant.bind(this);
+    // this.log = this.log.bind(this);
   }
 
   componentWillMount() {
@@ -144,12 +146,23 @@ class Userpage extends Component {
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
     } else if (data === "dropped"){
-      this.setState({dragto:object}, ()=>{
-        this.moveplant();
+      this.setState({dragto:object,click:true}, ()=>{
+        // this.moveplant();
       });
     }
   }
-  moveplant(){
+  cancelmove(event){
+    event.preventDefault();
+    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
+  }
+  clickDiv(el) {
+    if (el && el !== undefined){
+      console.log(el);
+      el.click()
+    }
+  }
+  moveplant(event){
+    this.setState({click:false});
     this.state.userdata.plots.map((plot, i)=>{
       if (plot.plot_id === this.state.dragfrom){
         plot.plants.map((plantobj, planti)=>{
@@ -284,6 +297,40 @@ onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouse
     }
     return (
       <div className="userpage-container main-component-container">
+      {this.state.click ? (
+        <button
+        id="element1"
+         className="content"
+         ref={this.clickDiv}
+        data-toggle="modal" data-target="#confirmpopup">
+          &#9776;
+        </button>
+      ):("")}
+      <div className="container">
+        <div className="modal top fade in" id="confirmpopup" tabIndex="-1"
+        onClick={event => this.cancelmove(event)}>
+          <div className="modal-dialog">
+            <div className="modal-content text-center">
+            <button type="button"
+            data-dismiss="modal"
+            onClick={event => this.moveplant(event)}>
+              Move
+            </button>
+            <button type="button"
+            data-dismiss="modal"
+            onClick={event => this.moveplant(event)}>
+              Copy
+            </button>
+            <button type="button"
+            data-dismiss="modal"
+            aria-label="Close"
+            onClick={event => this.cancelmove(event)}>
+              Cancel
+            </button>
+            </div>
+          </div>
+        </div>
+      </div>
         {userobjectdata}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
