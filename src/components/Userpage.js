@@ -159,6 +159,7 @@ class Userpage extends Component {
     }
   }
   moveplant(event, copy){
+    if (copy){ copy = "yes"}
     let plantdata = {
         "plant_id":this.state.plantdragging.plant_id,
         "new_plot":this.state.dragto,
