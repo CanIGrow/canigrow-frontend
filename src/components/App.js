@@ -43,17 +43,20 @@ class App extends Component {
       user_id: null,
       bio:"",
       template: 0,
+      email:"",
       token: null,
       allplantdata: false,
     };
   }
 
   componentWillMount() {
+    // console.log();
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({
       token: cookie.load('token'),
       username: cookie.load('username'),
-      template: cookie.load('template')
+      template: cookie.load('template'),
+      email: cookie.load('email'),
     }, ()=>{
       if (cookie.load("template") !== undefined){
         this.changeTemplate(cookie.load('template'));

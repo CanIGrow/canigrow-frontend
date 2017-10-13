@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { Redirect } from 'react-router-dom';
 import cookie from 'react-cookies';
-import {setLogin} from '../actions/loginAction.js';
-import {reloadUsername} from '../actions/reloadToken.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {logout,redirectAction} from '../actions/actions.js';
 import '../styles/App.css';
 
 class Logout extends Component {
@@ -17,9 +15,14 @@ class Logout extends Component {
     };
   }
   componentWillMount(){
-    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined){
+    this.props.logout();
+    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined || cookie.load('username', {path: '/user'}) !== undefined || cookie.load('token', {path: '/user'}) !== undefined || cookie.load('email') !== undefined || cookie.load('load', {path: '/user'}) !== undefined){
       cookie.remove('token');
+      cookie.remove('token', {path: '/user'});
+      cookie.remove('email');
+      cookie.remove('email', {path: '/user'});
       cookie.remove('username');
+      cookie.remove('username', {path: '/user'});
       cookie.remove('template');
       window.location.reload();
     } else {
@@ -27,7 +30,7 @@ class Logout extends Component {
     }
   }
   componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0] && this.props.redirection[0] !== "/logout"){
       this.setState({fireredirect:true});
     }
   }
@@ -53,13 +56,14 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
+      email: state.username,
       redirection: state.redirection,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({logout: logout, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Logout);

@@ -4,9 +4,7 @@ import '../styles/App.css';
 import cookie from 'react-cookies';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {reloadContents, logout} from '../actions/reloadToken.js';
-import {redirectAction} from '../actions/redirectionAction.js';
-import {reloadUsername} from '../actions/reloadToken.js';
+import {setToken,setUsername,setEmail,logout,redirectAction} from '../actions/actions.js';
 
 class Header extends Component {
   constructor(props) {
@@ -26,16 +24,16 @@ class Header extends Component {
   }
 
   checklogin(){
-    if(cookie.load('token') !== undefined){
-      this.props.reloadContents(cookie.load('token'), cookie.load('username'));
-      if(cookie.load('username') !== undefined){
-        this.props.reloadUsername(cookie.load('username'));
-      }
+    if(cookie.load('token') !== undefined && cookie.load('username') !== undefined && cookie.load('email') !== undefined){
+      this.props.setToken(cookie.load('token'));
+      this.props.setUsername(cookie.load('username'));
+      this.props.setEmail(cookie.load('email'));
+      // if(cookie.load('username') !== undefined){
+      //   this.props.reloadUsername(cookie.load('username'));
+      // }
     }
   }
-
   handleLogoutClick() {
-    this.props.logout();
     this.props.redirectAction(["/logout", "Logging out..."]);
   }
 
@@ -43,14 +41,12 @@ class Header extends Component {
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
       // If the user is logged in show:
-      if (this.props.token) {
+      if (this.props.token && this.props.username) {
         rightButtons =
         <div className="changeButtons">
           <li>
-            <NavLink activeClassName="selected" onClick={this.handleLogoutClick} to="/">
             {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-outline-primary' type='submit' value='LogOut'/>
-            </NavLink>
+              <input className='btn btn-outline-primary' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
@@ -132,12 +128,13 @@ function mapStateToProps(state) {
       token: state.token,
       username: state.username,
       redirection: state.redirection,
+      email: state.email,
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({reloadContents: reloadContents, logout: logout, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setEmail:setEmail,setUsername:setUsername,setToken: setToken, logout: logout, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Header);

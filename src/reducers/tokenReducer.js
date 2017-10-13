@@ -7,14 +7,10 @@
 // }
 
 // This handles all changes to the token state within the store.
-const loginReducer = function (state = null, action) {
+const tokenReducer = function (state = null, action) {
     switch (action.type) {
         // This adds the token to the store upon login.
-        case 'USER_TOKEN':
-            return action.payload;
-            // break;
-        // This adds the token to the store upon page-refresh if the user was logged in.
-        case 'USER_RELOAD':
+        case 'TOKEN_ADD':
             return action.payload;
             // break;
         // This removes the token from the store upon logout.
@@ -29,4 +25,4 @@ const loginReducer = function (state = null, action) {
     // return state;
 }
 
-export default loginReducer;
+export default tokenReducer;

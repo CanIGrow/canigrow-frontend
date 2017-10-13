@@ -3,9 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import request from 'superagent';
-import {setLogin} from '../actions/loginAction.js';
-import {reloadUsername} from '../actions/reloadToken.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {setToken,setUsername,setEmail,redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import '../styles/App.css';
 
@@ -42,39 +40,26 @@ class Login extends Component {
   }
 
   login(event) {
-     let setLogin = this.props.setLogin;
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-     let username = null;
      event.preventDefault();
      request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
-         console.log(res);
          if (err) {
-           if (res !== undefined){
-             this.setState({error: res.body.error});
-           }
-           console.log("error");
+            this.setState({error: res.body.error});
          } else {
-           // This call functions from actions to send the token to the reducer then the store.
-           setLogin(res.body.token);
+           if (res !== undefined){
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
-          //  This request is to get the user's username.
-           request
-             .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${res.body.user_id}`)
-             .end((err, res)=>{
-               if (res !== undefined){
-                 console.log(res);
-                username = res.body.user.username;
-                // This call functions from actions to send the username to the reducer then the store.
-                this.props.reloadUsername(username);
-                // These save the username to a cookie.
-                cookie.save('username', username);
-               }
-             })
+           cookie.save('username', res.body.username);
+           cookie.save('email', this.state.username);
+           // This call functions from actions to send the token to the reducer then the store.
+           this.props.setToken(res.body.token);
+           this.props.setUsername(res.body.username);
+           this.props.setEmail(this.state.username);
+           }
          }
        })
   }
@@ -137,12 +122,13 @@ function mapStateToProps(state) {
       token: state.token,
       username: state.username,
       redirection: state.redirection,
+      email: state.email
     };
 }
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({setLogin: setLogin, reloadUsername: reloadUsername, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({setEmail:setEmail, setUsername:setUsername, setToken:setToken, redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Login);

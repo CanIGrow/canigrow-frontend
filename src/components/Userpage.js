@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {changeTemplate} from '../actions/reloadToken.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {changeTemplate,redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
@@ -15,10 +14,13 @@ class Userpage extends Component {
     this.state = {
       fireredirect: false,
       message: false,
+      userexists: true,
       username: this.props.username,
       user: null,
+      userdata: false,
       template: this.props.template,
-      bio: ''
+      bio: '',
+      canedit: false,
     };
   }
 
@@ -27,6 +29,23 @@ class Userpage extends Component {
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
       });
+    }
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    //This request gets the users information
+    request
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+      .end((err, res)=>{
+        if (err){
+          //If user does not exist:
+          this.setState({userexists: false});
+        }
+        if (res !== undefined){
+          this.setState({userdata: res.body.user});
+        }
+      })
+    //This adds an edit button if the user matches the saved user token
+    if (window.location.href.split("/user/")[1] === cookie.load("username")){
+      this.setState({canedit: true});
     }
   }
 
@@ -51,14 +70,76 @@ class Userpage extends Component {
       this.setState({fireredirect:true});
     }
   }
-  render() {
+  handleTextChange = (event) => {
+    event.preventDefault();
+    if (this.state[event.target.id] !== undefined){
+      this.setState({[event.target.id]: event.target.value, passworderror: false});
+    }
+  }
+  edituser(event){
+    event.preventDefault();
+    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    if (this.state.canedit){
+
+    }
+  }
+  render() {;
+    let userobjectdata = false;
+    if (!this.state.userexists){
+      userobjectdata =
+        <h1 className="pagination-centered text-center">
+          User Does Not Exist
+        </h1>
+    } else if (!this.state.userdata){
+      userobjectdata =
+        <h1 className="pagination-centered text-center">
+          Loading...
+        </h1>
+    } else {
+      let bio = ""
+      if (this.state.userdata.bio !== ""){
+        bio = `Bio: ${this.state.userdata.bio}`;
+      }
+      userobjectdata =
+      <div className="container pagination-centered text-center">
+        <h2>{this.state.userdata.username}</h2>
+        {this.state.canedit ? (
+          <button className="btn-danger"
+            onClick={event => this.edituser(event)}>Edit</button>
+        ):("")}
+        {this.state.passworderror ? (<p>Incorrect Password</p>):""}
+        <p className="userpage-bio-info">{bio}</p>
+        <div className="userpage-outer-plots-holder">
+          <h3>Plots</h3>
+          {this.state.userdata.plots.map((plot, i)=>{
+            /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
+            return (
+              <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
+                <h4>{plot.plot_name}</h4>
+                {plot.plants.map((plant, i)=>{
+                  /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
+                  return (
+                    <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
+                      className="userpage-plant-div">
+                      <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                        className="userpage-plant-link">
+                      <h5>{plant.plant}</h5>
+                      </a>
+                    </div>
+                  )
+                })}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    }
     let askQuestion = {
         "marginTop": "30pt",
     }
     return (
       <div className="userpage-container main-component-container">
-        <h1>This is a Userpage</h1>
-
+        {userobjectdata}
         <div style={askQuestion}>
                     <div>Change the Background</div>
                     <form >
@@ -91,6 +172,7 @@ function mapStateToProps(state) {
       username: state.username,
       template: state.template,
       redirection: state.redirection,
+      email: state.email
     };
 }
 
