@@ -7,12 +7,10 @@
 // }
 
 // This handles all changes to the token state within the store.
-<<<<<<< HEAD:src/reducers/loginReducer.js
-const loginReducer = function (state = null, action) {
-  // console.log(action.payload);
-=======
+// <<<<<<< HEAD:src/reducers/loginReducer.js
+// const loginReducer = function (state = null, action) {
 const tokenReducer = function (state = null, action) {
->>>>>>> master:src/reducers/tokenReducer.js
+// >>>>>>> master:src/reducers/tokenReducer.js
     switch (action.type) {
         // This adds the token to the store upon login.
         case 'TOKEN_ADD':
