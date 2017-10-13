@@ -4,7 +4,7 @@ import request from 'superagent';
 import zipcodearray from './../zipcodes.json';
 import { Link, Redirect } from 'react-router-dom';
 import {setZip} from '../actions/zipcodeAction.js';
-import {redirectAction} from '../actions/redirectionAction.js';
+import {redirectAction} from '../actions/action.js';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
