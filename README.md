@@ -8,7 +8,7 @@ Jocelyn Triplett: https://github.com/JocelynTriplett
 
 Jonathan 'JT' Canfield: https://github.com/jtcanfield
 
-This project is designed to meet the needs of first time and moderately experienced gardeners.
+This project is designed to meet the needs of first time and moderately experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
 
 Specifically the site:
 1) Allows users to search for a plant and receive information about said plant.
@@ -29,6 +29,12 @@ Jocelyn worked on adding authentication and user plots. JT worked on the locatio
 
 Wednesday, October 11th:
 Jocelyn added the ability for a user to add a plant to a plot. She continued to work on plot features. JT worked on the user page, specifically working with plots. Kevin worked on styling and displaying images on the plant page.
+
+Thursday, October 12th:
+Kevin improved styling on the plant page and added graphs with data. JT and Jocelyn coordinated efforts to manage content on the user page and within the user database files.
+
+Friday, October 13th:
+After meetings in the morning, we outlined our progress and set a schedule for the next sprint.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
