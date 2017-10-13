@@ -151,6 +151,14 @@ html, body, #root, .body{
 /*******************************
 USERPAGE STYLES
 *******************************/
+.droppable-div{
+  height: 25px;
+  width: 100%;
+  background-color: white;
+}
+.droppable-div:hover{
+  background-color: rgba(201,224,100, 0.5);
+}
 .userpage-outer-plots-holder{
   display: flex;
   border: 1px solid grey;

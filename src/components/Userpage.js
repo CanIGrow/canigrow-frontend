@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import '../styles/App.css';
-import {changeTemplate,redirectAction} from '../actions/actions.js';
+import {redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
@@ -23,7 +23,14 @@ class Userpage extends Component {
       canedit: false,
       editing: false,
       addingnewplot: false,
+      newplotname: '',
+      dragging: false,
+      dragto: false,
+      dragfrom: false,
+      plantdragging: false
     };
+    this.reloaduser = this.reloaduser.bind(this);
+    this.moveplant = this.moveplant.bind(this);
   }
 
   componentWillMount() {
@@ -40,8 +47,7 @@ class Userpage extends Component {
         if (err){
           //If user does not exist:
           this.setState({userexists: false});
-        }
-        if (res !== undefined){
+        } else if (res !== undefined){
           this.setState({userdata: res.body.user});
         }
       })
@@ -52,6 +58,19 @@ class Userpage extends Component {
       this.setState({canedit: true});
     }
   }
+  reloaduser(){
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    request
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+      .end((err, res)=>{
+        if (err){
+          //If user does not exist:
+          this.setState({userexists: false});
+        } else if (res !== undefined){
+          this.setState({userdata: res.body.user});
+        }
+      })
+  }
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
@@ -60,20 +79,9 @@ class Userpage extends Component {
   }
   updateFromField(stateKey) {
       return (event) => {
-        this.setState({[stateKey]: event.target.value},()=>{
-          this.updateTemplate();
-        });
+        this.setState({[stateKey]: event.target.value});
       }
     }
-
-  updateTemplate() {
-    console.log(this.props.template);
-    let changeTemplate = this.props.changeTemplate;
-    changeTemplate(this.state.template);
-    this.props.newTemplate(this.state.template);
-    console.log(this.props.template);
-    console.log(this.props);
-  }
   componentDidUpdate(){
     if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
       this.setState({fireredirect:true});
@@ -82,22 +90,73 @@ class Userpage extends Component {
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value, passworderror: false});
+      this.setState({[event.target.id]: event.target.value});
     }
   }
   beginediting(event){
     event.preventDefault();
     this.setState({editing: true});
   }
-  edituser(event, target){
+  finishediting(event){
+    event.preventDefault();
+    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false,dragto:false,dragfrom:false,plantdragging:false});
+  }
+  edituser(event, target, data){
     event.preventDefault();
     // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    console.log(target);
     if (target === "addnewplot"){
       this.setState({addingnewplot:true})
     }
+    if (target === "validate" && data !== "" && data !== undefined){
+      let newplot = {
+        "name" : data
+      }
+      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+      let token = cookie.load("token")
+      if (token === this.props.token){
+        request
+          .post(`${proxyurl}https://canigrow.herokuapp.com/api/plots`)
+          .set("Authorization", `Token token=${token}`)
+          .send(newplot)
+          .end((err, res)=>{
+            if (err){
+              //If user does not exist:
+              window.location.reload();
+            } else if (res !== undefined){
+              console.log(res);
+              this.setState({addingnewplot: false, newplotname:''});
+              this.reloaduser();
+            }
+          })
+      } else {
+        window.location.reload();
+      }
+    }
   }
-
+  dragover(event){event.preventDefault();}
+  drag(event, data, object, plant){
+    // event.preventDefault();
+    // console.log(event.target);
+    console.log(data);
+    // console.log(object);
+    if (data === "startdragging"){
+      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
+    } else if (data === "stopdragging"){
+      this.setState({dragging:false});
+    } else if (data === "dropped"){
+      this.setState({dragto:object}, ()=>{
+        this.moveplant();
+      });
+    }
+  }
+  moveplant(){
+    this.state.userdata.plots.map((plot, i)=>{
+      console.log(plot);
+    })
+    console.log(this.state.plantdragging);
+    console.log(this.state.dragfrom);
+    console.log(this.state.dragto);
+  }
   render() {
     let editbutton = false;
     if (this.state.canedit && !this.state.editing){
@@ -105,6 +164,13 @@ class Userpage extends Component {
       <div>
         <button className="btn-danger"
         onClick={event => this.beginediting(event)}>Edit</button>
+      </div>
+    } else if (this.state.canedit && this.state.editing){
+      editbutton =
+      <div>
+        <button className="btn-danger"
+        onClick={event => this.finishediting(event)}>Finish Editing</button>
+        <p>Click and drag plants to move, copy, or delete them!</p>
       </div>
     }
     let addnewplotdivs = false;
@@ -120,21 +186,22 @@ class Userpage extends Component {
       </div>
     } else if (this.state.editing && this.state.addingnewplot){
       addnewplotdivs =
-      <div onClick={event => this.edituser(event, "validate")}
-        id="addnewplot"
-        className="userpage-new-plot userpage-inner-plot-holder">
-        <h4 onClick={event => this.edituser(event, "addnewplot")}>
+      <div id="addnewplot"
+        className="userpage-inner-plot-holder">
+        <h5>Name of plot:</h5>
+        <h4>
         <input type="input" className="userpage-new-plot-name"
-          value={this.state.searchbartext}
+          value={this.state.newplotname}
+          id="newplotname"
           onChange={this.handleTextChange}/></h4>
           <div className="userpage-plant-div">
-            <h5>+ Add Plant</h5>
           </div>
+          <button className="btn-danger"
+            onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
+          Submit
+          </button>
       </div>
     }
-
-
-
     let userobjectdata = false;
     if (!this.state.userexists){
       userobjectdata =
@@ -162,20 +229,39 @@ class Userpage extends Component {
           {this.state.userdata.plots.map((plot, i)=>{
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
-              <div key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
+              <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}</h4>
                 {plot.plants.map((plant, i)=>{
                   /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
                   return (
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
-                      <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                      {this.state.editing ? (
+                        <div draggable="true"
+                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant.plant_id)}
+                        onDragEnd={event => this.drag(event, "stopdragging")}
                         className="userpage-plant-link">
-                      <h5>{plant.plant}</h5>
-                      </a>
+                        <h5>{plant.plant}</h5>
+                        </div>
+                      ):(
+                        <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                          className="userpage-plant-link">
+                        <h5>{plant.plant}</h5>
+                        </a>
+                      )}
                     </div>
                   )
                 })}
+                {/*
+onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop
+onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp
+*/}
+                {this.state.dragging ? (
+                  <div className="droppable-div"
+                  onDrop={event => this.drag(event, "dropped", plot.plot_id)}
+                  onDragOver={event => this.dragover(event)}>
+                  </div>
+                ):("")}
                 {this.state.editing ? (
                   <div className="userpage-plant-div">
                     <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
@@ -189,33 +275,12 @@ class Userpage extends Component {
         </div>
       </div>
     }
-    let askQuestion = {
-        "marginTop": "30pt",
-    }
     return (
       <div className="userpage-container main-component-container">
         {userobjectdata}
-        <div style={askQuestion}>
-                    <div>Change the Background</div>
-                    <form >
-                      {/* onSubmit={this.handleSubmit} */}
-                    <select name="templates" onChange={this.updateFromField('template')} value={cookie.load('template')}>
-                      <option value="0">Classic</option>
-                      <option value="1">Blue</option>
-                      <option value="2">Shooting Stars</option>
-                      <option value="3">Twinkle Stars</option>
-                      <option value="4">Mountains</option>
-                      <option value="5">Reef</option>
-                      <option value="6">Rain Drops</option>
-                      <option value="7">Cherry Blossom</option>
-                    </select>
-                    <br/>
-                    {/* onClick={event => this.updateTemplate(event)} */}
-                    </form>
-                  </div>
-                  {this.state.fireredirect && (
-                      <Redirect to={this.props.redirection[0]}/>
-                    )}
+        {this.state.fireredirect && (
+            <Redirect to={this.props.redirection[0]}/>
+          )}
       </div>
     );
   }
@@ -233,7 +298,7 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch){
     // binds the action creation of prop to action. selectUser is a function imported above. Dispatch calls the function.
-    return bindActionCreators({changeTemplate: changeTemplate, redirectAction: redirectAction}, dispatch);
+    return bindActionCreators({redirectAction: redirectAction}, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Userpage);
