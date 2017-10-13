@@ -3,7 +3,8 @@ html, body, #root, .body{
   padding: 0;
   top: 0;
   left: 0;
-  background-color: rgba(255,248,220, 1);
+  background-color: #EEEEEE;
+  /*rgba(255,248,220, 1)*/
 }
 .header-navbar{
   display: none;
@@ -88,13 +89,14 @@ html, body, #root, .body{
   }
 }
 .homepage-search-container{
-  background-color: rgba(117,181,80, 1);
+  background-color: #00C851;
 }
 .main-component-container{
   margin: 10px 0;
 }
 .homepage-search-title, .homepage-search-box{
   text-align: center;
+  color: #ffffff;
 }
 .homepage-search-box{
   margin: 10px 0;
@@ -105,6 +107,7 @@ html, body, #root, .body{
 }
 #zipcode{
   width: 80px;
+  color: black;
   border-bottom: 1px solid black;
 }
 .homepage-search-box:focus{
