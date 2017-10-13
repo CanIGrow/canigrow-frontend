@@ -109,6 +109,9 @@ class Userpage extends Component {
     if (target === "addnewplot"){
       this.setState({addingnewplot:true})
     }
+    if (target === "canceladdnewplot"){
+      this.setState({addingnewplot:false})
+    }
     if (target === "validate" && data !== "" && data !== undefined){
       let newplot = {
         "name" : data
@@ -236,6 +239,10 @@ class Userpage extends Component {
           <div className="userpage-plant-div">
           </div>
           <button className="btn-danger"
+            onClick={event => this.edituser(event, "canceladdnewplot")}>
+          Cancel
+          </button>
+          <button className="btn-danger"
             onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
           Submit
           </button>
@@ -322,7 +329,6 @@ TODO ADD CANCEL TO MAKING A NEW PLOT
       <div className="userpage-container main-component-container">
       {this.state.click ? (
         <button
-
         id="elementtoaddthepopupmenu"
          className="content"
          ref={this.clickDiv}
