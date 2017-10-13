@@ -103,6 +103,10 @@ class Userpage extends Component {
     event.preventDefault();
     this.setState({editing: true});
   }
+  finishediting(event){
+    event.preventDefault();
+    this.setState({editing: false,addingnewplot: false,newplotname: ''});
+  }
   edituser(event, target, data){
     event.preventDefault();
     // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
@@ -143,6 +147,12 @@ class Userpage extends Component {
       <div>
         <button className="btn-danger"
         onClick={event => this.beginediting(event)}>Edit</button>
+      </div>
+    } else if (this.state.canedit && this.state.editing){
+      editbutton =
+      <div>
+        <button className="btn-danger"
+        onClick={event => this.finishediting(event)}>Finish Edit</button>
       </div>
     }
     let addnewplotdivs = false;
@@ -211,10 +221,16 @@ class Userpage extends Component {
                   return (
                     <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
                       className="userpage-plant-div">
-                      <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
-                        className="userpage-plant-link">
-                      <h5>{plant.plant}</h5>
-                      </a>
+                      {this.state.editing ? (
+                        <a>
+                        <h5>{plant.plant}</h5>
+                        </a>
+                      ):(
+                        <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                          className="userpage-plant-link">
+                        <h5>{plant.plant}</h5>
+                        </a>
+                      )}
                     </div>
                   )
                 })}
