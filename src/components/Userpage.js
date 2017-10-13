@@ -15,6 +15,7 @@ class Userpage extends Component {
       fireredirect: false,
       message: false,
       userexists: true,
+      editing: false,
       username: this.props.username,
       user: null,
       userdata: false,
