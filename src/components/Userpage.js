@@ -23,7 +23,9 @@ class Userpage extends Component {
       canedit: false,
       editing: false,
       addingnewplot: false,
+      newplotname: '',
     };
+    this.reloaduser = this.reloaduser.bind(this);
   }
 
   componentWillMount() {
@@ -50,6 +52,19 @@ class Userpage extends Component {
         && cookie.load("username") === this.props.username){
       this.setState({canedit: true});
     }
+  }
+  reloaduser(){
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    request
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+      .end((err, res)=>{
+        if (err){
+          //If user does not exist:
+          this.setState({userexists: false});
+        } else if (res !== undefined){
+          this.setState({userdata: res.body.user});
+        }
+      })
   }
   handleTextChange = (event) => {
     event.preventDefault();
@@ -81,19 +96,39 @@ class Userpage extends Component {
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value, passworderror: false});
+      this.setState({[event.target.id]: event.target.value});
     }
   }
   beginediting(event){
     event.preventDefault();
     this.setState({editing: true});
   }
-  edituser(event, target){
+  edituser(event, target, data){
     event.preventDefault();
     // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    console.log(target);
     if (target === "addnewplot"){
       this.setState({addingnewplot:true})
+    }
+    if (target === "validate" && data !== "" && data !== undefined){
+      let newplot = {
+        "name" : data
+      }
+      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+      request
+        .post(`${proxyurl}https://canigrow.herokuapp.com/api/plots`)
+        .set("Authorization", cookie.load("token"))
+        .send(newplot)
+        .end((err, res)=>{
+          if (err){
+            console.log(err);
+            //If user does not exist:
+            // window.location.reload();
+          } else if (res !== undefined){
+            console.log(res);
+            this.setState({addingnewplot: false, newplotname:''});
+            this.reloaduser();
+          }
+        })
     }
   }
 
@@ -124,12 +159,13 @@ class Userpage extends Component {
         <h5>Name of plot:</h5>
         <h4>
         <input type="input" className="userpage-new-plot-name"
-          value={this.state.searchbartext}
+          value={this.state.newplotname}
+          id="newplotname"
           onChange={this.handleTextChange}/></h4>
           <div className="userpage-plant-div">
           </div>
           <button className="btn-danger"
-            onClick={event => this.edituser(event, "validate")}>
+            onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
           Submit
           </button>
       </div>
