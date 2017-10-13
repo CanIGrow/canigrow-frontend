@@ -101,7 +101,7 @@ class Userpage extends Component {
   }
   finishediting(event){
     event.preventDefault();
-    this.setState({editing: false,addingnewplot: false,newplotname: '',dragging:false,dragto:false,dragfrom:false,plantdragging:false});
+    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false});
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -137,17 +137,14 @@ class Userpage extends Component {
   }
   dragover(event){event.preventDefault();}
   drag(event, data, object, plant){
-    // event.preventDefault();
-    // console.log(event.target);
-    // console.log(data);
-    // console.log(object);
     if (data === "startdragging"){
       this.setState({dragging:true,dragfrom:object,plantdragging:plant});
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
     } else if (data === "dropped"){
       this.setState({dragto:object,click:true}, ()=>{
-        // this.moveplant();
+        console.log(this.state.dragto);
+        console.log(this.state.dragfrom);
       });
     }
   }
@@ -161,21 +158,46 @@ class Userpage extends Component {
       el.click()
     }
   }
-  moveplant(event){
-    this.setState({click:false});
-    this.state.userdata.plots.map((plot, i)=>{
-      if (plot.plot_id === this.state.dragfrom){
-        plot.plants.map((plantobj, planti)=>{
-          if (plantobj.plant_id === this.state.plantdragging.plant_id){
-            plot.plants.splice(planti, 1);
-            return
+  moveplant(event, copy){
+    let plantdata = {
+        "plant_id":this.state.plantdragging.plant_id,
+        "new_plot":this.state.dragto,
+        "copy":copy
+      }
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    let token = cookie.load("token")
+    if (token === this.props.token){
+      request
+        .patch(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
+        .set("Authorization", `Token token=${token}`)
+        .send(plantdata)
+        .end((err, res)=>{
+          if (err){
+            //If user does not exist:
+            // window.location.reload();
+            console.log(err);
+          } else if (res !== undefined){
+            console.log(res);
+            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:''});
+            this.reloaduser();
           }
         })
-      }
-      if (plot.plot_id === this.state.dragto){
-        plot.plants.push(this.state.plantdragging);
-      }
-    })
+    } else {
+      window.location.reload();
+    }
+    // this.state.userdata.plots.map((plot, i)=>{
+    //   if (plot.plot_id === this.state.dragfrom){
+    //     plot.plants.map((plantobj, planti)=>{
+    //       if (plantobj.plant_id === this.state.plantdragging.plant_id){
+    //         plot.plants.splice(planti, 1);
+    //         return
+    //       }
+    //     })
+    //   }
+    //   if (plot.plot_id === this.state.dragto){
+    //     plot.plants.push(this.state.plantdragging);
+    //   }
+    // })
   }
   render() {
     let editbutton = false;
@@ -313,12 +335,12 @@ onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouse
             <div className="modal-content text-center">
             <button type="button"
             data-dismiss="modal"
-            onClick={event => this.moveplant(event)}>
+            onClick={event => this.moveplant(event, false)}>
               Move
             </button>
             <button type="button"
             data-dismiss="modal"
-            onClick={event => this.moveplant(event)}>
+            onClick={event => this.moveplant(event, true)}>
               Copy
             </button>
             <button type="button"
