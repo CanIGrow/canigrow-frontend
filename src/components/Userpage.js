@@ -21,9 +21,6 @@ class Userpage extends Component {
       template: this.props.template,
       bio: '',
       canedit: false,
-      password: '',
-      passworderror: false,
-      passwordconfirmation: false,
     };
   }
 
@@ -81,32 +78,12 @@ class Userpage extends Component {
   }
   edituser(event){
     event.preventDefault();
-    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    if (!this.state.passwordconfirmation){
-      this.setState({passwordconfirmation:true});
-    } else if (this.state.passwordconfirmation && this.state.password !== ''){
-      request
-       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-       .send({email: this.props.email, password: this.state.password})
-        .end((err, res) => {
+    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    if (this.state.canedit){
 
-          console.log(err);
-          console.log(res);
-          if (err) {
-             this.setState({passworderror: res.body.error});
-          } else {
-            if (res !== undefined){
-              this.setState({canedit: false,password: '',passworderror: false,passwordconfirmation: false,});
-            }
-          }
-        })
     }
   }
   render() {;
-    let edittext = "Edit";
-    if (this.state.passwordconfirmation){
-      edittext = "Confirm Password"
-    }
     let userobjectdata = false;
     if (!this.state.userexists){
       userobjectdata =
@@ -126,12 +103,9 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        {this.state.passwordconfirmation ? (
-          <input type="password" onChange={this.handleTextChange} id="password" value={this.state.password} placeholder="********"/>
-        ):("")}
         {this.state.canedit ? (
           <button className="btn-danger"
-            onClick={event => this.edituser(event)}>{edittext}</button>
+            onClick={event => this.edituser(event)}>Edit</button>
         ):("")}
         {this.state.passworderror ? (<p>Incorrect Password</p>):""}
         <p className="userpage-bio-info">{bio}</p>
