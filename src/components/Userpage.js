@@ -142,10 +142,11 @@ class Userpage extends Component {
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
     } else if (data === "dropped"){
-      this.setState({dragto:object,click:true}, ()=>{
-        console.log(this.state.dragto);
-        console.log(this.state.dragfrom);
-      });
+      if (this.state.dragfrom !== object){
+        this.setState({dragto:object,click:true});
+      } else {
+        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
+      }
     }
   }
   cancelmove(event){
@@ -154,12 +155,23 @@ class Userpage extends Component {
   }
   clickDiv(el) {
     if (el && el !== undefined){
-      console.log(el);
       el.click()
     }
   }
   moveplant(event, copy){
-    if (copy){ copy = "yes"}
+    // this.state.userdata.plots.map((plot, i)=>{
+    //   if (plot.plot_id === this.state.dragfrom){
+    //     plot.plants.map((plantobj, planti)=>{
+    //       if (plantobj.plant_id === this.state.plantdragging.plant_id){
+    //         plot.plants.splice(planti, 1);
+    //         return
+    //       }
+    //     })
+    //   }
+    //   if (plot.plot_id === this.state.dragto){
+    //     plot.plants.push(this.state.plantdragging);
+    //   }
+    // })
     let plantdata = {
         "plant_id":this.state.plantdragging.plant_id,
         "new_plot":this.state.dragto,
@@ -174,11 +186,8 @@ class Userpage extends Component {
         .send(plantdata)
         .end((err, res)=>{
           if (err){
-            //If user does not exist:
-            // window.location.reload();
-            console.log(err);
+            window.location.reload();
           } else if (res !== undefined){
-            console.log(res);
             this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:''});
             this.reloaduser();
           }
@@ -186,19 +195,6 @@ class Userpage extends Component {
     } else {
       window.location.reload();
     }
-    // this.state.userdata.plots.map((plot, i)=>{
-    //   if (plot.plot_id === this.state.dragfrom){
-    //     plot.plants.map((plantobj, planti)=>{
-    //       if (plantobj.plant_id === this.state.plantdragging.plant_id){
-    //         plot.plants.splice(planti, 1);
-    //         return
-    //       }
-    //     })
-    //   }
-    //   if (plot.plot_id === this.state.dragto){
-    //     plot.plants.push(this.state.plantdragging);
-    //   }
-    // })
   }
   render() {
     let editbutton = false;
@@ -243,6 +239,14 @@ class Userpage extends Component {
             onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
           Submit
           </button>
+      </div>
+    }
+    let addplantbutton = "";
+    if (this.state.editing && !this.state.dragging){
+      addplantbutton =
+      <div className="userpage-plant-div">
+        <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
+          className="userpage-plant-div-edit-button">+ Add Plant</h5>
       </div>
     }
     let userobjectdata = false;
@@ -295,21 +299,17 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
-                {/*
-onDrag onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop
-onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp
+{/*
+TODO ADD CANCEL TO MAKING A NEW PLOT
 */}
                 {this.state.dragging ? (
                   <div className="droppable-div"
-                  onDrop={event => this.drag(event, "dropped", plot.plot_id)}
-                  onDragOver={event => this.dragover(event)}>
+                    onDrop={event => this.drag(event, "dropped", plot.plot_id)}
+                    onDragOver={event => this.dragover(event)}>
                   </div>
                 ):("")}
                 {this.state.editing ? (
-                  <div className="userpage-plant-div">
-                    <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
-                      className="userpage-plant-div-edit-button">+ Add Plant</h5>
-                  </div>
+                  addplantbutton
                 ):("")}
               </div>
             )
@@ -322,11 +322,11 @@ onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouse
       <div className="userpage-container main-component-container">
       {this.state.click ? (
         <button
-        id="element1"
+
+        id="elementtoaddthepopupmenu"
          className="content"
          ref={this.clickDiv}
         data-toggle="modal" data-target="#confirmpopup">
-          &#9776;
         </button>
       ):("")}
       <div className="container">
@@ -341,7 +341,7 @@ onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouse
             </button>
             <button type="button"
             data-dismiss="modal"
-            onClick={event => this.moveplant(event, true)}>
+            onClick={event => this.moveplant(event, "yes")}>
               Copy
             </button>
             <button type="button"
