@@ -4,7 +4,7 @@ import Chart from 'chart.js';
 import '../styles/App.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import {redirectAction} from '../actions/actions.js';
 
 class Plantpage extends Component {
@@ -390,31 +390,35 @@ class Plantpage extends Component {
     let sun_max_value = 2;
     let sun_min_value = 0;
     // Handles minimum sunlight.
-    if(light_string.includes('Full sun')){
-      sun_min_value = 6;
-    }
-    if(light_string.includes("Part sun")){
-      sun_min_value = 4;
-    }
-    if(light_string.includes("Part shade")){
-      sun_min_value = 2;
-    }
-    if(light_string.includes("Full shade")){
-      sun_min_value = 0;
-    }
-    // Handles maximum sunlinght.
-    if(light_string.includes('Full shade')){
-      sun_max_value = 3;
-    }
-    if(light_string.includes("Part shade")){
-      sun_max_value = 4;
-    }
-    if(light_string.includes("Part sun")){
-      sun_max_value = 6;
-    }
-    if(light_string.includes("Full sun")){
-      console.log("full");
-      sun_max_value = 10;
+    if(this.state.plantdata !== null || this.state.plantdata !== undefined){
+      if(this.state.plantdata.light !== null || this.state.plantdata.light !== undefined){
+        if(light_string.includes('Full sun')){
+          sun_min_value = 6;
+        }
+        if(light_string.includes("Part sun")){
+          sun_min_value = 4;
+        }
+        if(light_string.includes("Part shade")){
+          sun_min_value = 2;
+        }
+        if(light_string.includes("Full shade")){
+          sun_min_value = 0;
+        }
+        // Handles maximum sunlinght.
+        if(light_string.includes('Full shade')){
+          sun_max_value = 3;
+        }
+        if(light_string.includes("Part shade")){
+          sun_max_value = 4;
+        }
+        if(light_string.includes("Part sun")){
+          sun_max_value = 6;
+        }
+        if(light_string.includes("Full sun")){
+          console.log("full");
+          sun_max_value = 10;
+        }
+      }
     }
 
     let max_water_value = sun_max_value - sun_min_value + 1;
@@ -476,6 +480,26 @@ class Plantpage extends Component {
     });
   }
 
+  // Opens the plant dropdown menu.
+  openPlotDropdown(event){
+    event.preventDefault();
+    console.log("dropdown clicked");
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown menu if the user clicks outside of it
+  // window.onclick = function(event) {
+  //   if (!event.target.matches('.dropbtn')) {
+  //     var dropdowns = document.getElementsByClassName("dropdown-content");
+  //     var i;
+  //     for (i = 0; i < dropdowns.length; i++) {
+  //       var openDropdown = dropdowns[i];
+  //       if (openDropdown.classList.contains('show')) {
+  //         openDropdown.classList.remove('show');
+  //       }
+  //     }
+  //   }
+  // }
 
   addPlantToPlot(event, plot){
     event.preventDefault();
@@ -589,6 +613,53 @@ class Plantpage extends Component {
       plantdata_form_comma = plantdata_form.replace(new RegExp(';', 'g'), ",");
     }
 
+    // This changes the contents of the propsDropDown.
+    console.log(this.props.token);
+    let propsDropDown = null;
+    // If the user is logged in.
+    if(this.props.token !== null){
+      propsDropDown =
+      <div className="centerHomeButton">
+        <p>user is logged in</p>
+        <div>
+          <div className="dropdown">
+            <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
+            <div id="myDropdown" className="dropdown-content">
+              {this.props.token ? (
+                  <div>
+                    {this.state.user_plot_data.map( (plot,i) => {
+                         return(
+                           <div key={i}>
+                             {/* <p>{plot.plot_name}</p> */}
+                             <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
+                           </div>
+                         )
+                     })}
+                </div>
+              ): ""}
+            </div>
+          </div>
+        </div>
+      </div>
+      // If the user is not logged in.
+    } else {
+      propsDropDown =
+      <div className="centerHomeButton">
+        <p>User is loggedout</p>
+        <li>
+          <NavLink activeClassName="selected" to="/login">
+            <input className='btn btn-outline-primary' type='submit' value='Login'/>
+          </NavLink>
+        </li>
+      </div>
+    }
+
+
+
+
+
+
+
 
     return (
       <div className="plantpage-container main-component-container">
@@ -663,26 +734,11 @@ class Plantpage extends Component {
               </div>
 
               <div className="plant_page_graph_messages margin-left-20pt">
+                {propsDropDown}
                 <p>Add to plot</p>
-                <div>
-                  {this.props.token ? (
-                    <div>
-                      <div>
-                        {this.state.user_plot_data.map( (plot,i) => {
-                             return(
-                               <div key={i}>
-                                 <p>{plot.plot_name}</p>
-                                 <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
-                               </div>
-                             )
-                         })}
-                    </div>
-                    <div>
-                      <p>Add to a new plot</p>
-                    </div>
-                  </div>
-                  ): ""}
-                </div>
+
+
+
 
 
 
