@@ -304,7 +304,9 @@ class Plantpage extends Component {
                 console.log(res.body);
                 console.log(res.body.user.plots);
                 let user_plot_data = res.body.user.plots;
-                this.setState({user_plot_data: res.body.user.plots});
+                this.setState({user_plot_data: res.body.user.plots}, () => {
+                  console.log('afterSetStateFinished')
+                  console.log(this.state.user_plot_data)});
               }
           })
         }
@@ -377,28 +379,39 @@ class Plantpage extends Component {
     let propsDropDown = null;
     // If the user is logged in.
     if(this.props.token !== null){
-      propsDropDown =
-      <div className="centerHomeButton">
-        <div>
-          <div className="dropdown">
-            <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
-            <div id="myDropdown" className="dropdown-content btn btn-outline-primary style-margin-bottom-20px">
-              {this.props.token ? (
-                  <div>
-                    {this.state.user_plot_data.map( (plot,i) => {
-                         return(
-                           <div key={i}>
-                             {/* <p>{plot.plot_name}</p> */}
-                             <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
-                           </div>
-                         )
-                     })}
-                </div>
-              ): "Add A Plot"}
+      // If the user has plots.
+      if(this.state.user_plot_data !== null){
+        propsDropDown =
+        <div className="centerHomeButton">
+          <div>
+            <div className="dropdown">
+              <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
+              <div id="myDropdown" className="dropdown-content btn btn-outline-primary style-margin-bottom-20px">
+                {this.props.token ? (
+                    <div>
+                      {this.state.user_plot_data.map( (plot,i) => {
+                           return(
+                             <div key={i}>
+                               {/* <p>{plot.plot_name}</p> */}
+                               <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
+                             </div>
+                           )
+                       })}
+                  </div>
+                ): "Add A Plot"}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        // If the user does not have any plots.
+      } else {
+        propsDropDown =
+        <div className="centerHomeButton">
+          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+            <input className='btn btn-primary btn-lg' type='submit' value='Create A Plot'/>
+          </NavLink>
+        </div>
+      }
       // If the user is not logged in.
     } else {
       propsDropDown =
@@ -497,6 +510,7 @@ function mapStateToProps(state) {
       redirection: state.redirection,
       token: state.token,
       zipcode: state.zipcode,
+      username: state.username,
     };
 }
 
