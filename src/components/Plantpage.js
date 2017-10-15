@@ -23,9 +23,120 @@ class Plantpage extends Component {
         image_message: null,
         wiki_link: null,
         user_plot_data: [],
+        popupVisible: false,
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
+      // this.closePlotDropdown = this.closePlotDropdown.bind(this);
   }
+
+  handleClick() {
+    if (!this.state.popupVisible) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+    this.setState(prevState => ({
+           popupVisible: !prevState.popupVisible,
+        }));
+  }
+
+  handleOutsideClick = (e) => {
+    console.log('handleOutsideClick');
+    // ignore clicks on the component itself
+
+    // console.log(this.node);
+    // if (this.node.contains(e.target)) {
+    //   return;
+    // }
+
+    // this.handleClick();
+    document.removeEventListener('click', this.handleOutsideClick, false);
+    if(this.state.popupVisible === true){
+      this.closePlotDropdown();
+    } else {
+      return;
+    }
+
+    // console.log("dropdown should close");
+    // let dropdowns = document.getElementsByClassName("dropdown-content");
+    // let i;
+    // for (i = 0; i < dropdowns.length; i++) {
+    //   let openDropdown = dropdowns[i];
+    //   if (openDropdown.classList.contains('show')) {
+    //     openDropdown.classList.remove('show');
+    //   }
+    // }
+
+    // this.setState({popupVisible: false});
+
+    // this.setState(prevState => ({
+    //        popupVisible: !prevState.popupVisible,
+    //     }));
+
+  }
+
+  // Opens the plant dropdown menu.
+  openPlotDropdown(event){
+    event.preventDefault();
+    console.log("dropdown clicked");
+    document.getElementById("myDropdown").classList.toggle("show");
+
+    if (!this.state.popupVisible) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+    this.setState(prevState => ({
+      popupVisible: true,
+      // popupVisible: !prevState.popupVisible,
+        }));
+        console.log(this.state.popupVisible);
+
+  }
+
+  // Close the dropdown menu if the user clicks outside of it
+  closePlotDropdown(event){
+
+    // if (this.node.contains(event.target)) {
+    //   return;
+    // }
+    if(event !== undefined){
+      event.preventDefault();
+    }
+    console.log("dropdown should close");
+    let dropdowns = document.getElementsByClassName("dropdown-content");
+    let i;
+    for (i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+    this.setState(prevState => ({
+           popupVisible: !prevState.popupVisible,
+        }));
+        console.log(this.state.popupVisible);
+  }
+
+
+  // window.onclick = function(event) {
+  //   if (!event.target.matches('.dropbtn')) {
+  //     var dropdowns = document.getElementsByClassName("dropdown-content");
+  //     var i;
+  //     for (i = 0; i < dropdowns.length; i++) {
+  //       var openDropdown = dropdowns[i];
+  //       if (openDropdown.classList.contains('show')) {
+  //         openDropdown.classList.remove('show');
+  //       }
+  //     }
+  //   }
+  // }
+
+
+
+
 
   componentDidMount(){
     console.log(this.props.token);
@@ -239,27 +350,6 @@ class Plantpage extends Component {
     });
   }
 
-  // Opens the plant dropdown menu.
-  openPlotDropdown(event){
-    event.preventDefault();
-    console.log("dropdown clicked");
-    document.getElementById("myDropdown").classList.toggle("show");
-  }
-
-  // Close the dropdown menu if the user clicks outside of it
-  // window.onclick = function(event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //     var dropdowns = document.getElementsByClassName("dropdown-content");
-  //     var i;
-  //     for (i = 0; i < dropdowns.length; i++) {
-  //       var openDropdown = dropdowns[i];
-  //       if (openDropdown.classList.contains('show')) {
-  //         openDropdown.classList.remove('show');
-  //       }
-  //     }
-  //   }
-  // }
-
   addPlantToPlot(event, plot){
     event.preventDefault();
     //  This lets the user 'bypass' CORs via proxy.
@@ -401,6 +491,10 @@ class Plantpage extends Component {
                 ): "Add A Plot"}
               </div>
             </div>
+
+            <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button>
+
+
           </div>
         </div>
         // If the user does not have any plots.
