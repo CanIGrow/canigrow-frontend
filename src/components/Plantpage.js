@@ -51,8 +51,8 @@ class Plantpage extends Component {
       document.removeEventListener('click', this.handleOutsideClick, false);
     }
     this.setState(prevState => ({
-      popupVisible: true,
-      // popupVisible: !prevState.popupVisible,
+      // popupVisible: true,
+      popupVisible: !prevState.popupVisible,
         }));
         console.log(this.state.popupVisible);
 
