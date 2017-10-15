@@ -29,6 +29,10 @@ class Plantpage extends Component {
         popupVisible: false,
         added_to_plot: "",
         alertVisible: false,
+        sunMessage: "",
+        waterMessage: 'Water information coming soon.',
+        soilMessage: 'Soil information coming soon.',
+        maturationMessage: 'Time to maturity data coming soon.',
 
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
@@ -133,7 +137,7 @@ class Plantpage extends Component {
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
               .end((err, res)=>{
                 // console.log(res);
-                // console.log(res.xhr.responseText);
+                console.log(res.xhr.responseText);
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
                 // console.log(obj);
@@ -148,7 +152,7 @@ class Plantpage extends Component {
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
                   } else {
                     this.setState({image_message : "null"});
-                    // console.log(obj.query.pages[0].thumbnail.source);
+                    console.log(obj.query.pages[0].thumbnail.source);
                     this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                     // If the search was for Hosta.
                     if(search_term === 'Hosta'){
@@ -204,8 +208,13 @@ class Plantpage extends Component {
   // This generates the sun chart data.
   createSunChart(){
     console.log(this.state.plantdata.light);
+    // This handles soil information.
+    let soilMessage = 'This plant likes soil with approx. 6.5 pH.';
+    this.setState({soilMessage: soilMessage});
+
     // This generates a number of hours that the plant needs sunlight.
     let light_string = this.state.plantdata.light;
+    let sunMessage = null;
     let sun_max_value = 2;
     let sun_min_value = 0;
     // Handles minimum sunlight.
@@ -226,17 +235,31 @@ class Plantpage extends Component {
         // Handles maximum sunlinght.
         if(light_string.includes('Full shade')){
           sun_max_value = 3;
+          sunMessage = 'This plant grows well in the shade.';
         }
         if(light_string.includes("Part shade")){
           sun_max_value = 4;
+          sunMessage = 'This plant grows well in the shade.';
         }
         if(light_string.includes("Part sun")){
           sun_max_value = 6;
+          sunMessage = 'This plant grows well with partial sunlight.';
         }
         if(light_string.includes("Full sun")){
           console.log("full");
           sun_max_value = 10;
+          sunMessage = 'This plant grows well with direct sunlight.';
         }
+        if(sun_min_value <= 2 && sun_max_value >= 10){
+          sunMessage = 'This plant grows well with lots or little sunlight.';
+        }
+        if(sun_min_value >= 6 && sun_max_value >= 10){
+          sunMessage = 'This plant requires lots of sunlight.';
+        }
+        if(sun_min_value <= 2 && sun_max_value >= 3){
+          sunMessage = 'This plant should be grown in a shady area.';
+        }
+        this.setState({sunMessage: sunMessage});
       }
     }
 
@@ -252,7 +275,7 @@ class Plantpage extends Component {
         datasets: [
           {
             label: 'Minimum Required',
-            data: [sun_min_value, 2, 3, 5],
+            data: [sun_min_value, 2, 6, 5],
             backgroundColor: [
                 '#e5e5e5',
                 'rgba(54, 162, 235, 0.2)',
@@ -269,17 +292,17 @@ class Plantpage extends Component {
         },
         {
           label: 'Maximum Tolerated',
-          data: [sun_max_value-sun_min_value, max_water_value, 0, 0],
+          data: [sun_max_value-sun_min_value, max_water_value, 1, 0],
           backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
               'rgba(54, 162, 235, 0.2)',
-              // 'rgba(153, 102, 255, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
               // 'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
               '#ffff00',
               'rgba(54, 162, 235, 1)',
-              // 'rgba(153, 102, 255, 1)',
+              'rgba(153, 102, 255, 1)',
               // 'rgba(75, 192, 192, 1)',
           ],
           borderWidth: 1
@@ -319,12 +342,12 @@ class Plantpage extends Component {
           .end((err, res) => {
             let message = "";
               if (err) {
-                console.log(err);
-                console.log("failed to add to plot!");
+                // console.log(err);
+                // console.log("failed to add to plot!");
                 message = `Failed to add to plot. Please try again later`;
               } else {
-                console.log(res.body);
-                console.log(res.body.error);
+                // console.log(res.body);
+                // console.log(res.body.error);
                 message = `Successfully added to plot!`;
                 if(res.body.error === 'This plant already belongs to this plot'){
                   message = 'This plant already belongs to this plot';
@@ -534,26 +557,24 @@ class Plantpage extends Component {
                       {plantdata_notes ? (
                         <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
                       ): ""}
+                      {this.state.plantdata.seasonal_interest_specific ? (
+                        <p className="font-size-16px">Specific Notes: {this.state.plantdata.seasonal_interest_specific}</p>
+                      ): ""}
                       <a href={this.state.wiki_link} className="font-size-16px">Learn More</a>
                     </div>
                      ): ""}
                 </div>
               </div>
 
-              <div className="plant_page_graph_messages margin-left-20pt">
-                <p>Specific Data</p>
+              <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
+                <p className="font-size-16px margin-left-20pt">Based on your location:</p>
                 {this.state.plantdata ? (
                   <div>
-                    {/* <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/> */}
-                    {/* <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p> */}
-                    {/* <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p> */}
-                    {/* <p className="font-size-16px">General shape: {plantdata_form_comma}</p> */}
-                    {/* <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p> */}
-
-                    {/* {plantdata_notes ? (
-                      <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
-                    ): ""} */}
-                    {/* <a href={this.state.wiki_link} className="font-size-16px">Learn More</a> */}
+                    <p className="font-size-16px margin-left-20pt">{this.state.sunMessage}</p>
+                    <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
+                    <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
+                    <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+                    <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
                   </div>
                    ): ""}
               </div>

@@ -361,3 +361,8 @@ TEMP MODAL STYLES
 .blue-hover:hover {
   background-color: #f1f1f1
 }
+.bottom-text{
+  margin-top: 140pt;
+  position: relative;
+  bottom: 0;
+}
