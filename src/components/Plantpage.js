@@ -6,6 +6,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import {redirectAction} from '../actions/actions.js';
+import { Button } from 'react-bootstrap';
+let Alert = require('react-bootstrap').Alert;
+
 
 class Plantpage extends Component {
   constructor(props) {
@@ -24,6 +27,9 @@ class Plantpage extends Component {
         wiki_link: null,
         user_plot_data: [],
         popupVisible: false,
+        added_to_plot: "",
+        alertVisible: false,
+
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
   }
@@ -41,7 +47,7 @@ class Plantpage extends Component {
   // Opens the plant dropdown menu.
   openPlotDropdown(event){
     event.preventDefault();
-    console.log("dropdown clicked");
+    // console.log("dropdown clicked");
     document.getElementById("myDropdown").classList.toggle("show");
 
     if (!this.state.popupVisible) {
@@ -54,8 +60,7 @@ class Plantpage extends Component {
       // popupVisible: true,
       popupVisible: !prevState.popupVisible,
         }));
-        console.log(this.state.popupVisible);
-
+        // console.log(this.state.popupVisible);
   }
 
   // Close the dropdown menu
@@ -63,7 +68,7 @@ class Plantpage extends Component {
     if(event !== undefined){
       event.preventDefault();
     }
-    console.log("dropdown should close");
+    // console.log("dropdown should close");
     let dropdowns = document.getElementsByClassName("dropdown-content");
     let i;
     for (i = 0; i < dropdowns.length; i++) {
@@ -75,12 +80,12 @@ class Plantpage extends Component {
     this.setState(prevState => ({
            popupVisible: !prevState.popupVisible,
         }));
-        console.log(this.state.popupVisible);
+        // console.log(this.state.popupVisible);
   }
 
   // Close the dropdown menu if the user clicks outside of it
   handleOutsideClick = (e) => {
-    console.log('handleOutsideClick');
+    // console.log('handleOutsideClick');
     document.removeEventListener('click', this.handleOutsideClick, false);
     if(this.state.popupVisible === true){
       this.closePlotDropdown();
@@ -312,11 +317,21 @@ class Plantpage extends Component {
                     id: plot
                })
           .end((err, res) => {
+            let message = "";
               if (err) {
+                console.log(err);
                 console.log("failed to add to plot!");
+                message = `Failed to add to plot. Please try again later`;
               } else {
                 console.log(res.body);
+                console.log(res.body.error);
+                message = `Successfully added to plot!`;
+                if(res.body.error === 'This plant already belongs to this plot'){
+                  message = 'This plant already belongs to this plot';
+                }
               }
+              this.setState({added_to_plot: message,
+              alertVisible:true });
           })
         }
       }
@@ -389,6 +404,11 @@ class Plantpage extends Component {
       }
   }
 
+  // This makes alerts go away.
+  handleAlertDismiss = () => {
+    this.setState({alertVisible: false});
+  }
+
   render() {
     console.log(this.state.image_message);
     console.log(this.state.user_plot_data);
@@ -435,10 +455,7 @@ class Plantpage extends Component {
                 ): "Add A Plot"}
               </div>
             </div>
-
-            <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button>
-
-
+            {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
           </div>
         </div>
         // If the user does not have any plots.
@@ -469,6 +486,17 @@ class Plantpage extends Component {
 
     return (
       <div className="plantpage-container main-component-container">
+        {this.state.alertVisible ? (<div>
+          <Alert className="alert alert-success" onDismiss={this.handleAlertDismiss}>
+                    <h4>{this.state.added_to_plot}</h4>
+                    <p>
+                      <Button onClick={this.handleAlertDismiss}>Hide Alert</Button>
+                    </p>
+                  </Alert>
+        </div>): ""}
+
+
+
         <div className="plantpage-sub-container">
           <div className="top_items_plant_page">
             <div className="all_plant_page_images">
