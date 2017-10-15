@@ -305,9 +305,6 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
-{/*
-TODO ADD CANCEL TO MAKING A NEW PLOT
-*/}
                 {this.state.dragging ? (
                   <div className="droppable-div"
                     onDrop={event => this.drag(event, "dropped", plot.plot_id)}
