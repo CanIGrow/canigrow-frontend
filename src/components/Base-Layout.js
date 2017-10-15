@@ -66,8 +66,11 @@ export default class BaseLayout extends Component {
     }
     else {
       outerStyle = {
-          // "backgroundColor": "#D3D3D3",
-          "backgroundColor": "#EEEEEE",
+          "backgroundColor": "#D3D3D3",
+          // "backgroundColor": "#EEEEEE",
+          // "backgroundColor": "#5D711F",
+          // "backgroundColor": "#60AC68",
+
           "minHeight" : "800px"
       }
     }

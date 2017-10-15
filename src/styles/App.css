@@ -11,7 +11,8 @@ html, body, #root, .body{
   visibility: hidden;
 }
 .header-container{
-  background-color: rgba(102,34,0, 1);
+  /*background-color: rgba(102,34,0, 1);*/
+  background-color: white;
   color: white;
   height: 80px;
 }
@@ -248,7 +249,8 @@ TEMP MODAL STYLES
   overflow: hidden;
 }
 .plantpage-sub-container {
-  background-color: #FDF8E2;
+  /*background-color: #FDF8E2;*/
+  background-color: #EEEEEE;
   width: 1150px;
   border-radius: 10px;
   margin: 10px auto;
@@ -310,9 +312,6 @@ TEMP MODAL STYLES
 .margin-left-20pt{
   margin-left: 20pt;
 }
-
-
-
 /*For plantpage dropdown*/
 /* Dropdown Button */
 .dropbtn {
@@ -323,12 +322,10 @@ TEMP MODAL STYLES
     border: none;
     cursor: pointer;
 }
-
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
     background-color: #3e8e41;
 }
-
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
@@ -343,7 +340,6 @@ TEMP MODAL STYLES
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-
 /* Links inside the dropdown */
 .dropdown-content a {
     color: black;
@@ -351,9 +347,14 @@ TEMP MODAL STYLES
     text-decoration: none;
     display: block;
 }
-
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
-
+.dropdown-content a:hover {
+  background-color: #f1f1f1
+}
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+.show {
+  display:block;
+}
+.margin-top-20pt {
+  margin-top: 20pt;
+}
