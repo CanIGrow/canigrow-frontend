@@ -358,3 +358,6 @@ TEMP MODAL STYLES
 .margin-top-20pt {
   margin-top: 20pt;
 }
+.blue-hover:hover {
+  background-color: #f1f1f1
+}

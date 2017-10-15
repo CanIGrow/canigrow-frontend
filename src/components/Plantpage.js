@@ -440,14 +440,13 @@ class Plantpage extends Component {
           <div>
             <div className="dropdown">
               <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
-              <div id="myDropdown" className="dropdown-content btn btn-outline-primary style-margin-bottom-20px">
+              <div id="myDropdown" className="dropdown-content style-margin-bottom-20px">
                 {this.props.token ? (
                     <div>
                       {this.state.user_plot_data.map( (plot,i) => {
                            return(
-                             <div key={i}>
-                               {/* <p>{plot.plot_name}</p> */}
-                               <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
+                             <div key={i} className="blue-hover" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>
+                               <p>Add to {plot.plot_name}</p>
                              </div>
                            )
                        })}
