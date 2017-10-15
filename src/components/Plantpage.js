@@ -446,7 +446,7 @@ class Plantpage extends Component {
                       {this.state.user_plot_data.map( (plot,i) => {
                            return(
                              <div key={i} className="blue-hover" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>
-                               <p>Add to {plot.plot_name}</p>
+                               <p className="font-size-16px">Add to {plot.plot_name}</p>
                              </div>
                            )
                        })}
