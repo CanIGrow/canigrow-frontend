@@ -108,6 +108,7 @@ class Plantpage extends Component {
        event.preventDefault();
      }
      let search_term = 'Potentilla';
+     let plant_species_image = false;
      let returned_value = false;
     //  Keep this while testing.
      returned_value = true;
@@ -138,26 +139,45 @@ class Plantpage extends Component {
               .end((err, res)=>{
                 // console.log(res);
                 console.log(res.xhr.responseText);
+                // console.log(res.xhr.responseText);
+
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
-                // console.log(obj);
-                // console.log(obj.query);
                 if(obj.query !== undefined){
+                  console.log(obj);
+                  // CHecks to see if the image is of a 'species of plant'
+                  if(obj.query.pages[0] !== undefined){
+                    if(obj.query.pages[0].terms !== undefined){
+                      if(obj.query.pages[0].terms.description[0] !== undefined){
+                        if(obj.query.pages[0].terms.description[0] === 'species of plant'){
+                          console.log(obj.query.pages[0].terms.description[0]);
+                          plant_species_image = true;
+                        }
+                      }
+                    }
+                  }
+
+
                   let imageNum = Object.keys(obj.query.pages)[0];
                   // console.log(obj.query.pages);
                   // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
-                    console.log('No Image to Show');
+                    // console.log('No Image to Show');
                     this.setState({image_message : "There is no image available for this plant in our database at this time."});
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                  } else if(plant_species_image){
+                      this.setState({image_message : "null"});
+                      console.log(obj.query.pages[0].thumbnail.source);
+                      this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                   } else {
-                    this.setState({image_message : "null"});
-                    console.log(obj.query.pages[0].thumbnail.source);
-                    this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                    // console.log('No Plant Image to Show');
+                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
+                    this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                  }
                     // If the search was for Hosta.
                     if(search_term === 'Hosta'){
                       this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
-                    }
+
                   }
                 } else {
                   // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
@@ -169,11 +189,11 @@ class Plantpage extends Component {
                   .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
                    .end((err, res)=>{
                       //  console.log(res);
-                      //  console.log(res.xhr.responseText);
+                       console.log(res.xhr.responseText);
                       let string = res.xhr.responseText
                       let obj = JSON.parse(string);
                       //  console.log(obj);
-                      //  console.log(obj.query.pages[0]);
+                       console.log(obj.query.pages[0]);
                       let imageNum = Object.keys(obj.query.pages)[0];
                       // console.log(obj.query.pages[0].thumbnail.source);
 
