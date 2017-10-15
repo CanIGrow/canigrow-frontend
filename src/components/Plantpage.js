@@ -26,54 +26,16 @@ class Plantpage extends Component {
         popupVisible: false,
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
-      // this.closePlotDropdown = this.closePlotDropdown.bind(this);
   }
 
-  handleClick() {
-    if (!this.state.popupVisible) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-    this.setState(prevState => ({
-           popupVisible: !prevState.popupVisible,
-        }));
+  componentDidMount(){
+    console.log(this.props.token);
+    // console.log(this.props.zipcode);
+    // console.log(this.state.zipcode);
   }
 
-  handleOutsideClick = (e) => {
-    console.log('handleOutsideClick');
-    // ignore clicks on the component itself
-
-    // console.log(this.node);
-    // if (this.node.contains(e.target)) {
-    //   return;
-    // }
-
-    // this.handleClick();
+  componentWillUnmount() {
     document.removeEventListener('click', this.handleOutsideClick, false);
-    if(this.state.popupVisible === true){
-      this.closePlotDropdown();
-    } else {
-      return;
-    }
-
-    // console.log("dropdown should close");
-    // let dropdowns = document.getElementsByClassName("dropdown-content");
-    // let i;
-    // for (i = 0; i < dropdowns.length; i++) {
-    //   let openDropdown = dropdowns[i];
-    //   if (openDropdown.classList.contains('show')) {
-    //     openDropdown.classList.remove('show');
-    //   }
-    // }
-
-    // this.setState({popupVisible: false});
-
-    // this.setState(prevState => ({
-    //        popupVisible: !prevState.popupVisible,
-    //     }));
-
   }
 
   // Opens the plant dropdown menu.
@@ -96,12 +58,8 @@ class Plantpage extends Component {
 
   }
 
-  // Close the dropdown menu if the user clicks outside of it
+  // Close the dropdown menu
   closePlotDropdown(event){
-
-    // if (this.node.contains(event.target)) {
-    //   return;
-    // }
     if(event !== undefined){
       event.preventDefault();
     }
@@ -120,29 +78,15 @@ class Plantpage extends Component {
         console.log(this.state.popupVisible);
   }
 
-
-  // window.onclick = function(event) {
-  //   if (!event.target.matches('.dropbtn')) {
-  //     var dropdowns = document.getElementsByClassName("dropdown-content");
-  //     var i;
-  //     for (i = 0; i < dropdowns.length; i++) {
-  //       var openDropdown = dropdowns[i];
-  //       if (openDropdown.classList.contains('show')) {
-  //         openDropdown.classList.remove('show');
-  //       }
-  //     }
-  //   }
-  // }
-
-
-
-
-
-  componentDidMount(){
-    console.log(this.props.token);
-    // console.log(this.props.zipcode);
-    // console.log(this.state.zipcode);
-
+  // Close the dropdown menu if the user clicks outside of it
+  handleOutsideClick = (e) => {
+    console.log('handleOutsideClick');
+    document.removeEventListener('click', this.handleOutsideClick, false);
+    if(this.state.popupVisible === true){
+      this.closePlotDropdown();
+    } else {
+      return;
+    }
   }
 
   // This gets and md5 hash for a given string.
