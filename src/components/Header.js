@@ -38,11 +38,18 @@ class Header extends Component {
   }
 
   render() {
+      let popoverbuttons = false
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
       let userButton = `${this.props.username}'s garden`;
       // If the user is logged in show:
       if (this.props.token && this.props.username) {
+        popoverbuttons =
+        <div>
+          <Link to="/">Home</Link><br/>
+          <span className="manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
+          <Link to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
+        </div>
         rightButtons =
         <div className="changeButtons">
           <li>
@@ -55,9 +62,14 @@ class Header extends Component {
             </NavLink>
           </li>
         </div>;
-      }
-      // If the user is logged out show.
-      else {
+      } else {
+        // If the user is logged out show.
+        popoverbuttons =
+        <div>
+          <Link to="/">Home</Link><br/>
+          <Link to="/register">Register</Link><br/>
+          <Link to="/login">Login</Link><br/>
+        </div>
         rightButtons =
         <div className="changeButtons">
           <li>
@@ -77,7 +89,8 @@ class Header extends Component {
         <div className="container align-middle header-navbar">
           <li>
             <NavLink activeClassName="selected" to="/">
-              <input className='btn btn-outline-primary' type='submit' value='Homepage'/>
+              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+              <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
             </NavLink>
           </li>
           {rightButtons}
@@ -86,6 +99,7 @@ class Header extends Component {
         data-toggle="modal" data-target="#hamburger-menu">
           &#9776;
         </button>
+        <img src={require('./canigrowlogo.png')} className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
             <div className="modal-dialog">
@@ -98,10 +112,8 @@ class Header extends Component {
                   &times;
                 </span>
 						  </button>
-                  <Link to="/">Home</Link>
+                {popoverbuttons ? popoverbuttons : ""}
                   <Link to="/users">Users</Link>
-                  <Link to="/register">Register</Link>
-                  <Link to="/login">Login</Link>
               </div>
             </div>
           </div>

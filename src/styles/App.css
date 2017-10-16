@@ -6,6 +6,15 @@ html, body, #root, .body{
   background-color: #EEEEEE;
   /*rgba(255,248,220, 1)*/
 }
+.canigrowlogo-mobile{
+  width: 200px;
+  text-align: center;
+  display: inline-block;
+}
+.canigrowlogo{
+  visibility: hidden;
+  display: none;
+}
 .header-navbar{
   display: none;
   visibility: hidden;
@@ -20,7 +29,7 @@ html, body, #root, .body{
   cursor: pointer;
   top: 0;
   height: 100%;
-  color: white;
+  color: black;
   border: 0;
   background: 0;
 }
@@ -114,7 +123,20 @@ html, body, #root, .body{
 .homepage-search-box:focus{
   background-color: rgba(255,255,255, 0.2);
 }
+.manual-link-style{
+  cursor: pointer;
+  color: #007bff;
+}
+.manual-link-style:hover{
+  text-decoration: underline;
+  color: #0056b3;
+}
 @media (min-width: 680px) {
+  .canigrowlogo{
+    visibility: visible;
+    display: block;
+    width: 200px;
+  }
   .changeButtons{
     margin-left: 200pt;
     width: 300pt;
@@ -127,7 +149,7 @@ html, body, #root, .body{
   .homepage-search-title, .homepage-search-box{
     display: inline;
   }
-  .header-hamburger{
+  .header-hamburger, .canigrowlogo-mobile{
     visibility: hidden;
     display: none;
   }
@@ -152,10 +174,27 @@ html, body, #root, .body{
 /*******************************
 USERPAGE STYLES
 *******************************/
+.delete-dropover-parent{
+  position: absolute;
+  height: 100%;
+  left: 0;
+  border: 1px solid black;
+}
+.delete-dropover-child{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 200px;
+  width: 200px;
+}
 .droppable-div{
-  height: 25px;
+  height: 30px;
   width: 100%;
   background-color: white;
+}
+#elementtoaddthepopupmenu{
+  display: none;
+  position: absolute;
 }
 .droppable-div:hover{
   background-color: rgba(201,224,100, 0.5);
