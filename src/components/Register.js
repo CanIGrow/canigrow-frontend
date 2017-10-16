@@ -99,7 +99,7 @@ class Register extends Component {
     }
   render() {
     let fourmready = false;
-    if (this.state.usernameinput.length > 4 && this.state.password.length > 5 && this.state.password2.length > 5 && !this.state.passworderror && !this.state.usernameinputerror){
+    if (this.state.usernameinput.length > 4 && this.state.password.length > 4 && this.state.password2.length > 4 && !this.state.passworderror && !this.state.usernameinputerror){
       fourmready = true;
     }
     let registerContents = null;

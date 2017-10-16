@@ -15,11 +15,9 @@ class EditProfile extends Component {
       fireredirect: false,
       message: false,
       userexists: true,
-      username: this.props.username,
       user: null,
       userdata: false,
       bio: '',
-      canedit: false,
       click:false,
     };
   }
@@ -39,6 +37,7 @@ class EditProfile extends Component {
           //If user does not exist:
           this.setState({userexists: false});
         } else if (res !== undefined){
+          console.log(res);
           this.setState({userdata: res.body.user});
         }
       })
