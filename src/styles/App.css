@@ -178,26 +178,26 @@ USERPAGE STYLES
   position: absolute;
   height: 100%;
   left: 0;
-  border: 1px solid black;
 }
 .delete-dropover-child{
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
-  height: 200px;
-  width: 200px;
+  width: 100px;
+}
+#elementtoaddthepopupmenu{
+  display: none;
+  position: absolute;
 }
 .droppable-div{
   height: 30px;
   width: 100%;
   background-color: white;
 }
-#elementtoaddthepopupmenu{
-  display: none;
-  position: absolute;
-}
-.droppable-div:hover{
-  background-color: rgba(201,224,100, 0.5);
+.droppable-div-highlighted{
+  height: 30px;
+  width: 100%;
+  background-color: rgba(255,255,255, 0.5);
 }
 .userpage-outer-plots-holder{
   display: flex;

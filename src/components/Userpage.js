@@ -29,6 +29,7 @@ class Userpage extends Component {
       dragfrom: false,
       plantdragging: false,
       click:false,
+      deleting:false,
     };
     this.reloaduser = this.reloaduser.bind(this);
     this.moveplant = this.moveplant.bind(this);
@@ -94,7 +95,7 @@ class Userpage extends Component {
   }
   finishediting(event){
     event.preventDefault();
-    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false});
+    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false,deleting:false});
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -129,8 +130,11 @@ class Userpage extends Component {
       }
     }
   }
-  dragover(event){event.preventDefault();}
+  dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
+  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';
+console.log("exited");}
   drag(event, data, object, plant){
+    console.log(data, object, plant);
     if (data === "startdragging"){
       this.setState({dragging:true,dragfrom:object,plantdragging:plant});
     } else if (data === "stopdragging"){
@@ -139,13 +143,15 @@ class Userpage extends Component {
       if (this.state.dragfrom !== object){
         this.setState({dragto:object,click:true});
       } else {
-        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
+        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
       }
+    } else if (data === "delete"){
+      this.setState({dragto:object,click:true,deleting:true});
     }
   }
   cancelmove(event){
     event.preventDefault();
-    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
+    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
   }
   clickDiv(el) {
     if (el && el !== undefined){
@@ -153,11 +159,18 @@ class Userpage extends Component {
     }
   }
   moveplant(event, copy){
-    let plantdata = {
-        "plant_id":this.state.plantdragging.plant_id,
-        "new_plot":this.state.dragto,
-        "copy":copy
-      }
+    let plantdata = {}
+    if (copy === "delete"){
+      plantdata = {
+          "plant_id":this.state.plantdragging.plant_id
+        }
+    } else {
+      plantdata = {
+          "plant_id":this.state.plantdragging.plant_id,
+          "new_plot":this.state.dragto,
+          "copy":copy
+        }
+    }
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let token = cookie.load("token")
     if (token === this.props.token){
@@ -296,7 +309,8 @@ class Userpage extends Component {
                 {this.state.dragging ? (
                   <div className="droppable-div"
                     onDrop={event => this.drag(event, "dropped", plot.plot_id)}
-                    onDragOver={event => this.dragover(event)}>
+                    onDragOver={event => this.dragover(event)}
+                    onDragLeave={event => this.dragexit(event)}>
                   </div>
                 ):("")}
                 {this.state.editing ? (
@@ -322,6 +336,23 @@ class Userpage extends Component {
       <div className="container">
         <div className="modal top fade in" id="confirmpopup" tabIndex="-1"
         onClick={event => this.cancelmove(event)}>
+        {this.state.deleting ? (
+          <div className="modal-dialog">
+            <div className="modal-content text-center">
+            <button type="button"
+            data-dismiss="modal"
+            onClick={event => this.moveplant(event, "delete")}>
+              Delete Plant
+            </button>
+            <button type="button"
+            data-dismiss="modal"
+            aria-label="Close"
+            onClick={event => this.cancelmove(event)}>
+              Cancel
+            </button>
+            </div>
+          </div>
+        ):(
           <div className="modal-dialog">
             <div className="modal-content text-center">
             <button type="button"
@@ -342,11 +373,14 @@ class Userpage extends Component {
             </button>
             </div>
           </div>
+        )}
         </div>
       </div>
       {this.state.dragging ? (
         <div className="delete-dropover-parent">
-          <img className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
+          <img onDrop={event => this.drag(event, "delete")}
+            onDragOver={event => this.dragover(event)}
+            className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
         </div>
       ):("")}
         {userobjectdata}
