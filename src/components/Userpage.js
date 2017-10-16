@@ -34,7 +34,7 @@ class Userpage extends Component {
       deleting:false,
     };
     this.reloaduser = this.reloaduser.bind(this);
-    this.moveplant = this.moveplant.bind(this);
+    this.editplots = this.editplots.bind(this);
   }
 
   componentWillMount() {
@@ -62,6 +62,11 @@ class Userpage extends Component {
       this.setState({canedit: true});
     }
   }
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   reloaduser(){
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
@@ -81,22 +86,8 @@ class Userpage extends Component {
       this.setState({[event.target.id]: event.target.value});
     }
   }
-  updateFromField(stateKey) {
-      return (event) => {
-        this.setState({[stateKey]: event.target.value});
-      }
-    }
-  componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
-      this.setState({fireredirect:true});
-    }
-  }
-  beginediting(event){
-    event.preventDefault();
-    this.setState({editing: true});
-  }
-  finishediting(event){
-    event.preventDefault();
+  beginediting(event){event.preventDefault();this.setState({editing: true});}
+  finishediting(event){event.preventDefault();
     this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false,deleting:false});
   }
   edituser(event, target, data){
@@ -163,7 +154,7 @@ class Userpage extends Component {
       el.click()
     }
   }
-  moveplant(event, copy){
+  editplots(event, copy){
     let plantdata = {}
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let token = cookie.load("token")
@@ -301,15 +292,15 @@ class Userpage extends Component {
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
               <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
-                <h4>{plot.plot_name}{this.state.editing ? (
+                <h4>{plot.plot_name}{this.state.editing && (
                   <button type="button"
                     onClick={event => this.drag(event, "deleteplot")}
                     className="close"
                     aria-label="Close">
-      							<span aria-hidden="true">  &times;
+                    <span aria-hidden="true">  &times;
                     </span>
-    						  </button>
-                ):("")}
+                  </button>
+                  )}
                 </h4>
                 {plot.plants.map((plant, i)=>{
                   /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
@@ -332,16 +323,16 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
-                {this.state.dragging ? (
+                {this.state.dragging && (
                   <div className="droppable-div"
                     onDrop={event => this.drag(event, "dropped", plot.plot_id)}
                     onDragOver={event => this.dragover(event)}
                     onDragLeave={event => this.dragexit(event)}>
                   </div>
-                ):("")}
-                {this.state.editing ? (
+                )}
+                {this.state.editing && (
                   addplantbutton
-                ):("")}
+                )}
               </div>
             )
           })}
@@ -351,65 +342,55 @@ class Userpage extends Component {
     }
     return (
       <div className="userpage-container main-component-container">
-      {this.state.click ? (
+      {this.state.click && (
         <button
         id="elementtoaddthepopupmenu"
          className="content"
          ref={this.clickDiv}
         data-toggle="modal" data-target="#confirmpopup">
         </button>
-      ):("")}
+      )}
       <div className="container">
         <div className="modal top fade in" id="confirmpopup" tabIndex="-1"
-        onClick={event => this.cancelmove(event)}>
+            onClick={event => this.cancelmove(event)}>
+          <div className="modal-dialog">
+            <div className="modal-content text-center">
         {this.state.deleting ? (
-          <div className="modal-dialog">
-            <div className="modal-content text-center">
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, "delete")}>
-              Delete {this.state.deleting}
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            aria-label="Close"
-            onClick={event => this.cancelmove(event)}>
-              Cancel
-            </button>
+              <button type="button"
+              data-dismiss="modal"
+              onClick={event => this.editplots(event, "delete")}>
+                Delete {this.state.deleting}
+              </button>
+            ):(
+              <button type="button"
+              data-dismiss="modal"
+              onClick={event => this.editplots(event, false)}>
+                Move
+              </button>
+              <button type="button"
+              data-dismiss="modal"
+              onClick={event => this.editplots(event, "yes")}>
+                Copy
+              </button>
+            )}
+              <button type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+              onClick={event => this.cancelmove(event)}>
+                Cancel
+              </button>
             </div>
           </div>
-        ):(
-          <div className="modal-dialog">
-            <div className="modal-content text-center">
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, false)}>
-              Move
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, "yes")}>
-              Copy
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            aria-label="Close"
-            onClick={event => this.cancelmove(event)}>
-              Cancel
-            </button>
-            </div>
-          </div>
-        )}
         </div>
       </div>
-      {this.state.dragging ? (
+      {this.state.dragging && (
         <div className="delete-dropover-parent">
           <img onDrop={event => this.drag(event, "delete")}
             onDragOver={event => this.dragoverdelete(event)}
             onDragLeave={event => this.dragexitdelete(event)}
             className="delete-dropover-child" src={trashbin} alt="DELETE"/>
         </div>
-      ):("")}
+      )}
         {userobjectdata}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>

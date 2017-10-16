@@ -481,11 +481,6 @@ class Plantpage extends Component {
       this.setState({fireredirect:true});
     }
   }
-  updateFromField(stateKey) {
-      return (event) => {
-        this.setState({[stateKey]: event.target.value});
-      }
-  }
 
   // This makes alerts go away.
   handleAlertDismiss = () => {
