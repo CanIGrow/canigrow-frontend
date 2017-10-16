@@ -413,3 +413,10 @@ TEMP MODAL STYLES
   position: relative;
   bottom: 0;
 }
+.homepage-sub-container {
+  /*background-color: #FDF8E2;*/
+  background-color: #EEEEEE;
+  width: 1150px;
+  border-radius: 10px;
+  margin: 10px auto;
+}

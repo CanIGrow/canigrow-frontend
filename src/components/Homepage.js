@@ -350,7 +350,7 @@ class Homepage extends Component {
     return (
       <div className="homepage-container main-component-container">
         <div>
-          <div className="plantpage-sub-container">
+          <div className="homepage-sub-container">
             <form>
               <div className="homepage-search-container container">
                 <div className="pagination-centered text-center">
@@ -410,7 +410,7 @@ class Homepage extends Component {
                   ):""}
                 </div>
                 <span>
-                {this.state.zone ? this.state.zone : ""}
+                {this.state.zone ? <a className='btn btn-link' type='submit' href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
                 </span>
                 <br/>
               </div>
