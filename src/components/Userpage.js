@@ -103,7 +103,21 @@ class Userpage extends Component {
       this.setState({dragging:false});
     } else if (data === "dropped"){
       if (this.state.dragfrom !== object){
-        this.setState({dragto:object,click:true});
+        let repeatplant = false;
+        this.state.userdata.plots.map((x, i)=>{
+          if (x.plot_id === object){
+            x.plants.map((y,i)=>{
+              if (y.plant_id === this.state.plantdragging.plant_id){
+                repeatplant = true;
+              }
+            })
+          }
+        })
+        if (!repeatplant){
+          this.setState({dragto:object,click:true});
+        } else if (repeatplant){
+          this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
+        }
       } else {
         this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
       }
@@ -155,9 +169,9 @@ class Userpage extends Component {
     }
   }
   editplots(event, data){
-    let plantdata = {}
+    let token = cookie.load("token");
+    let plantdata = {};
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    let token = cookie.load("token")
     if (this.state.deleting !== "Plot" && token === this.props.token){
       if (data === "delete"){
         plantdata = {
@@ -365,7 +379,7 @@ class Userpage extends Component {
                 Delete {this.state.deleting}
               </button>
             ):(
-              <div>
+              <div className="modal-content text-center">
                 <button type="button"
                 data-dismiss="modal"
                 onClick={event => this.editplots(event, false)}>
