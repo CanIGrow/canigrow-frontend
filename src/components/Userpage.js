@@ -90,6 +90,37 @@ class Userpage extends Component {
   finishediting(event){event.preventDefault();
     this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false,deleting:false});
   }
+  clickDiv(el) {if (el && el !== undefined){el.click();}}
+  dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
+  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';}
+  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
+  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
+  drag(event, data, object, plant){
+    console.log(data, object, plant);
+    if (data === "startdragging"){
+      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
+    } else if (data === "stopdragging"){
+      this.setState({dragging:false});
+    } else if (data === "dropped"){
+      if (this.state.dragfrom !== object){
+        this.setState({dragto:object,click:true});
+      } else {
+        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
+      }
+    } else if (data === "delete"){
+      this.setState({dragto:object,click:true,deleting:"Plant"});
+    } else if (data === "deleteplot"){
+      this.setState({dragto:object,click:true,deleting:"Plot"});
+    }
+  }
+  cancelmove(event){
+    event.preventDefault();
+    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
+  }
+  editprofileredirect(event, username){
+    event.preventDefault();
+    this.props.redirectAction([`/edit/${username}`, "Edit"]);
+  }
   edituser(event, target, data){
     event.preventDefault();
     if (target === "addnewplot"){
@@ -121,37 +152,6 @@ class Userpage extends Component {
       } else {
         window.location.reload();
       }
-    }
-  }
-  dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
-  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';}
-  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
-  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
-  drag(event, data, object, plant){
-    console.log(data, object, plant);
-    if (data === "startdragging"){
-      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
-    } else if (data === "stopdragging"){
-      this.setState({dragging:false});
-    } else if (data === "dropped"){
-      if (this.state.dragfrom !== object){
-        this.setState({dragto:object,click:true});
-      } else {
-        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
-      }
-    } else if (data === "delete"){
-      this.setState({dragto:object,click:true,deleting:"Plant"});
-    } else if (data === "deleteplot"){
-      this.setState({dragto:object,click:true,deleting:"Plot"});
-    }
-  }
-  cancelmove(event){
-    event.preventDefault();
-    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
-  }
-  clickDiv(el) {
-    if (el && el !== undefined){
-      el.click()
     }
   }
   editplots(event, copy){
@@ -197,10 +197,6 @@ class Userpage extends Component {
     } else {
       window.location.reload();
     }
-  }
-  editprofileredirect(event, username){
-    event.preventDefault();
-    this.props.redirectAction([`/edit/${username}`, "Edit"]);
   }
   render() {
     let editbutton = false;
@@ -252,6 +248,7 @@ class Userpage extends Component {
       </div>
     }
     let addplantbutton = "";
+    //This pops in when something is being dragged
     if (this.state.editing && !this.state.dragging){
       addplantbutton =
       <div className="userpage-plant-div">
@@ -260,6 +257,7 @@ class Userpage extends Component {
       </div>
     }
     let userobjectdata = false;
+    //This holds the main body of the data, including the user, bio, plots, and plants
     if (!this.state.userexists){
       userobjectdata =
         <h1 className="pagination-centered text-center">
@@ -344,10 +342,10 @@ class Userpage extends Component {
       <div className="userpage-container main-component-container">
       {this.state.click && (
         <button
-        id="elementtoaddthepopupmenu"
-         className="content"
-         ref={this.clickDiv}
-        data-toggle="modal" data-target="#confirmpopup">
+          id="elementtoaddthepopupmenu"
+          className="content"
+          ref={this.clickDiv}
+          data-toggle="modal" data-target="#confirmpopup">
         </button>
       )}
       <div className="container">
