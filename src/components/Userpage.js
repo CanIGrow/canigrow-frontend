@@ -51,7 +51,6 @@ class Userpage extends Component {
           //If user does not exist:
           this.setState({userexists: false});
         } else if (res !== undefined){
-          console.log(res.body.user);
           this.setState({userdata: res.body.user});
         }
       })
@@ -96,11 +95,14 @@ class Userpage extends Component {
   dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
   dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
   drag(event, data, object, plant){
-    console.log(data, object, plant);
     if (data === "startdragging"){
       this.setState({dragging:true,dragfrom:object,plantdragging:plant});
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
+    } else if (data === "delete"){
+      this.setState({dragto:object,click:true,deleting:"Plant"});
+    } else if (data === "deleteplot"){
+      this.setState({dragto:object,click:true,deleting:"Plot"});
     } else if (data === "dropped"){
       if (this.state.dragfrom !== object){
         let repeatplant = false;
@@ -121,10 +123,6 @@ class Userpage extends Component {
       } else {
         this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
       }
-    } else if (data === "delete"){
-      this.setState({dragto:object,click:true,deleting:"Plant"});
-    } else if (data === "deleteplot"){
-      this.setState({dragto:object,click:true,deleting:"Plot"});
     }
   }
   cancelmove(event){
