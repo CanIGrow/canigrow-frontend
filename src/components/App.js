@@ -10,7 +10,9 @@ import Register from './Register.js';
 import Userpage from './Userpage.js';
 import BaseLayout from './Base-Layout.js';
 import Userlisting from './Userlisting.js';
+import PasswordReset from './PasswordReset.js';
 import EditProfile from './EditProfile.js';
+
 // These are for redux.
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
@@ -98,6 +100,7 @@ class App extends Component {
                 <Route exact path="/" render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
+                <Route path="/login/password_reset" component={PasswordReset} />
                 <Route path="/user/:user" render={(props) => ( <Userpage newTemplate={this.changeTemplate.bind(this)}/> )}/>
                 <Route path="/users"  component={Userlisting} />
                 <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>
