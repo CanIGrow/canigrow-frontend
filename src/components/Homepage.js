@@ -349,73 +349,77 @@ class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <form>
-          <div className="homepage-search-container container">
-            <div className="pagination-centered text-center">
-              <h2 className="homepage-search-title">Can I Grow...
-              <input type="search" id="searchbartext"
-                value={this.state.searchbartext}
-                onChange={this.handleTextChange}
-                className="homepage-search-box"/>
-              </h2>
-            </div>
-          </div>
-          <div className="pagination-centered text-center">
-            <div className="homepage-settings-section">
-              <div>
-                zip code
-                <input type="search" id="zipcode"
-                  value={this.state.zipcode}
-                  onChange={this.handleTextChange}
-                  className="homepage-search-box"/>
-              </div>
-              {this.state.date ? (
-                <div>
-                  <input onChange={this.handleSelectChange}
-                    id="divisions-checkBox" type="checkbox"
-                    className="styled-checkbox"
-                    checked={this.state.divisionsChecked}
-                    value={this.state.divisionsChecked}/>
-                  <label htmlFor="divisions-checkBox">Seasonal Divisions:</label>
-                  {this.state.divisionsChecked ? (
-                    <select className="custom-select homepage-season-selection" id="divisons-select-options"
-                      value={this.state.date.searchSeason}
-                      onChange={this.handleSelectChange}>
-                      <option value="Early-Winter">Early-Winter</option>
-                      <option value="Mid-Winter">Mid-Winter</option>
-                      <option value="Late-Winter">Late-Winter</option>
-                      <option value="Early-Spring">Early-Spring</option>
-                      <option value="Mid-Spring">Mid-Spring</option>
-                      <option value="Late-Spring">Late-Spring</option>
-                      <option value="Early-Summer">Early-Summer</option>
-                      <option value="Mid-Summer">Mid-Summer</option>
-                      <option value="Late-Summer">Late-Summer</option>
-                      <option value="Early-Fall">Early-Fall</option>
-                      <option value="Mid-Fall">Mid-Fall</option>
-                      <option value="Late-Fall">Late-Fall</option>
-                    </select>
-                  ):(
-                    <select className="custom-select homepage-season-selection" id="divisons-select-options"
-                      value={this.state.date.searchSeason}
-                      onChange={this.handleSelectChange}>
-                      <option value="Winter">Winter</option>
-                      <option value="Spring">Spring</option>
-                      <option value="Summer">Summer</option>
-                      <option value="Fall">Fall</option>
-                    </select>
-                  )}
+        <div>
+          <div className="plantpage-sub-container">
+            <form>
+              <div className="homepage-search-container container">
+                <div className="pagination-centered text-center">
+                  <h2 className="homepage-search-title">Can I Grow...
+                  <input type="search" id="searchbartext"
+                    value={this.state.searchbartext}
+                    onChange={this.handleTextChange}
+                    className="homepage-search-box"/>
+                  </h2>
                 </div>
-              ):""}
-            </div>
-            <span>
-            {this.state.zone ? this.state.zone : ""}
-            </span>
-            <br/>
-          </div>
-          {searchResults ? searchResults : ""}
-          <br/>
-          {suggestedResults ? suggestedResults : ""}
-        </form>
+              </div>
+              <div className="pagination-centered text-center">
+                <div className="homepage-settings-section">
+                  <div>
+                    zip code
+                    <input type="search" id="zipcode"
+                      value={this.state.zipcode}
+                      onChange={this.handleTextChange}
+                      className="homepage-search-box"/>
+                  </div>
+                  {this.state.date ? (
+                    <div>
+                      <input onChange={this.handleSelectChange}
+                        id="divisions-checkBox" type="checkbox"
+                        className="styled-checkbox"
+                        checked={this.state.divisionsChecked}
+                        value={this.state.divisionsChecked}/>
+                      <label htmlFor="divisions-checkBox">Seasonal Divisions:</label>
+                      {this.state.divisionsChecked ? (
+                        <select className="custom-select homepage-season-selection" id="divisons-select-options"
+                          value={this.state.date.searchSeason}
+                          onChange={this.handleSelectChange}>
+                          <option value="Early-Winter">Early-Winter</option>
+                          <option value="Mid-Winter">Mid-Winter</option>
+                          <option value="Late-Winter">Late-Winter</option>
+                          <option value="Early-Spring">Early-Spring</option>
+                          <option value="Mid-Spring">Mid-Spring</option>
+                          <option value="Late-Spring">Late-Spring</option>
+                          <option value="Early-Summer">Early-Summer</option>
+                          <option value="Mid-Summer">Mid-Summer</option>
+                          <option value="Late-Summer">Late-Summer</option>
+                          <option value="Early-Fall">Early-Fall</option>
+                          <option value="Mid-Fall">Mid-Fall</option>
+                          <option value="Late-Fall">Late-Fall</option>
+                        </select>
+                      ):(
+                        <select className="custom-select homepage-season-selection" id="divisons-select-options"
+                          value={this.state.date.searchSeason}
+                          onChange={this.handleSelectChange}>
+                          <option value="Winter">Winter</option>
+                          <option value="Spring">Spring</option>
+                          <option value="Summer">Summer</option>
+                          <option value="Fall">Fall</option>
+                        </select>
+                      )}
+                    </div>
+                  ):""}
+                </div>
+                <span>
+                {this.state.zone ? this.state.zone : ""}
+                </span>
+                <br/>
+              </div>
+              {searchResults ? searchResults : ""}
+              <br/>
+              {suggestedResults ? suggestedResults : ""}
+            </form>
+        </div>
+      </div>
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
           )}
