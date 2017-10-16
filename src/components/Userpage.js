@@ -356,6 +356,11 @@ class Userpage extends Component {
           </div>
         </div>
       </div>
+      {this.state.dragging ? (
+        <div className="delete-dropover-parent">
+          <img className="delete-dropover-child" src="trashbin.png"/>
+        </div>
+      ):("")}
         {userobjectdata}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
