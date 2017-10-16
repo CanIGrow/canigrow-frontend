@@ -77,7 +77,8 @@ class Header extends Component {
         <div className="container align-middle header-navbar">
           <li>
             <NavLink activeClassName="selected" to="/">
-              <input className='btn btn-outline-primary' type='submit' value='Homepage'/>
+              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+              <img src="canigrowlogo.png" className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
             </NavLink>
           </li>
           {rightButtons}
@@ -86,6 +87,7 @@ class Header extends Component {
         data-toggle="modal" data-target="#hamburger-menu">
           &#9776;
         </button>
+        <img src="canigrowlogo.png" className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
             <div className="modal-dialog">
