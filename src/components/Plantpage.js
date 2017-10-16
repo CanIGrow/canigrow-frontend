@@ -132,10 +132,10 @@ class Plantpage extends Component {
           if(returned_value){
             // console.log("Search Term: " + search_term);
 
-            let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
+            // let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
             // console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
-             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
+             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+'&gpslimit=20')
               .end((err, res)=>{
                 // console.log(res);
                 console.log(res.xhr.responseText);
@@ -158,7 +158,7 @@ class Plantpage extends Component {
                   }
 
 
-                  let imageNum = Object.keys(obj.query.pages)[0];
+                  // let imageNum = Object.keys(obj.query.pages)[0];
                   // console.log(obj.query.pages);
                   // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
@@ -232,14 +232,16 @@ class Plantpage extends Component {
 
     // This generates a number of hours that the plant needs sunlight.
     let light_string = this.state.plantdata.light;
+    let soil_string = this.state.plantdata.soil;
     let sunMessage = null;
     let sun_max_value = 2;
     let sun_min_value = 0;
+    let soil_pH_max = 6;
+    let soil_pH_min = 5;
     // Handles minimum sunlight.
     if(this.state.plantdata !== null || this.state.plantdata !== undefined){
       if(this.state.plantdata.light !== null || this.state.plantdata.light !== undefined){
-        console.log(this.state.plantdata.light);
-        console.log(this.state.plantdata.soil);
+        // console.log(this.state.plantdata.light);
         if(light_string.includes('Full sun')){
           sun_min_value = 6;
         }
@@ -276,10 +278,42 @@ class Plantpage extends Component {
         if(sun_min_value >= 6 && sun_max_value >= 10){
           sunMessage = 'This plant requires lots of sunlight.';
         }
-        if(sun_min_value <= 2 && sun_max_value >= 3){
+        if(sun_min_value <= 2 && sun_max_value <= 4){
           sunMessage = 'This plant should be grown in a shady area.';
         }
         this.setState({sunMessage: sunMessage});
+
+        // This handles soil information.
+        if(this.state.plantdata.soil !== null || this.state.plantdata.soil !== undefined){
+          if(this.state.plantdata.soil !== " "){
+            soilMessage = "";
+          }
+          console.log(this.state.plantdata.soil);
+          if(soil_string.includes("Adaptable")){
+            soilMessage = 'This plant can adapt to most types of soil.';
+          }
+          if(soil_string.includes("Prefers evenly-moist")){
+            soilMessage = soilMessage + ' Prefers evenly-moist soil.';
+          }
+          if(soil_string.includes("Prefers dry")){
+            soilMessage = soilMessage + ' This plant prefers dry soil.';
+          }
+          if(soil_string.includes("Prefers high organic matter")){
+            soilMessage = soilMessage + ' Prefers high organic matter.';
+          }
+          if(soil_string.includes("Prefers well-drained")){
+            soilMessage = soilMessage + ' Prefers well-drained.';
+          }
+          if(soil_string.includes("Prefers loam")){
+            soilMessage = soilMessage + ' Prefers loamy soil.';
+          }
+          if(soil_string.includes("Tolerates dry")){
+            soilMessage = soilMessage + ' Tolerates dry soil.';
+          }
+          if(soil_string.includes("Tolerates poor")){
+            soilMessage = soilMessage + ' Tolerates poor quality soil.';
+          }
+        }
         this.setState({soilMessage: soilMessage});
       }
     }
@@ -296,7 +330,7 @@ class Plantpage extends Component {
         datasets: [
           {
             label: 'Minimum Required',
-            data: [sun_min_value, 2, 6, 5],
+            data: [sun_min_value, 2, soil_pH_max, 5],
             backgroundColor: [
                 '#e5e5e5',
                 'rgba(54, 162, 235, 0.2)',
@@ -313,7 +347,7 @@ class Plantpage extends Component {
         },
         {
           label: 'Maximum Tolerated',
-          data: [sun_max_value-sun_min_value, max_water_value, 1, 0],
+          data: [sun_max_value-sun_min_value, max_water_value, soil_pH_max-soil_pH_min, 0],
           backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -394,12 +428,13 @@ class Plantpage extends Component {
               if (err) {
                 console.log("failed to get plots!");
               } else {
-                console.log(res.body);
-                console.log(res.body.user.plots);
+                // console.log(res.body);
+                // console.log(res.body.user.plots);
                 let user_plot_data = res.body.user.plots;
                 this.setState({user_plot_data: res.body.user.plots}, () => {
-                  console.log('afterSetStateFinished')
-                  console.log(this.state.user_plot_data)});
+                  // console.log('afterSetStateFinished')
+                  // console.log(this.state.user_plot_data)
+                });
               }
           })
         }
@@ -454,8 +489,8 @@ class Plantpage extends Component {
   }
 
   render() {
-    console.log(this.state.image_message);
-    console.log(this.state.user_plot_data);
+    // console.log(this.state.image_message);
+    // console.log(this.state.user_plot_data);
     // This makes the additional notes only appear if the plant actually has additional notes.
     let plantdata_notes = true;
     if(this.state.plantdata.notes === ' ' || this.state.plantdata.notes === null || this.state.plantdata.notes === undefined){
@@ -473,7 +508,7 @@ class Plantpage extends Component {
     }
 
     // This changes the contents of the propsDropDown.
-    console.log(this.props.token);
+    // console.log(this.props.token);
     let propsDropDown = null;
     // If the user is logged in.
     if(this.props.token !== null){
