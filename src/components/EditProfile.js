@@ -18,7 +18,6 @@ class EditProfile extends Component {
       username: this.props.username,
       user: null,
       userdata: false,
-      template: this.props.template,
       bio: '',
       canedit: false,
       click:false,
@@ -207,7 +206,6 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
-      template: state.template,
       redirection: state.redirection,
       email: state.email
     };

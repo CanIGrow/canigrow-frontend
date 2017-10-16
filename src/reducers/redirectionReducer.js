@@ -1,4 +1,3 @@
-// This reducer handles changes to the template state within the store.
 const redirectionReducer = function (state = null, action) {
     switch (action.type) {
         case 'REDIRECT_DATA':
@@ -7,5 +6,4 @@ const redirectionReducer = function (state = null, action) {
             return state;
     }
 }
-
 export default redirectionReducer;

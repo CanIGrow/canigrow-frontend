@@ -429,7 +429,6 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
-      template: state.template,
       redirection: state.redirection,
       zipcode: state.zipcode,
     };

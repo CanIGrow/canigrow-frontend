@@ -45,25 +45,19 @@ class App extends Component {
       password:"",
       user_id: null,
       bio:"",
-      template: 0,
       email:"",
+      template: 0,
       token: null,
       allplantdata: false,
     };
   }
 
   componentWillMount() {
-    // console.log();
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({
       token: cookie.load('token'),
       username: cookie.load('username'),
-      template: cookie.load('template'),
       email: cookie.load('email'),
-    }, ()=>{
-      if (cookie.load("template") !== undefined){
-        this.changeTemplate(cookie.load('template'));
-      }
     });
     request
       .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
@@ -86,16 +80,7 @@ class App extends Component {
         }
       })
     }
-
-  changeTemplate(new_style){
-    new_style = parseInt(new_style, 10);
-    this.setState({template: new_style});
-    cookie.save('template', new_style);
-  }
-
-
   render() {
-    // console.log(store.getState());
     return (
       // Provides store data to all subcomponents
       <Provider store={store}>
@@ -107,7 +92,7 @@ class App extends Component {
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
                 <Route path="/login/password_reset" component={PasswordReset} />
-                <Route path="/user/:user" render={(props) => ( <Userpage newTemplate={this.changeTemplate.bind(this)}/> )}/>
+                <Route path="/user/:user" render={(props) => ( <Userpage /> )}/>
                 <Route path="/users"  component={Userlisting} />
                 <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>
                 <Route path="/logout" render={(props) => ( <Logout/> )}/>
