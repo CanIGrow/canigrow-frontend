@@ -50,7 +50,7 @@ class Login extends Component {
          if (err) {
             this.setState({error: res.body.error});
          } else {
-           if (res !== undefined){
+           if (res !== undefined && res.body.token !== undefined){
            // These save the token to a cookie.
            cookie.save('token', res.body.token);
            cookie.save('username', res.body.username);
@@ -59,7 +59,9 @@ class Login extends Component {
            this.props.setToken(res.body.token);
            this.props.setUsername(res.body.username);
            this.props.setEmail(this.state.username);
-           }
+         } else if (res !== undefined && res.body.token === undefined){
+           this.setState({error: res.body.message});
+         }
          }
        })
   }

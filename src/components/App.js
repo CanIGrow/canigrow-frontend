@@ -65,7 +65,7 @@ class App extends Component {
         if (res !== undefined){
           let status_code_string = res.statusCode;
           status_code_string = status_code_string.toString();
-          if( status_code_string.charAt(0) === 2 ){
+          if( status_code_string.charAt(0) === "2" ){
             let plantsarray = [];
             res.body.plants.map((x, i) =>{
               if (x.common_name !== null){
