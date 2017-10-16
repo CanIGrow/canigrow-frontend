@@ -8,7 +8,7 @@ import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
 
-class Userpage extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -185,11 +185,17 @@ class Userpage extends Component {
   }
   editprofileredirect(event){
     event.preventDefault();
-    this.props.redirectAction([`/edit/${}`, "Edit"]);
+    this.props.redirectAction([false, false]);
   }
   render() {
     let editbutton = false;
+    let editprofilebutton = false;
     if (this.state.canedit && !this.state.editing){
+      editprofilebutton =
+      <div>
+        <button className="btn-danger"
+        onClick={event => this.beginediting(event)}>Edit Plots</button>
+      </div>
       editbutton =
       <div>
         <button className="btn-danger"
@@ -263,12 +269,7 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        {this.state.canedit ? (
-        <div>
-          <button className="btn-danger"
-          onClick={event => this.editprofileredirect(event)}>Edit Profile</button>
-        </div>
-        ):""}
+        {this.state.passworderror ? (<p>Incorrect Password</p>):""}
         <p className="userpage-bio-info">{bio}</p>
           <h3>Plots</h3>
           {editbutton}
@@ -379,4 +380,4 @@ function matchDispatchToProps(dispatch){
     return bindActionCreators({redirectAction: redirectAction}, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Userpage);
+export default connect(mapStateToProps, matchDispatchToProps)(EditProfile);
