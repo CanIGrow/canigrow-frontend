@@ -359,16 +359,18 @@ class Userpage extends Component {
                 Delete {this.state.deleting}
               </button>
             ):(
-              <button type="button"
-              data-dismiss="modal"
-              onClick={event => this.editplots(event, false)}>
-                Move
-              </button>
-              <button type="button"
-              data-dismiss="modal"
-              onClick={event => this.editplots(event, "yes")}>
-                Copy
-              </button>
+              <div>
+                <button type="button"
+                data-dismiss="modal"
+                onClick={event => this.editplots(event, false)}>
+                  Move
+                </button>
+                <button type="button"
+                data-dismiss="modal"
+                onClick={event => this.editplots(event, "yes")}>
+                  Copy
+                </button>
+              </div>
             )}
               <button type="button"
               data-dismiss="modal"
