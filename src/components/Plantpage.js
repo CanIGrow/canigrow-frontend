@@ -560,12 +560,6 @@ class Plantpage extends Component {
     }
 
 
-
-
-
-
-
-
     return (
       <div className="plantpage-container main-component-container">
         {this.state.alertVisible ? (<div>
@@ -576,9 +570,6 @@ class Plantpage extends Component {
                     </p>
                   </Alert>
         </div>): ""}
-
-
-
         <div className="plantpage-sub-container">
           <div className="top_items_plant_page">
             <div className="all_plant_page_images">
