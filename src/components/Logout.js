@@ -16,14 +16,13 @@ class Logout extends Component {
   }
   componentWillMount(){
     this.props.logout();
-    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('template') !== undefined || cookie.load('username', {path: '/user'}) !== undefined || cookie.load('token', {path: '/user'}) !== undefined || cookie.load('email') !== undefined || cookie.load('load', {path: '/user'}) !== undefined){
+    if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('username', {path: '/user'}) !== undefined || cookie.load('token', {path: '/user'}) !== undefined || cookie.load('email') !== undefined || cookie.load('load', {path: '/user'}) !== undefined){
       cookie.remove('token');
       cookie.remove('token', {path: '/user'});
       cookie.remove('email');
       cookie.remove('email', {path: '/user'});
       cookie.remove('username');
       cookie.remove('username', {path: '/user'});
-      cookie.remove('template');
       window.location.reload();
     } else {
       this.props.redirectAction(["/", "You Have Been Logged Out"]);

@@ -7,6 +7,8 @@ import {redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
+import trashbin from './trashbin.png';
+import trashbinopen from './trashbinopen.png';
 
 class Userpage extends Component {
   constructor(props) {
@@ -18,7 +20,6 @@ class Userpage extends Component {
       username: this.props.username,
       user: null,
       userdata: false,
-      template: this.props.template,
       bio: '',
       canedit: false,
       editing: false,
@@ -29,10 +30,10 @@ class Userpage extends Component {
       dragfrom: false,
       plantdragging: false,
       click:false,
+      deleting:false,
     };
     this.reloaduser = this.reloaduser.bind(this);
-    this.moveplant = this.moveplant.bind(this);
-    // this.log = this.log.bind(this);
+    this.editplots = this.editplots.bind(this);
   }
 
   componentWillMount() {
@@ -60,6 +61,11 @@ class Userpage extends Component {
       this.setState({canedit: true});
     }
   }
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   reloaduser(){
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     request
@@ -79,33 +85,43 @@ class Userpage extends Component {
       this.setState({[event.target.id]: event.target.value});
     }
   }
-  updateFromField(stateKey) {
-      return (event) => {
-        this.setState({[stateKey]: event.target.value});
+  beginediting(event){event.preventDefault();this.setState({editing: true});}
+  finishediting(event){event.preventDefault();
+    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false,deleting:false});
+  }
+  clickDiv(el) {if (el && el !== undefined){el.click();}}
+  dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
+  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';}
+  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
+  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
+  drag(event, data, object, plant){
+    console.log(data, object, plant);
+    if (data === "startdragging"){
+      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
+    } else if (data === "stopdragging"){
+      this.setState({dragging:false});
+    } else if (data === "dropped"){
+      if (this.state.dragfrom !== object){
+        this.setState({dragto:object,click:true});
+      } else {
+        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
       }
-    }
-  componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
-      this.setState({fireredirect:true});
-    }
-  }
-  handleTextChange = (event) => {
-    event.preventDefault();
-    if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value});
+    } else if (data === "delete"){
+      this.setState({dragto:object,click:true,deleting:"Plant"});
+    } else if (data === "deleteplot"){
+      this.setState({dragto:object,click:true,deleting:"Plot"});
     }
   }
-  beginediting(event){
+  cancelmove(event){
     event.preventDefault();
-    this.setState({editing: true});
+    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
   }
-  finishediting(event){
+  editprofileredirect(event, username){
     event.preventDefault();
-    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false});
+    this.props.redirectAction([`/edit/${username}`, "Edit"]);
   }
   edituser(event, target, data){
     event.preventDefault();
-    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     if (target === "addnewplot"){
       this.setState({addingnewplot:true})
     }
@@ -137,51 +153,22 @@ class Userpage extends Component {
       }
     }
   }
-  dragover(event){event.preventDefault();}
-  drag(event, data, object, plant){
-    if (data === "startdragging"){
-      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
-    } else if (data === "stopdragging"){
-      this.setState({dragging:false});
-    } else if (data === "dropped"){
-      if (this.state.dragfrom !== object){
-        this.setState({dragto:object,click:true});
-      } else {
-        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
-      }
-    }
-  }
-  cancelmove(event){
-    event.preventDefault();
-    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
-  }
-  clickDiv(el) {
-    if (el && el !== undefined){
-      el.click()
-    }
-  }
-  moveplant(event, copy){
-    // this.state.userdata.plots.map((plot, i)=>{
-    //   if (plot.plot_id === this.state.dragfrom){
-    //     plot.plants.map((plantobj, planti)=>{
-    //       if (plantobj.plant_id === this.state.plantdragging.plant_id){
-    //         plot.plants.splice(planti, 1);
-    //         return
-    //       }
-    //     })
-    //   }
-    //   if (plot.plot_id === this.state.dragto){
-    //     plot.plants.push(this.state.plantdragging);
-    //   }
-    // })
-    let plantdata = {
-        "plant_id":this.state.plantdragging.plant_id,
-        "new_plot":this.state.dragto,
-        "copy":copy
-      }
+  editplots(event, copy){
+    let plantdata = {}
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let token = cookie.load("token")
-    if (token === this.props.token){
+    if (this.state.deleting !== "plot" && token === this.props.token){
+      if (copy === "delete"){
+        plantdata = {
+            "plant_id":this.state.plantdragging.plant_id
+          }
+      } else {
+        plantdata = {
+            "plant_id":this.state.plantdragging.plant_id,
+            "new_plot":this.state.dragto,
+            "copy":copy
+          }
+      }
       request
         .patch(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
         .set("Authorization", `Token token=${token}`)
@@ -190,7 +177,19 @@ class Userpage extends Component {
           if (err){
             window.location.reload();
           } else if (res !== undefined){
-            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:''});
+            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:'',deleting:false});
+            this.reloaduser();
+          }
+        })
+    } else if (this.state.deleting === "plot" && token === this.props.token){
+      request
+        .delete(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
+        .set("Authorization", `Token token=${token}`)
+        .end((err, res)=>{
+          if (err){
+            window.location.reload();
+          } else if (res !== undefined){
+            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:'',deleting:false});
             this.reloaduser();
           }
         })
@@ -248,6 +247,7 @@ class Userpage extends Component {
       </div>
     }
     let addplantbutton = "";
+    //This pops in when something is being dragged
     if (this.state.editing && !this.state.dragging){
       addplantbutton =
       <div className="userpage-plant-div">
@@ -256,6 +256,7 @@ class Userpage extends Component {
       </div>
     }
     let userobjectdata = false;
+    //This holds the main body of the data, including the user, bio, plots, and plants
     if (!this.state.userexists){
       userobjectdata =
         <h1 className="pagination-centered text-center">
@@ -274,7 +275,12 @@ class Userpage extends Component {
       userobjectdata =
       <div className="container pagination-centered text-center">
         <h2>{this.state.userdata.username}</h2>
-        {this.state.passworderror ? (<p>Incorrect Password</p>):""}
+        {this.state.canedit ? (
+        <div>
+          <button className="btn-danger"
+          onClick={event => this.editprofileredirect(event, this.state.userdata.username)}>Edit Profile</button>
+        </div>
+        ):""}
         <p className="userpage-bio-info">{bio}</p>
           <h3>Plots</h3>
           {editbutton}
@@ -283,7 +289,16 @@ class Userpage extends Component {
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
               <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
-                <h4>{plot.plot_name}</h4>
+                <h4>{plot.plot_name}{this.state.editing && (
+                  <button type="button"
+                    onClick={event => this.drag(event, "deleteplot")}
+                    className="close"
+                    aria-label="Close">
+                    <span aria-hidden="true">  &times;
+                    </span>
+                  </button>
+                  )}
+                </h4>
                 {plot.plants.map((plant, i)=>{
                   /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
                   return (
@@ -305,15 +320,16 @@ class Userpage extends Component {
                     </div>
                   )
                 })}
-                {this.state.dragging ? (
+                {this.state.dragging && (
                   <div className="droppable-div"
                     onDrop={event => this.drag(event, "dropped", plot.plot_id)}
-                    onDragOver={event => this.dragover(event)}>
+                    onDragOver={event => this.dragover(event)}
+                    onDragLeave={event => this.dragexit(event)}>
                   </div>
-                ):("")}
-                {this.state.editing ? (
+                )}
+                {this.state.editing && (
                   addplantbutton
-                ):("")}
+                )}
               </div>
             )
           })}
@@ -323,44 +339,57 @@ class Userpage extends Component {
     }
     return (
       <div className="userpage-container main-component-container">
-      {this.state.click ? (
+      {this.state.click && (
         <button
-        id="elementtoaddthepopupmenu"
-         className="content"
-         ref={this.clickDiv}
-        data-toggle="modal" data-target="#confirmpopup">
+          id="elementtoaddthepopupmenu"
+          className="content"
+          ref={this.clickDiv}
+          data-toggle="modal" data-target="#confirmpopup">
         </button>
-      ):("")}
+      )}
       <div className="container">
         <div className="modal top fade in" id="confirmpopup" tabIndex="-1"
-        onClick={event => this.cancelmove(event)}>
+            onClick={event => this.cancelmove(event)}>
           <div className="modal-dialog">
             <div className="modal-content text-center">
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, false)}>
-              Move
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, "yes")}>
-              Copy
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            aria-label="Close"
-            onClick={event => this.cancelmove(event)}>
-              Cancel
-            </button>
+        {this.state.deleting ? (
+              <button type="button"
+              data-dismiss="modal"
+              onClick={event => this.editplots(event, "delete")}>
+                Delete {this.state.deleting}
+              </button>
+            ):(
+              <div>
+                <button type="button"
+                data-dismiss="modal"
+                onClick={event => this.editplots(event, false)}>
+                  Move
+                </button>
+                <button type="button"
+                data-dismiss="modal"
+                onClick={event => this.editplots(event, "yes")}>
+                  Copy
+                </button>
+              </div>
+            )}
+              <button type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+              onClick={event => this.cancelmove(event)}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>
       </div>
-      {this.state.dragging ? (
+      {this.state.dragging && (
         <div className="delete-dropover-parent">
-          <img className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
+          <img onDrop={event => this.drag(event, "delete")}
+            onDragOver={event => this.dragoverdelete(event)}
+            onDragLeave={event => this.dragexitdelete(event)}
+            className="delete-dropover-child" src={trashbin} alt="DELETE"/>
         </div>
-      ):("")}
+      )}
         {userobjectdata}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
@@ -374,7 +403,6 @@ function mapStateToProps(state) {
     return {
       token: state.token,
       username: state.username,
-      template: state.template,
       redirection: state.redirection,
       email: state.email
     };
