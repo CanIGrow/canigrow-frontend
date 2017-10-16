@@ -183,9 +183,9 @@ class Userpage extends Component {
       window.location.reload();
     }
   }
-  editprofileredirect(event){
+  editprofileredirect(event, username){
     event.preventDefault();
-    this.props.redirectAction([`/edit/${}`, "Edit"]);
+    this.props.redirectAction([`/edit/${username}`, "Edit"]);
   }
   render() {
     let editbutton = false;
@@ -266,7 +266,7 @@ class Userpage extends Component {
         {this.state.canedit ? (
         <div>
           <button className="btn-danger"
-          onClick={event => this.editprofileredirect(event)}>Edit Profile</button>
+          onClick={event => this.editprofileredirect(event, this.state.userdata.username)}>Edit Profile</button>
         </div>
         ):""}
         <p className="userpage-bio-info">{bio}</p>
