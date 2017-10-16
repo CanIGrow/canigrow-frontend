@@ -38,11 +38,18 @@ class Header extends Component {
   }
 
   render() {
+      let popoverbuttons = false
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
       let userButton = `${this.props.username}'s garden`;
       // If the user is logged in show:
       if (this.props.token && this.props.username) {
+        popoverbuttons =
+        <div>
+          <Link to="/">Home</Link><br/>
+          <input className='btn btn-outline-primary' onClick={this.handleLogoutClick} type='submit' value='LogOut'/><br/>
+          <Link to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
+        </div>
         rightButtons =
         <div className="changeButtons">
           <li>
@@ -55,9 +62,14 @@ class Header extends Component {
             </NavLink>
           </li>
         </div>;
-      }
-      // If the user is logged out show.
-      else {
+      } else {
+        // If the user is logged out show.
+        popoverbuttons =
+        <div>
+          <Link to="/">Home</Link><br/>
+          <Link to="/register">Register</Link><br/>
+          <Link to="/login">Login</Link><br/>
+        </div>
         rightButtons =
         <div className="changeButtons">
           <li>
@@ -100,10 +112,8 @@ class Header extends Component {
                   &times;
                 </span>
 						  </button>
-                  <Link to="/">Home</Link>
+                {popoverbuttons ? popoverbuttons : ""}
                   <Link to="/users">Users</Link>
-                  <Link to="/register">Register</Link>
-                  <Link to="/login">Login</Link>
               </div>
             </div>
           </div>
