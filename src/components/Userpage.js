@@ -358,7 +358,7 @@ class Userpage extends Component {
       </div>
       {this.state.dragging ? (
         <div className="delete-dropover-parent">
-          <img className="delete-dropover-child" src="trashbin.png"/>
+          <img className="delete-dropover-child" src="trashbin.png" alt="DELETE"/>
         </div>
       ):("")}
         {userobjectdata}

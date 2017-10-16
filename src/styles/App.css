@@ -184,6 +184,8 @@ USERPAGE STYLES
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
+  height: 200px;
+  width: 200px;
 }
 .droppable-div{
   height: 30px;
