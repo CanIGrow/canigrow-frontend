@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import {setToken,setUsername,setEmail,redirectAction} from '../actions/actions.js';
-import cookie from 'react-cookies';
+// import cookie from 'react-cookies';
 import '../styles/App.css';
 
 class PasswordReset extends Component {
