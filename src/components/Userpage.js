@@ -7,6 +7,8 @@ import {redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
+import trashbin from './trashbin.png';
+import trashbinopen from './trashbinopen.png';
 
 class Userpage extends Component {
   constructor(props) {
@@ -131,8 +133,11 @@ class Userpage extends Component {
     }
   }
   dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
-  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';
-console.log("exited");}
+  dragexit(event){event.preventDefault();event.target.className = 'droppable-div';}
+  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';
+  event.target.src = trashbinopen;}
+  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';
+event.target.src = trashbin;}
   drag(event, data, object, plant){
     console.log(data, object, plant);
     if (data === "startdragging"){
@@ -379,8 +384,9 @@ console.log("exited");}
       {this.state.dragging ? (
         <div className="delete-dropover-parent">
           <img onDrop={event => this.drag(event, "delete")}
-            onDragOver={event => this.dragover(event)}
-            className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
+            onDragOver={event => this.dragoverdelete(event)}
+            onDragLeave={event => this.dragexitdelete(event)}
+            className="delete-dropover-child" src={trashbin} alt="DELETE"/>
         </div>
       ):("")}
         {userobjectdata}
