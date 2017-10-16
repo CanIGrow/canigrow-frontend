@@ -408,8 +408,8 @@ class Plantpage extends Component {
                 // console.log(res.body);
                 // console.log(res.body.error);
                 message = `Successfully added to plot!`;
-                if(res.body.error === 'This plant already belongs to this plot'){
-                  message = 'This plant already belongs to this plot';
+                if(res.body.error !== undefined){
+                  message = res.body.error;
                 }
               }
               this.setState({added_to_plot: message,
