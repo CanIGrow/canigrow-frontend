@@ -69,14 +69,20 @@ class App extends Component {
       .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/`)
       .end((err,res)=>{
         if (res !== undefined){
-          let plantsarray = [];
-          res.body.plants.map((x, i) =>{
-            if (x.common_name !== null){
-              plantsarray.push(x);
-            }
-            return null
-          });
-          this.setState({ allplantdata:plantsarray });
+          let status_code_string = res.statusCode;
+          status_code_string = status_code_string.toString();
+          if( status_code_string.charAt(0) === 2 ){
+            let plantsarray = [];
+            res.body.plants.map((x, i) =>{
+              if (x.common_name !== null){
+                plantsarray.push(x);
+              }
+              return null
+            });
+            this.setState({ allplantdata:plantsarray });
+          } else {
+            console.log(res.statusCode);
+          }
         }
       })
     }
@@ -108,6 +114,10 @@ class App extends Component {
                 <Route path="/edit/:user" render={(props) => ( <EditProfile/> )}/>
                 {/* <Route path="/login" component={Login} /> */}
                 <Route path="/register" component={Register} />
+                {/* This redirects certain paths used on deployment. */}
+                {["/home", "/canigrow-frontend/"].map(path =>
+                  <Route path={path} render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
+                )}
               </Switch>
             </BaseLayout>
           </BrowserRouter>
