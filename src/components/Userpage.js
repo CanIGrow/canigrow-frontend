@@ -204,13 +204,13 @@ class Userpage extends Component {
       editbutton =
       <div>
         <button className="btn-danger"
-        onClick={event => this.beginediting(event)}>Edit</button>
+        onClick={event => this.beginediting(event)}>Edit Plots</button>
       </div>
     } else if (this.state.canedit && this.state.editing){
       editbutton =
       <div>
         <button className="btn-danger"
-        onClick={event => this.finishediting(event)}>Finish Editing</button>
+        onClick={event => this.finishediting(event)}>Finish Editing Plots</button>
         <p>Click and drag plants to move, copy, or delete them!</p>
       </div>
     }
@@ -358,7 +358,7 @@ class Userpage extends Component {
       </div>
       {this.state.dragging ? (
         <div className="delete-dropover-parent">
-          <img className="delete-dropover-child" src="trashbin.png" alt="DELETE"/>
+          <img className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
         </div>
       ):("")}
         {userobjectdata}
