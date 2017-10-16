@@ -134,10 +134,8 @@ class Userpage extends Component {
   }
   dragover(event){event.preventDefault();event.target.className = 'droppable-div-highlighted';}
   dragexit(event){event.preventDefault();event.target.className = 'droppable-div';}
-  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';
-  event.target.src = trashbinopen;}
-  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';
-event.target.src = trashbin;}
+  dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
+  dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
   drag(event, data, object, plant){
     console.log(data, object, plant);
     if (data === "startdragging"){
@@ -151,7 +149,9 @@ event.target.src = trashbin;}
         this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
       }
     } else if (data === "delete"){
-      this.setState({dragto:object,click:true,deleting:true});
+      this.setState({dragto:object,click:true,deleting:"Plant"});
+    } else if (data === "deleteplot"){
+      this.setState({dragto:object,click:true,deleting:"Plot"});
     }
   }
   cancelmove(event){
@@ -165,20 +165,20 @@ event.target.src = trashbin;}
   }
   moveplant(event, copy){
     let plantdata = {}
-    if (copy === "delete"){
-      plantdata = {
-          "plant_id":this.state.plantdragging.plant_id
-        }
-    } else {
-      plantdata = {
-          "plant_id":this.state.plantdragging.plant_id,
-          "new_plot":this.state.dragto,
-          "copy":copy
-        }
-    }
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let token = cookie.load("token")
-    if (token === this.props.token){
+    if (this.state.deleting !== "plot" && token === this.props.token){
+      if (copy === "delete"){
+        plantdata = {
+            "plant_id":this.state.plantdragging.plant_id
+          }
+      } else {
+        plantdata = {
+            "plant_id":this.state.plantdragging.plant_id,
+            "new_plot":this.state.dragto,
+            "copy":copy
+          }
+      }
       request
         .patch(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
         .set("Authorization", `Token token=${token}`)
@@ -187,7 +187,19 @@ event.target.src = trashbin;}
           if (err){
             window.location.reload();
           } else if (res !== undefined){
-            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:''});
+            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:'',deleting:false});
+            this.reloaduser();
+          }
+        })
+    } else if (this.state.deleting === "plot" && token === this.props.token){
+      request
+        .delete(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
+        .set("Authorization", `Token token=${token}`)
+        .end((err, res)=>{
+          if (err){
+            window.location.reload();
+          } else if (res !== undefined){
+            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:'',deleting:false});
             this.reloaduser();
           }
         })
@@ -289,7 +301,16 @@ event.target.src = trashbin;}
             /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
             return (
               <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
-                <h4>{plot.plot_name}</h4>
+                <h4>{plot.plot_name}{this.state.editing ? (
+                  <button type="button"
+                    onClick={event => this.drag(event, "deleteplot")}
+                    className="close"
+                    aria-label="Close">
+      							<span aria-hidden="true">  &times;
+                    </span>
+    						  </button>
+                ):("")}
+                </h4>
                 {plot.plants.map((plant, i)=>{
                   /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
                   return (
@@ -347,7 +368,7 @@ event.target.src = trashbin;}
             <button type="button"
             data-dismiss="modal"
             onClick={event => this.moveplant(event, "delete")}>
-              Delete Plant
+              Delete {this.state.deleting}
             </button>
             <button type="button"
             data-dismiss="modal"
