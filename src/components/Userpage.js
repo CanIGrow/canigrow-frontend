@@ -285,7 +285,9 @@ class Userpage extends Component {
         <p className="userpage-bio-info">{bio}</p>
         {this.state.userdata.location_private ? (""):(
           <p className="userpage-bio-info">{this.state.userdata.location}</p>
-        )}
+        )}<br/>
+        {this.state.userdata.twitter && (<span className="userpage-bio-info">Twitter:{this.state.userdata.twitter}</span>)}
+        {this.state.userdata.facebook && (<span className="userpage-bio-info">Facebook:{this.state.userdata.facebook}</span>)}
           <h3>Plots</h3>
           {editbutton}
         <div className="userpage-outer-plots-holder">
