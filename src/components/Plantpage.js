@@ -227,10 +227,8 @@ class Plantpage extends Component {
 
   // This generates the sun chart data.
   createSunChart(){
-    console.log(this.state.plantdata.light);
     // This handles soil information.
     let soilMessage = 'This plant likes soil with approx. 6.5 pH.';
-    this.setState({soilMessage: soilMessage});
 
     // This generates a number of hours that the plant needs sunlight.
     let light_string = this.state.plantdata.light;
@@ -240,6 +238,8 @@ class Plantpage extends Component {
     // Handles minimum sunlight.
     if(this.state.plantdata !== null || this.state.plantdata !== undefined){
       if(this.state.plantdata.light !== null || this.state.plantdata.light !== undefined){
+        console.log(this.state.plantdata.light);
+        console.log(this.state.plantdata.soil);
         if(light_string.includes('Full sun')){
           sun_min_value = 6;
         }
@@ -280,6 +280,7 @@ class Plantpage extends Component {
           sunMessage = 'This plant should be grown in a shady area.';
         }
         this.setState({sunMessage: sunMessage});
+        this.setState({soilMessage: soilMessage});
       }
     }
 
