@@ -123,6 +123,14 @@ html, body, #root, .body{
 .homepage-search-box:focus{
   background-color: rgba(255,255,255, 0.2);
 }
+.manual-link-style{
+  cursor: pointer;
+  color: #007bff;
+}
+.manual-link-style:hover{
+  text-decoration: underline;
+  color: #0056b3;
+}
 @media (min-width: 680px) {
   .canigrowlogo{
     visibility: visible;

@@ -47,7 +47,7 @@ class Header extends Component {
         popoverbuttons =
         <div>
           <Link to="/">Home</Link><br/>
-          <input className='btn btn-outline-primary' onClick={this.handleLogoutClick} type='submit' value='LogOut'/><br/>
+          <span className="manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
           <Link to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
         </div>
         rightButtons =
