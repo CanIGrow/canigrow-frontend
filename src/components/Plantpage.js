@@ -517,7 +517,7 @@ class Plantpage extends Component {
         <div className="centerHomeButton">
           <div>
             <div className="dropdown">
-              <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
+              <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button>
               <div id="myDropdown" className="dropdown-content style-margin-bottom-20px">
                 {this.props.token ? (
                     <div>
