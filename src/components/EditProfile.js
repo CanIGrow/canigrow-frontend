@@ -21,17 +21,8 @@ class EditProfile extends Component {
       template: this.props.template,
       bio: '',
       canedit: false,
-      editing: false,
-      addingnewplot: false,
-      newplotname: '',
-      dragging: false,
-      dragto: false,
-      dragfrom: false,
-      plantdragging: false,
       click:false,
     };
-    this.reloaduser = this.reloaduser.bind(this);
-    this.moveplant = this.moveplant.bind(this);
   }
 
   componentWillMount() {
@@ -43,7 +34,7 @@ class EditProfile extends Component {
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     //This request gets the users information
     request
-      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
+      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/edit/")[1]}`)
       .end((err, res)=>{
         if (err){
           //If user does not exist:
@@ -53,24 +44,13 @@ class EditProfile extends Component {
         }
       })
     //This adds an edit button if the user matches the saved user token
-    if (window.location.href.split("/user/")[1] === cookie.load("username")
-        && window.location.href.split("/user/")[1] === this.props.username
+    if (window.location.href.split("/edit/")[1] === cookie.load("username")
+        && window.location.href.split("/edit/")[1] === this.props.username
         && cookie.load("username") === this.props.username){
       this.setState({canedit: true});
+    } else {
+      this.props.redirectAction([`/`, "Unauthorized"]);
     }
-  }
-  reloaduser(){
-    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    request
-      .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/${window.location.href.split("/user/")[1]}`)
-      .end((err, res)=>{
-        if (err){
-          //If user does not exist:
-          this.setState({userexists: false});
-        } else if (res !== undefined){
-          this.setState({userdata: res.body.user});
-        }
-      })
   }
   handleTextChange = (event) => {
     event.preventDefault();
@@ -88,19 +68,8 @@ class EditProfile extends Component {
       this.setState({fireredirect:true});
     }
   }
-  handleTextChange = (event) => {
-    event.preventDefault();
-    if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value});
-    }
-  }
-  beginediting(event){
-    event.preventDefault();
-    this.setState({editing: true});
-  }
-  finishediting(event){
-    event.preventDefault();
-    this.setState({editing:false,addingnewplot:false,newplotname:'',dragging:false,dragto:false,dragfrom:false,plantdragging:false,click:false});
+  unauthorized(event){
+    this.props.redirectAction([`/`, "Unauthorized"]);
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -135,80 +104,12 @@ class EditProfile extends Component {
       }
     }
   }
-  dragover(event){event.preventDefault();}
-  drag(event, data, object, plant){
-    if (data === "startdragging"){
-      this.setState({dragging:true,dragfrom:object,plantdragging:plant});
-    } else if (data === "stopdragging"){
-      this.setState({dragging:false});
-    } else if (data === "dropped"){
-      if (this.state.dragfrom !== object){
-        this.setState({dragto:object,click:true});
-      } else {
-        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
-      }
-    }
-  }
-  cancelmove(event){
-    event.preventDefault();
-    this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false});
-  }
   clickDiv(el) {
     if (el && el !== undefined){
       el.click()
     }
   }
-  moveplant(event, copy){
-    let plantdata = {
-        "plant_id":this.state.plantdragging.plant_id,
-        "new_plot":this.state.dragto,
-        "copy":copy
-      }
-    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    let token = cookie.load("token")
-    if (token === this.props.token){
-      request
-        .patch(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
-        .set("Authorization", `Token token=${token}`)
-        .send(plantdata)
-        .end((err, res)=>{
-          if (err){
-            window.location.reload();
-          } else if (res !== undefined){
-            this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,addingnewplot:false,newplotname:''});
-            this.reloaduser();
-          }
-        })
-    } else {
-      window.location.reload();
-    }
-  }
-  editprofileredirect(event){
-    event.preventDefault();
-    this.props.redirectAction([false, false]);
-  }
   render() {
-    let editbutton = false;
-    let editprofilebutton = false;
-    if (this.state.canedit && !this.state.editing){
-      editprofilebutton =
-      <div>
-        <button className="btn-danger"
-        onClick={event => this.beginediting(event)}>Edit Plots</button>
-      </div>
-      editbutton =
-      <div>
-        <button className="btn-danger"
-        onClick={event => this.beginediting(event)}>Edit Plots</button>
-      </div>
-    } else if (this.state.canedit && this.state.editing){
-      editbutton =
-      <div>
-        <button className="btn-danger"
-        onClick={event => this.finishediting(event)}>Finish Editing Plots</button>
-        <p>Click and drag plants to move, copy, or delete them!</p>
-      </div>
-    }
     let addnewplotdivs = false;
     if (this.state.editing && !this.state.addingnewplot){
       addnewplotdivs =
@@ -262,59 +163,7 @@ class EditProfile extends Component {
           Loading...
         </h1>
     } else {
-      let bio = ""
-      if (this.state.userdata.bio !== ""){
-        bio = `Bio: ${this.state.userdata.bio}`;
-      }
-      userobjectdata =
-      <div className="container pagination-centered text-center">
-        <h2>{this.state.userdata.username}</h2>
-        {this.state.passworderror ? (<p>Incorrect Password</p>):""}
-        <p className="userpage-bio-info">{bio}</p>
-          <h3>Plots</h3>
-          {editbutton}
-        <div className="userpage-outer-plots-holder">
-          {this.state.userdata.plots.map((plot, i)=>{
-            /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
-            return (
-              <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
-                <h4>{plot.plot_name}</h4>
-                {plot.plants.map((plant, i)=>{
-                  /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
-                  return (
-                    <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
-                      className="userpage-plant-div">
-                      {this.state.editing ? (
-                        <div draggable="true"
-                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant)}
-                        onDragEnd={event => this.drag(event, "stopdragging")}
-                        className="userpage-plant-link">
-                        <h5>{plant.plant}</h5>
-                        </div>
-                      ):(
-                        <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
-                          className="userpage-plant-link">
-                        <h5>{plant.plant}</h5>
-                        </a>
-                      )}
-                    </div>
-                  )
-                })}
-                {this.state.dragging ? (
-                  <div className="droppable-div"
-                    onDrop={event => this.drag(event, "dropped", plot.plot_id)}
-                    onDragOver={event => this.dragover(event)}>
-                  </div>
-                ):("")}
-                {this.state.editing ? (
-                  addplantbutton
-                ):("")}
-              </div>
-            )
-          })}
-          {addnewplotdivs}
-        </div>
-      </div>
+
     }
     return (
       <div className="userpage-container main-component-container">
@@ -351,12 +200,6 @@ class EditProfile extends Component {
           </div>
         </div>
       </div>
-      {this.state.dragging ? (
-        <div className="delete-dropover-parent">
-          <img className="delete-dropover-child" src={require('./trashbin.png')} alt="DELETE"/>
-        </div>
-      ):("")}
-        {userobjectdata}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
           )}

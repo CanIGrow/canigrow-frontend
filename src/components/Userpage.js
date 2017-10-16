@@ -88,12 +88,6 @@ class Userpage extends Component {
       this.setState({fireredirect:true});
     }
   }
-  handleTextChange = (event) => {
-    event.preventDefault();
-    if (this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value});
-    }
-  }
   beginediting(event){
     event.preventDefault();
     this.setState({editing: true});
