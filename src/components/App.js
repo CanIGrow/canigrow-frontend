@@ -100,8 +100,8 @@ class App extends Component {
                 {/* <Route path="/login" component={Login} /> */}
                 <Route path="/register" component={Register} />
                 {/* This redirects certain paths used on deployment. */}
-                {["/home", "/canigrow-frontend/"].map(path =>
-                  <Route path={path} render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
+                {["/home", "/canigrow-frontend/"].map((path,i) =>
+                  <Route path={path} key={i} render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
                 )}
               </Switch>
             </BaseLayout>
