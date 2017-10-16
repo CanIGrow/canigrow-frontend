@@ -70,9 +70,6 @@ class App extends Component {
         if (res !== undefined){
           let status_code_string = res.statusCode;
           status_code_string = status_code_string.toString();
-          if( status_code_string.charAt(0) === 5 ){
-            console.log(res.statusCode);
-          }
           if( status_code_string.charAt(0) === 2 ){
             let plantsarray = [];
             res.body.plants.map((x, i) =>{
@@ -82,7 +79,9 @@ class App extends Component {
               return null
             });
             this.setState({ allplantdata:plantsarray });
-           }
+          } else {
+            console.log(res.statusCode);
+          }
         }
       })
     }
@@ -113,7 +112,7 @@ class App extends Component {
                 <Route path="/logout" render={(props) => ( <Logout/> )}/>
                 {/* <Route path="/login" component={Login} /> */}
                 <Route path="/register" component={Register} />
-                {/* This redirects on deployment. */}
+                {/* This redirects certain paths used on deployment. */}
                 {["/home", "/canigrow-frontend/"].map(path =>
                   <Route path={path} render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
                 )}
