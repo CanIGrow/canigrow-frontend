@@ -30,8 +30,8 @@ class Plantpage extends Component {
         added_to_plot: "",
         alertVisible: false,
         sunMessage: "",
-        waterMessage: 'Water information coming soon.',
-        soilMessage: 'Soil information coming soon.',
+        waterMessage: 'More specific water information coming soon.',
+        soilMessage: 'More specific soil information coming soon.',
         maturationMessage: 'Time to maturity data coming soon.',
 
       };
@@ -135,7 +135,7 @@ class Plantpage extends Component {
             // let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
             // console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
-             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+'&gpslimit=20')
+             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+search_term+'&gpslimit=20')
               .end((err, res)=>{
                 // console.log(res);
                 console.log(res.xhr.responseText);
@@ -151,6 +151,9 @@ class Plantpage extends Component {
                       if(obj.query.pages[0].terms.description[0] !== undefined){
                         if(obj.query.pages[0].terms.description[0] === 'species of plant'){
                           console.log(obj.query.pages[0].terms.description[0]);
+                          // The following line simply prevents an error.
+                          plant_species_image = res;
+                          // This indicates that the image is of a 'species of plant'.
                           plant_species_image = true;
                         }
                       }
@@ -186,7 +189,7 @@ class Plantpage extends Component {
                   let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
                   console.log(only_first_search_term);
                   request
-                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
+                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+only_first_search_term)
                    .end((err, res)=>{
                       //  console.log(res);
                        console.log(res.xhr.responseText);
@@ -194,7 +197,7 @@ class Plantpage extends Component {
                       let obj = JSON.parse(string);
                       //  console.log(obj);
                        console.log(obj.query.pages[0]);
-                      let imageNum = Object.keys(obj.query.pages)[0];
+                      // let imageNum = Object.keys(obj.query.pages)[0];
                       // console.log(obj.query.pages[0].thumbnail.source);
 
                       // If the search was for Hosta Hosta ventricosa.
@@ -323,7 +326,8 @@ class Plantpage extends Component {
     let ctx = document.getElementById("mySunChart").getContext('2d');
     // Chart.defaults.global.defaultFontColor = 'black';
     // Chart.defaults.global.defaultFontSize = '12';
-    let mySunChart = new Chart(ctx, {
+    // let mySunChart  =
+    new Chart(ctx, {
     type: 'horizontalBar',
     data: {
         labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
@@ -430,7 +434,7 @@ class Plantpage extends Component {
               } else {
                 // console.log(res.body);
                 // console.log(res.body.user.plots);
-                let user_plot_data = res.body.user.plots;
+                // let user_plot_data = res.body.user.plots;
                 this.setState({user_plot_data: res.body.user.plots}, () => {
                   // console.log('afterSetStateFinished')
                   // console.log(this.state.user_plot_data)
