@@ -40,6 +40,7 @@ class Header extends Component {
   render() {
       // This determines which buttons will render based on whether or not the user is logged in.
       let rightButtons = null;
+      let userButton = `${this.props.username}'s garden`;
       // If the user is logged in show:
       if (this.props.token && this.props.username) {
         rightButtons =
@@ -50,7 +51,7 @@ class Header extends Component {
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <input className='btn btn-outline-primary' type='submit' value={this.props.username}/>
+              <input className='btn btn-outline-primary' type='submit' value={userButton}/>
             </NavLink>
           </li>
         </div>;

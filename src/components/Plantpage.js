@@ -4,8 +4,11 @@ import Chart from 'chart.js';
 import '../styles/App.css';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import {redirectAction} from '../actions/actions.js';
+import { Button } from 'react-bootstrap';
+let Alert = require('react-bootstrap').Alert;
+
 
 class Plantpage extends Component {
   constructor(props) {
@@ -23,6 +26,14 @@ class Plantpage extends Component {
         image_message: null,
         wiki_link: null,
         user_plot_data: [],
+        popupVisible: false,
+        added_to_plot: "",
+        alertVisible: false,
+        sunMessage: "",
+        waterMessage: 'More specific water information coming soon.',
+        soilMessage: 'More specific soil information coming soon.',
+        maturationMessage: 'Time to maturity data coming soon.',
+
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
   }
@@ -31,201 +42,64 @@ class Plantpage extends Component {
     console.log(this.props.token);
     // console.log(this.props.zipcode);
     // console.log(this.state.zipcode);
+  }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false);
+  }
+
+  // Opens the plant dropdown menu.
+  openPlotDropdown(event){
+    event.preventDefault();
+    // console.log("dropdown clicked");
+    document.getElementById("myDropdown").classList.toggle("show");
+
+    if (!this.state.popupVisible) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false);
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false);
+    }
+    this.setState(prevState => ({
+      // popupVisible: true,
+      popupVisible: !prevState.popupVisible,
+        }));
+        // console.log(this.state.popupVisible);
+  }
+
+  // Close the dropdown menu
+  closePlotDropdown(event){
+    if(event !== undefined){
+      event.preventDefault();
+    }
+    // console.log("dropdown should close");
+    let dropdowns = document.getElementsByClassName("dropdown-content");
+    let i;
+    for (i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+    this.setState(prevState => ({
+           popupVisible: !prevState.popupVisible,
+        }));
+        // console.log(this.state.popupVisible);
+  }
+
+  // Close the dropdown menu if the user clicks outside of it
+  handleOutsideClick = (e) => {
+    // console.log('handleOutsideClick');
+    document.removeEventListener('click', this.handleOutsideClick, false);
+    if(this.state.popupVisible === true){
+      this.closePlotDropdown();
+    } else {
+      return;
+    }
   }
 
   // This gets and md5 hash for a given string.
   // Source: https://css-tricks.com/snippets/javascript/javascript-md5/
-  md5(string) {
-
-     function RotateLeft(lValue, iShiftBits) {
-             return (lValue<<iShiftBits) | (lValue>>>(32-iShiftBits));
-     }
-
-     function AddUnsigned(lX,lY) {
-             var lX4,lY4,lX8,lY8,lResult;
-             lX8 = (lX & 0x80000000);
-             lY8 = (lY & 0x80000000);
-             lX4 = (lX & 0x40000000);
-             lY4 = (lY & 0x40000000);
-             lResult = (lX & 0x3FFFFFFF)+(lY & 0x3FFFFFFF);
-             if (lX4 & lY4) {
-                     return (lResult ^ 0x80000000 ^ lX8 ^ lY8);
-             }
-             if (lX4 | lY4) {
-                     if (lResult & 0x40000000) {
-                             return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
-                     } else {
-                             return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
-                     }
-             } else {
-                     return (lResult ^ lX8 ^ lY8);
-             }
-     }
-
-     function F(x,y,z) { return (x & y) | ((~x) & z); }
-     function G(x,y,z) { return (x & z) | (y & (~z)); }
-     function H(x,y,z) { return (x ^ y ^ z); }
-     function I(x,y,z) { return (y ^ (x | (~z))); }
-
-     function FF(a,b,c,d,x,s,ac) {
-             a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
-             return AddUnsigned(RotateLeft(a, s), b);
-     };
-
-     function GG(a,b,c,d,x,s,ac) {
-             a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
-             return AddUnsigned(RotateLeft(a, s), b);
-     };
-
-     function HH(a,b,c,d,x,s,ac) {
-             a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
-             return AddUnsigned(RotateLeft(a, s), b);
-     };
-
-     function II(a,b,c,d,x,s,ac) {
-             a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
-             return AddUnsigned(RotateLeft(a, s), b);
-     };
-
-     function ConvertToWordArray(string) {
-             var lWordCount;
-             var lMessageLength = string.length;
-             var lNumberOfWords_temp1=lMessageLength + 8;
-             var lNumberOfWords_temp2=(lNumberOfWords_temp1-(lNumberOfWords_temp1 % 64))/64;
-             var lNumberOfWords = (lNumberOfWords_temp2+1)*16;
-             var lWordArray=Array(lNumberOfWords-1);
-             var lBytePosition = 0;
-             var lByteCount = 0;
-             while ( lByteCount < lMessageLength ) {
-                     lWordCount = (lByteCount-(lByteCount % 4))/4;
-                     lBytePosition = (lByteCount % 4)*8;
-                     lWordArray[lWordCount] = (lWordArray[lWordCount] | (string.charCodeAt(lByteCount)<<lBytePosition));
-                     lByteCount++;
-             }
-             lWordCount = (lByteCount-(lByteCount % 4))/4;
-             lBytePosition = (lByteCount % 4)*8;
-             lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80<<lBytePosition);
-             lWordArray[lNumberOfWords-2] = lMessageLength<<3;
-             lWordArray[lNumberOfWords-1] = lMessageLength>>>29;
-             return lWordArray;
-     };
-
-     function WordToHex(lValue) {
-             var WordToHexValue="",WordToHexValue_temp="",lByte,lCount;
-             for (lCount = 0;lCount<=3;lCount++) {
-                     lByte = (lValue>>>(lCount*8)) & 255;
-                     WordToHexValue_temp = "0" + lByte.toString(16);
-                     WordToHexValue = WordToHexValue + WordToHexValue_temp.substr(WordToHexValue_temp.length-2,2);
-             }
-             return WordToHexValue;
-     };
-     function Utf8Encode(string) {
-             string = string.replace(/\r\n/g,"\n");
-             var utftext = "";
-             for (var n = 0; n < string.length; n++) {
-                     var c = string.charCodeAt(n);
-
-                     if (c < 128) {
-                             utftext += String.fromCharCode(c);
-                     }
-                     else if((c > 127) && (c < 2048)) {
-                             utftext += String.fromCharCode((c >> 6) | 192);
-                             utftext += String.fromCharCode((c & 63) | 128);
-                     }
-                     else {
-                             utftext += String.fromCharCode((c >> 12) | 224);
-                             utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                             utftext += String.fromCharCode((c & 63) | 128);
-                     }
-             }
-             return utftext;
-     };
-     var x=Array();
-     var k,AA,BB,CC,DD,a,b,c,d;
-     var S11=7, S12=12, S13=17, S14=22;
-     var S21=5, S22=9 , S23=14, S24=20;
-     var S31=4, S32=11, S33=16, S34=23;
-     var S41=6, S42=10, S43=15, S44=21;
-     string = Utf8Encode(string);
-     x = ConvertToWordArray(string);
-     a = 0x67452301; b = 0xEFCDAB89; c = 0x98BADCFE; d = 0x10325476;
-     for (k=0;k<x.length;k+=16) {
-             AA=a; BB=b; CC=c; DD=d;
-             a=FF(a,b,c,d,x[k+0], S11,0xD76AA478);
-             d=FF(d,a,b,c,x[k+1], S12,0xE8C7B756);
-             c=FF(c,d,a,b,x[k+2], S13,0x242070DB);
-             b=FF(b,c,d,a,x[k+3], S14,0xC1BDCEEE);
-             a=FF(a,b,c,d,x[k+4], S11,0xF57C0FAF);
-             d=FF(d,a,b,c,x[k+5], S12,0x4787C62A);
-             c=FF(c,d,a,b,x[k+6], S13,0xA8304613);
-             b=FF(b,c,d,a,x[k+7], S14,0xFD469501);
-             a=FF(a,b,c,d,x[k+8], S11,0x698098D8);
-             d=FF(d,a,b,c,x[k+9], S12,0x8B44F7AF);
-             c=FF(c,d,a,b,x[k+10],S13,0xFFFF5BB1);
-             b=FF(b,c,d,a,x[k+11],S14,0x895CD7BE);
-             a=FF(a,b,c,d,x[k+12],S11,0x6B901122);
-             d=FF(d,a,b,c,x[k+13],S12,0xFD987193);
-             c=FF(c,d,a,b,x[k+14],S13,0xA679438E);
-             b=FF(b,c,d,a,x[k+15],S14,0x49B40821);
-             a=GG(a,b,c,d,x[k+1], S21,0xF61E2562);
-             d=GG(d,a,b,c,x[k+6], S22,0xC040B340);
-             c=GG(c,d,a,b,x[k+11],S23,0x265E5A51);
-             b=GG(b,c,d,a,x[k+0], S24,0xE9B6C7AA);
-             a=GG(a,b,c,d,x[k+5], S21,0xD62F105D);
-             d=GG(d,a,b,c,x[k+10],S22,0x2441453);
-             c=GG(c,d,a,b,x[k+15],S23,0xD8A1E681);
-             b=GG(b,c,d,a,x[k+4], S24,0xE7D3FBC8);
-             a=GG(a,b,c,d,x[k+9], S21,0x21E1CDE6);
-             d=GG(d,a,b,c,x[k+14],S22,0xC33707D6);
-             c=GG(c,d,a,b,x[k+3], S23,0xF4D50D87);
-             b=GG(b,c,d,a,x[k+8], S24,0x455A14ED);
-             a=GG(a,b,c,d,x[k+13],S21,0xA9E3E905);
-             d=GG(d,a,b,c,x[k+2], S22,0xFCEFA3F8);
-             c=GG(c,d,a,b,x[k+7], S23,0x676F02D9);
-             b=GG(b,c,d,a,x[k+12],S24,0x8D2A4C8A);
-             a=HH(a,b,c,d,x[k+5], S31,0xFFFA3942);
-             d=HH(d,a,b,c,x[k+8], S32,0x8771F681);
-             c=HH(c,d,a,b,x[k+11],S33,0x6D9D6122);
-             b=HH(b,c,d,a,x[k+14],S34,0xFDE5380C);
-             a=HH(a,b,c,d,x[k+1], S31,0xA4BEEA44);
-             d=HH(d,a,b,c,x[k+4], S32,0x4BDECFA9);
-             c=HH(c,d,a,b,x[k+7], S33,0xF6BB4B60);
-             b=HH(b,c,d,a,x[k+10],S34,0xBEBFBC70);
-             a=HH(a,b,c,d,x[k+13],S31,0x289B7EC6);
-             d=HH(d,a,b,c,x[k+0], S32,0xEAA127FA);
-             c=HH(c,d,a,b,x[k+3], S33,0xD4EF3085);
-             b=HH(b,c,d,a,x[k+6], S34,0x4881D05);
-             a=HH(a,b,c,d,x[k+9], S31,0xD9D4D039);
-             d=HH(d,a,b,c,x[k+12],S32,0xE6DB99E5);
-             c=HH(c,d,a,b,x[k+15],S33,0x1FA27CF8);
-             b=HH(b,c,d,a,x[k+2], S34,0xC4AC5665);
-             a=II(a,b,c,d,x[k+0], S41,0xF4292244);
-             d=II(d,a,b,c,x[k+7], S42,0x432AFF97);
-             c=II(c,d,a,b,x[k+14],S43,0xAB9423A7);
-             b=II(b,c,d,a,x[k+5], S44,0xFC93A039);
-             a=II(a,b,c,d,x[k+12],S41,0x655B59C3);
-             d=II(d,a,b,c,x[k+3], S42,0x8F0CCC92);
-             c=II(c,d,a,b,x[k+10],S43,0xFFEFF47D);
-             b=II(b,c,d,a,x[k+1], S44,0x85845DD1);
-             a=II(a,b,c,d,x[k+8], S41,0x6FA87E4F);
-             d=II(d,a,b,c,x[k+15],S42,0xFE2CE6E0);
-             c=II(c,d,a,b,x[k+6], S43,0xA3014314);
-             b=II(b,c,d,a,x[k+13],S44,0x4E0811A1);
-             a=II(a,b,c,d,x[k+4], S41,0xF7537E82);
-             d=II(d,a,b,c,x[k+11],S42,0xBD3AF235);
-             c=II(c,d,a,b,x[k+2], S43,0x2AD7D2BB);
-             b=II(b,c,d,a,x[k+9], S44,0xEB86D391);
-             a=AddUnsigned(a,AA);
-             b=AddUnsigned(b,BB);
-             c=AddUnsigned(c,CC);
-             d=AddUnsigned(d,DD);
-     		}
-
-     	var temp = WordToHex(a)+WordToHex(b)+WordToHex(c)+WordToHex(d);
-     	return temp.toLowerCase();
-  }
-
 
   plantInfoGet(event) {
     //  This lets the user 'bypass' CORs via proxy.
@@ -234,6 +108,7 @@ class Plantpage extends Component {
        event.preventDefault();
      }
      let search_term = 'Potentilla';
+     let plant_species_image = false;
      let returned_value = false;
     //  Keep this while testing.
      returned_value = true;
@@ -246,7 +121,6 @@ class Plantpage extends Component {
             if (res.body.plant !== undefined && res.body.plant !== null){
               // console.log(res.body.plant.common_name);
               // console.log(res.body.plant.scientific_name);
-
               search_term = res.body.plant.scientific_name;
               this.setState({common_name: res.body.plant.common_name});
               this.setState({plantdata: res.body.plant});
@@ -258,33 +132,55 @@ class Plantpage extends Component {
           if(returned_value){
             // console.log("Search Term: " + search_term);
 
-            let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
+            // let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
             // console.log(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`);
              request
-             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${search_term}`+`&gpslimit=20`)
+             .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+search_term+'&gpslimit=20')
               .end((err, res)=>{
                 // console.log(res);
+                console.log(res.xhr.responseText);
                 // console.log(res.xhr.responseText);
+
                 let string = res.xhr.responseText
                 let obj = JSON.parse(string);
-                // console.log(obj);
-                // console.log(obj.query);
                 if(obj.query !== undefined){
-                  let imageNum = Object.keys(obj.query.pages)[0];
+                  console.log(obj);
+                  // CHecks to see if the image is of a 'species of plant'
+                  if(obj.query.pages[0] !== undefined){
+                    if(obj.query.pages[0].terms !== undefined){
+                      if(obj.query.pages[0].terms.description[0] !== undefined){
+                        if(obj.query.pages[0].terms.description[0] === 'species of plant'){
+                          console.log(obj.query.pages[0].terms.description[0]);
+                          // The following line simply prevents an error.
+                          plant_species_image = res;
+                          // This indicates that the image is of a 'species of plant'.
+                          plant_species_image = true;
+                        }
+                      }
+                    }
+                  }
+
+
+                  // let imageNum = Object.keys(obj.query.pages)[0];
                   // console.log(obj.query.pages);
                   // console.log(obj.query.pages[0]);
                   if( obj.query.pages[0].thumbnail === undefined){
-                    console.log('No Image to Show');
+                    // console.log('No Image to Show');
                     this.setState({image_message : "There is no image available for this plant in our database at this time."});
                     this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                  } else if(plant_species_image){
+                      this.setState({image_message : "null"});
+                      console.log(obj.query.pages[0].thumbnail.source);
+                      this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                   } else {
-                    this.setState({image_message : "null"});
-                    // console.log(obj.query.pages[0].thumbnail.source);
-                    this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                    // console.log('No Plant Image to Show');
+                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
+                    this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                  }
                     // If the search was for Hosta.
                     if(search_term === 'Hosta'){
                       this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
-                    }
+
                   }
                 } else {
                   // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
@@ -293,15 +189,15 @@ class Plantpage extends Component {
                   let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
                   console.log(only_first_search_term);
                   request
-                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+`${only_first_search_term}`)
+                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+only_first_search_term)
                    .end((err, res)=>{
                       //  console.log(res);
-                      //  console.log(res.xhr.responseText);
+                       console.log(res.xhr.responseText);
                       let string = res.xhr.responseText
                       let obj = JSON.parse(string);
                       //  console.log(obj);
-                      //  console.log(obj.query.pages[0]);
-                      let imageNum = Object.keys(obj.query.pages)[0];
+                       console.log(obj.query.pages[0]);
+                      // let imageNum = Object.keys(obj.query.pages)[0];
                       // console.log(obj.query.pages[0].thumbnail.source);
 
                       // If the search was for Hosta Hosta ventricosa.
@@ -316,59 +212,9 @@ class Plantpage extends Component {
                       }
                       this.setState({image_message : "null"});
                    })
-
                 }
-
               })
-
           }
-
-          // request
-          // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
-          //  .end((err, res)=>{
-          //    console.log('');
-          //    console.log('Carrot');
-          //    console.log(res.xhr.responseText);
-          //    let string = res.xhr.responseText
-          //    let obj = JSON.parse(string);
-          //    console.log(obj.query.pages[0]);
-          //    console.log(obj.query.pages[5985739]);
-          //    console.log(obj.query.pages[5985739].images[0].title);
-          //    let front = "https://upload.wikimedia.org/wikipedia/commons/b/bd/";
-          //    let premiddle = obj.query.pages[5985739].images[0].title;
-          //    let middle = premiddle.substring(5);
-          //    console.log(middle);
-          //    let total = front+middle;
-          //    console.log(total);
-          //   this.setState({wikipedia_responseText: res.xhr.responseText});
-          //  })
-
-          // request
-          // .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&titles=`+`${search_term}`+`&prop=images&format=json&imlimit=5`)
-          //  .end((err, res)=>{
-          //   console.log(err);
-          //   console.log(res.xhr);
-          //   console.log(res.xhr.responseText);
-          //   let string = res.xhr.responseText
-          //   let obj = JSON.parse(string);
-          //   let imageNum = Object.keys(obj.query.pages)[0];
-          //   let numString = JSON.stringify(obj.query.pages);
-          //   if (obj.query.pages[imageNum].images !== undefined) {
-          //     console.log(obj.query.pages[imageNum].images[0].title);
-          //     this.setState({wikipedia_image: obj.query.pages[imageNum].images[0].title});
-          //     let front_no_hash = "https://upload.wikimedia.org/wikipedia/commons/";
-          //     let premiddle = obj.query.pages[imageNum].images[0].title;
-          //     let middle = premiddle.substring(5);
-          //     let hash = this.md5(middle);
-          //     let hashA = hash.substring(0, 1);
-          //     let hashB = hash.substring(0, 2);
-          //     let front = front_no_hash + hashA + '/' + hashB + '/'
-          //     let total = front+middle;
-          //     console.log(total);
-          //     this.setState({wikipedia_image_final: total});
-          //   }
-          //  })
-
         }
       })
   }
@@ -384,37 +230,95 @@ class Plantpage extends Component {
 
   // This generates the sun chart data.
   createSunChart(){
-    console.log(this.state.plantdata.light);
+    // This handles soil information.
+    let soilMessage = 'This plant likes soil with approx. 6.5 pH.';
+
     // This generates a number of hours that the plant needs sunlight.
     let light_string = this.state.plantdata.light;
+    let soil_string = this.state.plantdata.soil;
+    let sunMessage = null;
     let sun_max_value = 2;
     let sun_min_value = 0;
+    let soil_pH_max = 6;
+    let soil_pH_min = 5;
     // Handles minimum sunlight.
-    if(light_string.includes('Full sun')){
-      sun_min_value = 6;
-    }
-    if(light_string.includes("Part sun")){
-      sun_min_value = 4;
-    }
-    if(light_string.includes("Part shade")){
-      sun_min_value = 2;
-    }
-    if(light_string.includes("Full shade")){
-      sun_min_value = 0;
-    }
-    // Handles maximum sunlinght.
-    if(light_string.includes('Full shade')){
-      sun_max_value = 3;
-    }
-    if(light_string.includes("Part shade")){
-      sun_max_value = 4;
-    }
-    if(light_string.includes("Part sun")){
-      sun_max_value = 6;
-    }
-    if(light_string.includes("Full sun")){
-      console.log("full");
-      sun_max_value = 10;
+    if(this.state.plantdata !== null || this.state.plantdata !== undefined){
+      if(this.state.plantdata.light !== null || this.state.plantdata.light !== undefined){
+        // console.log(this.state.plantdata.light);
+        if(light_string.includes('Full sun')){
+          sun_min_value = 6;
+        }
+        if(light_string.includes("Part sun")){
+          sun_min_value = 4;
+        }
+        if(light_string.includes("Part shade")){
+          sun_min_value = 2;
+        }
+        if(light_string.includes("Full shade")){
+          sun_min_value = 0;
+        }
+        // Handles maximum sunlinght.
+        if(light_string.includes('Full shade')){
+          sun_max_value = 3;
+          sunMessage = 'This plant grows well in the shade.';
+        }
+        if(light_string.includes("Part shade")){
+          sun_max_value = 4;
+          sunMessage = 'This plant grows well in the shade.';
+        }
+        if(light_string.includes("Part sun")){
+          sun_max_value = 6;
+          sunMessage = 'This plant grows well with partial sunlight.';
+        }
+        if(light_string.includes("Full sun")){
+          console.log("full");
+          sun_max_value = 10;
+          sunMessage = 'This plant grows well with direct sunlight.';
+        }
+        if(sun_min_value <= 2 && sun_max_value >= 10){
+          sunMessage = 'This plant grows well with lots or little sunlight.';
+        }
+        if(sun_min_value >= 6 && sun_max_value >= 10){
+          sunMessage = 'This plant requires lots of sunlight.';
+        }
+        if(sun_min_value <= 2 && sun_max_value <= 4){
+          sunMessage = 'This plant should be grown in a shady area.';
+        }
+        this.setState({sunMessage: sunMessage});
+
+        // This handles soil information.
+        if(this.state.plantdata.soil !== null || this.state.plantdata.soil !== undefined){
+          if(this.state.plantdata.soil !== " "){
+            soilMessage = "";
+          }
+          console.log(this.state.plantdata.soil);
+          if(soil_string.includes("Adaptable")){
+            soilMessage = 'This plant can adapt to most types of soil.';
+          }
+          if(soil_string.includes("Prefers evenly-moist")){
+            soilMessage = soilMessage + ' Prefers evenly-moist soil.';
+          }
+          if(soil_string.includes("Prefers dry")){
+            soilMessage = soilMessage + ' This plant prefers dry soil.';
+          }
+          if(soil_string.includes("Prefers high organic matter")){
+            soilMessage = soilMessage + ' Prefers high organic matter.';
+          }
+          if(soil_string.includes("Prefers well-drained")){
+            soilMessage = soilMessage + ' Prefers well-drained.';
+          }
+          if(soil_string.includes("Prefers loam")){
+            soilMessage = soilMessage + ' Prefers loamy soil.';
+          }
+          if(soil_string.includes("Tolerates dry")){
+            soilMessage = soilMessage + ' Tolerates dry soil.';
+          }
+          if(soil_string.includes("Tolerates poor")){
+            soilMessage = soilMessage + ' Tolerates poor quality soil.';
+          }
+        }
+        this.setState({soilMessage: soilMessage});
+      }
     }
 
     let max_water_value = sun_max_value - sun_min_value + 1;
@@ -422,14 +326,15 @@ class Plantpage extends Component {
     let ctx = document.getElementById("mySunChart").getContext('2d');
     // Chart.defaults.global.defaultFontColor = 'black';
     // Chart.defaults.global.defaultFontSize = '12';
-    let mySunChart = new Chart(ctx, {
+    // let mySunChart  =
+    new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-        labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil Quality", "Time to Maturity(weeks)"],
+        labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
         datasets: [
           {
             label: 'Minimum Required',
-            data: [sun_min_value, 2, 3, 5],
+            data: [sun_min_value, 2, soil_pH_max, 5],
             backgroundColor: [
                 '#e5e5e5',
                 'rgba(54, 162, 235, 0.2)',
@@ -446,17 +351,17 @@ class Plantpage extends Component {
         },
         {
           label: 'Maximum Tolerated',
-          data: [sun_max_value-sun_min_value, max_water_value, 0, 0],
+          data: [sun_max_value-sun_min_value, max_water_value, soil_pH_max-soil_pH_min, 0],
           backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
               'rgba(54, 162, 235, 0.2)',
-              // 'rgba(153, 102, 255, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
               // 'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
               '#ffff00',
               'rgba(54, 162, 235, 1)',
-              // 'rgba(153, 102, 255, 1)',
+              'rgba(153, 102, 255, 1)',
               // 'rgba(75, 192, 192, 1)',
           ],
           borderWidth: 1
@@ -476,7 +381,6 @@ class Plantpage extends Component {
     });
   }
 
-
   addPlantToPlot(event, plot){
     event.preventDefault();
     //  This lets the user 'bypass' CORs via proxy.
@@ -495,11 +399,21 @@ class Plantpage extends Component {
                     id: plot
                })
           .end((err, res) => {
+            let message = "";
               if (err) {
-                console.log("failed to add to plot!");
+                // console.log(err);
+                // console.log("failed to add to plot!");
+                message = `Failed to add to plot. Please try again later`;
               } else {
-                console.log(res.body);
+                // console.log(res.body);
+                // console.log(res.body.error);
+                message = `Successfully added to plot!`;
+                if(res.body.error === 'This plant already belongs to this plot'){
+                  message = 'This plant already belongs to this plot';
+                }
               }
+              this.setState({added_to_plot: message,
+              alertVisible:true });
           })
         }
       }
@@ -518,10 +432,13 @@ class Plantpage extends Component {
               if (err) {
                 console.log("failed to get plots!");
               } else {
-                console.log(res.body);
-                console.log(res.body.user.plots);
-                let user_plot_data = res.body.user.plots;
-                this.setState({user_plot_data: res.body.user.plots});
+                // console.log(res.body);
+                // console.log(res.body.user.plots);
+                // let user_plot_data = res.body.user.plots;
+                this.setState({user_plot_data: res.body.user.plots}, () => {
+                  // console.log('afterSetStateFinished')
+                  // console.log(this.state.user_plot_data)
+                });
               }
           })
         }
@@ -570,9 +487,14 @@ class Plantpage extends Component {
       }
   }
 
+  // This makes alerts go away.
+  handleAlertDismiss = () => {
+    this.setState({alertVisible: false});
+  }
+
   render() {
-    console.log(this.state.image_message);
-    console.log(this.state.user_plot_data);
+    // console.log(this.state.image_message);
+    // console.log(this.state.user_plot_data);
     // This makes the additional notes only appear if the plant actually has additional notes.
     let plantdata_notes = true;
     if(this.state.plantdata.notes === ' ' || this.state.plantdata.notes === null || this.state.plantdata.notes === undefined){
@@ -589,52 +511,83 @@ class Plantpage extends Component {
       plantdata_form_comma = plantdata_form.replace(new RegExp(';', 'g'), ",");
     }
 
+    // This changes the contents of the propsDropDown.
+    // console.log(this.props.token);
+    let propsDropDown = null;
+    // If the user is logged in.
+    if(this.props.token !== null){
+      // If the user has plots.
+      if(this.state.user_plot_data !== null){
+        propsDropDown =
+        <div className="centerHomeButton">
+          <div>
+            <div className="dropdown">
+              <button onClick={event => this.openPlotDropdown(event)} className="dropbtn">Save to your garden</button>
+              <div id="myDropdown" className="dropdown-content style-margin-bottom-20px">
+                {this.props.token ? (
+                    <div>
+                      {this.state.user_plot_data.map( (plot,i) => {
+                           return(
+                             <div key={i} className="blue-hover" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>
+                               <p className="font-size-16px">Add to {plot.plot_name}</p>
+                             </div>
+                           )
+                       })}
+                  </div>
+                ): "Add A Plot"}
+              </div>
+            </div>
+            {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
+          </div>
+        </div>
+        // If the user does not have any plots.
+      } else {
+        propsDropDown =
+        <div className="centerHomeButton">
+          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+            <input className='btn btn-primary btn-lg' type='submit' value='Create A Plot'/>
+          </NavLink>
+        </div>
+      }
+      // If the user is not logged in.
+    } else {
+      propsDropDown =
+      <div className="centerHomeButton">
+          <NavLink activeClassName="selected" to="/login">
+            <input className='btn btn-primary btn-lg' type='submit' value='Login to save plants to your garden'/>
+          </NavLink>
+      </div>
+    }
+
 
     return (
       <div className="plantpage-container main-component-container">
+        {this.state.alertVisible ? (<div>
+          <Alert className="alert alert-success" onDismiss={this.handleAlertDismiss}>
+                    <h4>{this.state.added_to_plot}</h4>
+                    <p>
+                      <Button onClick={this.handleAlertDismiss}>Hide Alert</Button>
+                    </p>
+                  </Alert>
+        </div>): ""}
         <div className="plantpage-sub-container">
-          {/* <div className="testing_plant_by_id_box">
-            <form className="enterForm" onSubmit={this.handleFormSubmit}>
-              <div className="form-group">
-                <h6>Plant ID:</h6>
-                <input type="text" onChange={this.updateFromField('plant_id')} value={this.state.plant_id} placeholder="plant_id"/>
-              </div>
-              <div className="form-group pull-right">
-                <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.plantInfoGet(event)}>Get Plant Information</button>
-              </div>
-            </form>
-          </div> */}
-
-
-
           <div className="top_items_plant_page">
             <div className="all_plant_page_images">
               <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
-
-
               <div className="plant_page_graph">
                 {this.state.plantdata ? (
                 <div>
                   <div className="outer_chart_for_plant">
                     <p className="font-size-16px">{this.state.plantdata.common_name}'s Growth Needs</p>
                   </div>
-
                   <div className="outer_chart_for_plant">
                     <div className="chart_for_plant">
                       <canvas id="mySunChart" width="400" height="400"></canvas>
                     </div>
                   </div>
-
                 </div> ): ""}
-
               </div>
-
-
             </div>
-
-
-
-
 
             <div className="all_plant_page_right_items">
               <div className="top_items_plant_page_right">
@@ -643,12 +596,11 @@ class Plantpage extends Component {
                   ): ""}
                 </div>
                 <hr/>
-
                 <div className="top_items_plant_page_right_plant_info">
                   {this.state.plantdata ? (
                     <div>
-                      <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/>
-                      <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p>
+                      {propsDropDown}
+                      <p className="plant_info_scientific_name font-size-16px margin-top-20pt">{this.state.plantdata.scientific_name}</p>
                       <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p>
                       <p className="font-size-16px">General shape: {plantdata_form_comma}</p>
                       <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p>
@@ -656,58 +608,28 @@ class Plantpage extends Component {
                       {plantdata_notes ? (
                         <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
                       ): ""}
+                      {this.state.plantdata.seasonal_interest_specific ? (
+                        <p className="font-size-16px">Specific Notes: {this.state.plantdata.seasonal_interest_specific}</p>
+                      ): ""}
                       <a href={this.state.wiki_link} className="font-size-16px">Learn More</a>
                     </div>
                      ): ""}
                 </div>
               </div>
 
-              <div className="plant_page_graph_messages margin-left-20pt">
-                <p>Add to plot</p>
-                <div>
-                  {this.props.token ? (
-                    <div>
-                      <div>
-                        {this.state.user_plot_data.map( (plot,i) => {
-                             return(
-                               <div key={i}>
-                                 <p>{plot.plot_name}</p>
-                                 <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.addPlantToPlot(event, plot.plot_id)}>Add to {plot.plot_name}</button>
-                               </div>
-                             )
-                         })}
-                    </div>
-                    <div>
-                      <p>Add to a new plot</p>
-                    </div>
-                  </div>
-                  ): ""}
-                </div>
-
-
-
-
-                <hr/>
-                <p>Specific Data</p>
+              <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
+                <p className="font-size-16px margin-left-20pt">Based on your location:</p>
                 {this.state.plantdata ? (
                   <div>
-                    {/* <input className='btn btn-outline-primary style-margin-bottom-20px' type='submit' value='Save to your garden'/> */}
-                    {/* <p className="plant_info_scientific_name font-size-16px">{this.state.plantdata.scientific_name}</p> */}
-                    {/* <p className="font-size-16px">Dimensions: {this.state.plantdata.height} height x {this.state.plantdata.spread} width</p> */}
-                    {/* <p className="font-size-16px">General shape: {plantdata_form_comma}</p> */}
-                    {/* <p className="font-size-16px">Optimum growing season(s): {plantdata_seasonal_interest_comma}</p> */}
-
-                    {/* {plantdata_notes ? (
-                      <p className="font-size-16px">Additional Notes: {this.state.plantdata.notes}</p>
-                    ): ""} */}
-                    {/* <a href={this.state.wiki_link} className="font-size-16px">Learn More</a> */}
+                    <p className="font-size-16px margin-left-20pt">{this.state.sunMessage}</p>
+                    <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
+                    <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
+                    <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+                    <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
                   </div>
                    ): ""}
               </div>
             </div>
-
-
-
 
           </div>
         </div>
@@ -725,6 +647,7 @@ function mapStateToProps(state) {
       redirection: state.redirection,
       token: state.token,
       zipcode: state.zipcode,
+      username: state.username,
     };
 }
 
