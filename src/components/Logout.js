@@ -37,6 +37,8 @@ class Logout extends Component {
     let message = false;
     if (this.props.redirection[1] !== undefined){
       message = this.props.redirection[1];
+    } else {
+      message = "Redirecting...";
     }
     return (
       <div>
