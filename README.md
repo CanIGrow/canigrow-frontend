@@ -1,5 +1,11 @@
 Can I Grow project
 
+Deployment: https://canigrow.github.io/canigrow-frontend/
+
+Github Organization: https://github.com/CanIGrow
+
+---
+
 Collaborators:
 
 Kevin Harrison: https://github.com/kharrison7
@@ -8,12 +14,18 @@ Jocelyn Triplett: https://github.com/JocelynTriplett
 
 Jonathan 'JT' Canfield: https://github.com/jtcanfield
 
+---
+
 This project is designed to meet the needs of first time and moderately experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
 
 User Stories
 Specifically this site is built to:
 1) Allow users to search for a plant and receive information about said plant.
 2) Let users save a list of plants to a 'plot' for future reference.
+
+---
+
+Initial Planning:
 
 Thursday, October 5th:
 Today we met as a group for the first time. Together we wire-framed and presented the project with basic user stories to Dana Calder. Jocelyn researched API options and began creating schema for the back-end. Kevin began working on bringing redux into the front-end. JT created routes with components and began work on the home page. Additionally JT began looking into local tracking options.

@@ -47,18 +47,18 @@ class Header extends Component {
         popoverbuttons =
         <div>
           <Link to="/">Home</Link><br/>
-          <span className="manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
-          <Link to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
+          <span className="btn-link manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
+          <Link className="btn-link" to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
         </div>
         rightButtons =
         <div className="changeButtons">
           <li>
             {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-outline-primary' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
+              <input className='btn btn-link' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <input className='btn btn-outline-primary' type='submit' value={userButton}/>
+              <input className='btn btn-link' type='submit' value={userButton}/>
             </NavLink>
           </li>
         </div>;
@@ -74,12 +74,12 @@ class Header extends Component {
         <div className="changeButtons">
           <li>
             <NavLink activeClassName="selected" to="/login">
-              <input className='btn btn-outline-primary' type='submit' value='Login'/>
+              <input className='btn btn-link' type='submit' value='Login'/>
             </NavLink>
           </li>
           <li>
             <NavLink activeClassName="selected" to="/register">
-              <input className='btn btn-outline-primary' type='submit' value='Register'/>
+              <input className='btn btn-link' type='submit' value='Register'/>
             </NavLink>
           </li>
         </div>;

@@ -6,8 +6,12 @@ html, body, #root, .body{
   background-color: #EEEEEE;
   /*rgba(255,248,220, 1)*/
 }
+.fill_page {
+  min-height: calc(90vh - 100px);
+  margin-bottom: -30px;
+}
 .canigrowlogo-mobile{
-  width: 200px;
+  width: 200p.plantx;
   text-align: center;
   display: inline-block;
 }
@@ -281,11 +285,14 @@ TEMP MODAL STYLES
 }
 .modal.left.fade.in .modal-dialog{
   left: 0;
+}
 
 /*******************************/
   /*For Plantpage.js*/
 /*******************************/
 
+.plantpage-container {
+  margin-bottom: 40pt;margin-bottom: 40pt;
 }
 .plant_big_image {
   width: 570px;
@@ -412,4 +419,32 @@ TEMP MODAL STYLES
   margin-top: 120pt;
   position: relative;
   bottom: 0;
+}
+.homepage-sub-container {
+  /*background-color: #FDF8E2;*/
+  background-color: #EEEEEE;
+  width: 1150px;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+#footer-content{
+  /*background-color: #FFFFFF;*/
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+.footer-sub-container{
+  background-color: #FFFFFF;
+  height: 50px;
+  left:0;
+  bottom:0;
+  right:0;
+}
+.padding-bottom-20px {
+  padding-bottom: 20px;
+  /*min-height: calc(80vh - 208px);*/
+}
+.homepage-form {
+  /*min-height: calc(80vh - 208px);*/
 }
