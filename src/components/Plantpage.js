@@ -27,6 +27,7 @@ class Plantpage extends Component {
         wiki_link: null,
         user_plot_data: [],
         popupVisible: false,
+        commentsVisible: false,
         added_to_plot: "",
         alertVisible: false,
         sunMessage: "",
@@ -63,6 +64,24 @@ class Plantpage extends Component {
     this.setState(prevState => ({
       // popupVisible: true,
       popupVisible: !prevState.popupVisible,
+        }));
+        // console.log(this.state.popupVisible);
+  }
+
+  // Opens the comments
+  openPlotDropdownComment(event){
+    event.preventDefault();
+    console.log("dropdown comment clicked");
+    document.getElementById("myDropdownComments").classList.toggle("show");
+
+    // if (!this.state.popupVisible) {
+    //   document.addEventListener('click', this.handleOutsideClick, false);
+    // } else {
+    //   document.removeEventListener('click', this.handleOutsideClick, false);
+    // }
+    this.setState(prevState => ({
+      // popupVisible: true,
+      commentsVisible: !prevState.commentsVisible,
         }));
         // console.log(this.state.popupVisible);
   }
@@ -575,7 +594,7 @@ class Plantpage extends Component {
             {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
             {/* <div id="myDropdown" className="dropdown-content style-margin-bottom-20px"> */}
               <div>
-                {this.props.token ? (
+                {this.state.plantdata.comments ? (
                     <div>
                       {this.state.plantdata.comments.map( (comment,i) => {
                            return(
@@ -666,8 +685,19 @@ class Plantpage extends Component {
               </div>
 
               <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
-                <p>Comments:</p>
-                <div className="plant_comments">{plantComments}</div>
+                <h2>Comments:</h2>
+                {/* <div className="plant_comments">{plantComments}</div> */}
+
+
+
+                <div className="dropdown">
+                  <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">View Comments</button>
+                  <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
+                    <div className="plant_comments">{plantComments}</div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
 
