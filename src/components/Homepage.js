@@ -354,10 +354,13 @@ class Homepage extends Component {
             <form className="homepage-form">
               <div className="homepage-search-container container">
                 <div className="pagination-centered text-center">
-                  <h2 className="homepage-search-title">Can I Grow...
+                  <h2 className="homepage-search-title">
+                    {/* Can I Grow... */}
                   <input type="search" id="searchbartext"
                     value={this.state.searchbartext}
                     onChange={this.handleTextChange}
+                    placeholder="Can I Grow..."
+                    autofocus="autofocus"
                     className="homepage-search-box"/>
                   </h2>
                 </div>

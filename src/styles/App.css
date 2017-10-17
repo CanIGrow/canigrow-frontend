@@ -103,21 +103,35 @@ html, body, #root, .body{
   }
 }
 .homepage-search-container{
-  background-color: #00C851;
+  /*background-color: #00C851;*/
 }
 .main-component-container{
   margin: 10px 0;
 }
 .homepage-search-title, .homepage-search-box{
   text-align: center;
-  color: #ffffff;
+  /*color: #ffffff;*/
 }
 .homepage-search-box{
-  margin: 10px 0;
+  /*margin: 10px 0;
   border: 0;
   background: 0;
   outline: 0;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid white;*/
+  border: none;
+    padding: 10px;
+    margin: 10px;
+    height: 60px;
+    width: 500px;
+    border:2px solid #64dd17;
+    outline:none;
+}
+.homepage-search-box:hover{
+    /*border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;*/
+    border-color: #4285F4 #4285F4 #4285F4 #4285F4;
+}
+.homepage-search-box:focus{
+    border-color:#4d90fe;
 }
 #zipcode{
   width: 80px;
