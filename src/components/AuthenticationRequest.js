@@ -76,7 +76,7 @@ class AuthenticationRequest extends Component {
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
-                <h3>Authentication Request Form:</h3>
+                <h3>Account Activation Request:</h3>
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>Email:</h6>
@@ -84,7 +84,7 @@ class AuthenticationRequest extends Component {
                   </div>
                   {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resetPasswordEmail(event)}>Get Emailed Authorization Link</button>
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resetPasswordEmail(event)}>Get Email Activation Link</button>
                   </div>
                 </form>
               </div>

@@ -112,7 +112,7 @@ class Login extends Component {
                   <div>
                     <p>Need a new authentication email?</p>
                     <NavLink className="btn btn-primary btn-lg" type="submit" to="/login/authentication_request">
-                      <span>Authentication Request</span>
+                      <span>Get Email Activation Form</span>
                     </NavLink>
                   </div>
                 </div>
