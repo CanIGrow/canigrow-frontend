@@ -55,7 +55,7 @@ class Header extends Component {
           <li>
             <NavLink activeClassName="selected" to="/">
               {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./Home-icon.svg.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
+              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
             </NavLink>
           </li>
           <li>
@@ -81,7 +81,7 @@ class Header extends Component {
           <li>
             <NavLink activeClassName="selected" to="/">
               {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./Home-icon.svg.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
+              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
             </NavLink>
           </li>
           <li>
