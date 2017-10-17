@@ -52,6 +52,7 @@ class Login extends Component {
          } else {
            if (res !== undefined && res.body.token !== undefined){
            // These save the token to a cookie.
+           console.log(res.body);
            cookie.save('token', res.body.token);
            cookie.save('username', res.body.username);
            cookie.save('email', this.state.username);

@@ -43,7 +43,7 @@ class Header extends Component {
       let rightButtons = null;
       let userButton = `${this.props.username}'s garden`;
       // If the user is logged in show:
-      if (this.props.token && this.props.username) {
+      if (this.props.token) {
         popoverbuttons =
         <div>
           <Link to="/">Home</Link><br/>
