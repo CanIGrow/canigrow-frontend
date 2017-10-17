@@ -60,9 +60,9 @@ Sprint 2:
 Goals: Finish User Story 2, test features, fix bugs, and deploy the website.
 
 Monday, October 15th:
-In the morning we met to plan this next sprint. Jocelyn worked on password reset by email. JT worked on letting a user drag-and-drop plants and delete plants. Kevin worked on deployment, styling, and error fixes.
+In the morning we met to plan this next sprint. Jocelyn worked on password reset by email. JT worked on letting a user drag-and-drop plants and delete plants. Kevin worked on deployment, adding a footer, styling, and error fixes.
 
-Tuesday, October 16th:
+Tuesday, October 16th: Jocelyn worked on authorization email and updating the database. Kevin worked on styling the front page and header.
 
 Wednesday, October 17th:
 
