@@ -307,6 +307,9 @@ TEMP MODAL STYLES
 .modal.left.fade.in .modal-dialog{
   left: 0;
 }
+.margin-top-108px {
+  margin-top: 108px;
+}
 
 /*******************************/
   /*For Plantpage.js*/
@@ -322,6 +325,7 @@ TEMP MODAL STYLES
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  border: blue 2pt;
 }
 .plantpage-sub-container {
   /*background-color: #FDF8E2;*/

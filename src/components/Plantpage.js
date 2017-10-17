@@ -573,7 +573,7 @@ class Plantpage extends Component {
         <div className="plantpage-sub-container">
           <div className="top_items_plant_page">
             <div className="all_plant_page_images">
-              <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="plant_img"/>
+              <img className="plant_big_image" src={this.state.wikipedia_image_final} alt="Loading Image..." width="570px" height="724px"/>
               <div className="plant_page_graph">
                 {this.state.plantdata ? (
                 <div>
