@@ -137,81 +137,84 @@ class Plantpage extends Component {
              request
              .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+search_term+'&gpslimit=20')
               .end((err, res)=>{
-                // console.log(res);
-                console.log(res.xhr.responseText);
-                // console.log(res.xhr.responseText);
-
-                let string = res.xhr.responseText
-                let obj = JSON.parse(string);
-                if(obj.query !== undefined){
-                  console.log(obj);
-                  // CHecks to see if the image is of a 'species of plant'
-                  if(obj.query.pages[0] !== undefined){
-                    if(obj.query.pages[0].terms !== undefined){
-                      if(obj.query.pages[0].terms.description[0] !== undefined){
-                        if(obj.query.pages[0].terms.description[0] === 'species of plant'){
-                          console.log(obj.query.pages[0].terms.description[0]);
-                          // The following line simply prevents an error.
-                          plant_species_image = res;
-                          // This indicates that the image is of a 'species of plant'.
-                          plant_species_image = true;
+                if(res !== null && res !== undefined){
+                  if(res.xhr !== null && res.xhr !== undefined){
+                    if(res.xhr.responseText !== null && res.xhr.responseText !== undefined){
+                      // console.log(res);
+                      console.log(res.xhr.responseText);
+                      // console.log(res.xhr.responseText);
+                      let string = res.xhr.responseText
+                      let obj = JSON.parse(string);
+                      if(obj.query !== undefined){
+                        console.log(obj);
+                        // CHecks to see if the image is of a 'species of plant'
+                        if(obj.query.pages[0] !== undefined){
+                          if(obj.query.pages[0].terms !== undefined){
+                            if(obj.query.pages[0].terms.description[0] !== undefined){
+                              if(obj.query.pages[0].terms.description[0] === 'species of plant'){
+                                console.log(obj.query.pages[0].terms.description[0]);
+                                // The following line simply prevents an error.
+                                plant_species_image = res;
+                                // This indicates that the image is of a 'species of plant'.
+                                plant_species_image = true;
+                              }
+                            }
+                          }
                         }
+                        // let imageNum = Object.keys(obj.query.pages)[0];
+                        // console.log(obj.query.pages);
+                        // console.log(obj.query.pages[0]);
+                        if( obj.query.pages[0].thumbnail === undefined){
+                          // console.log('No Image to Show');
+                          this.setState({image_message : "There is no image available for this plant in our database at this time."});
+                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                        } else if(plant_species_image){
+                            this.setState({image_message : "null"});
+                            console.log(obj.query.pages[0].thumbnail.source);
+                            this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                        } else {
+                          // console.log('No Plant Image to Show');
+                          this.setState({image_message : "There is no image available for this plant in our database at this time."});
+                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                        }
+                          // If the search was for Hosta.
+                          if(search_term === 'Hosta'){
+                            this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
+
+                        }
+                      } else {
+                        // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
+                        console.log("Try to get images another way");
+                        // console.log(res);
+                        let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
+                        console.log(only_first_search_term);
+                        request
+                        .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+only_first_search_term)
+                         .end((err, res)=>{
+                            //  console.log(res);
+                             console.log(res.xhr.responseText);
+                            let string = res.xhr.responseText
+                            let obj = JSON.parse(string);
+                            //  console.log(obj);
+                             console.log(obj.query.pages[0]);
+                            // let imageNum = Object.keys(obj.query.pages)[0];
+                            // console.log(obj.query.pages[0].thumbnail.source);
+
+                            // If the search was for Hosta Hosta ventricosa.
+                            if(search_term === 'Hosta ventricosa' || search_term === 'Hosta plantaginea'){
+                              this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
+                            } else {
+                              if(obj.query.pages[0].thumbnail !== undefined){
+                                this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
+                              } else {
+                                this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                              }
+                            }
+                            this.setState({image_message : "null"});
+                         })
                       }
                     }
                   }
-
-
-                  // let imageNum = Object.keys(obj.query.pages)[0];
-                  // console.log(obj.query.pages);
-                  // console.log(obj.query.pages[0]);
-                  if( obj.query.pages[0].thumbnail === undefined){
-                    // console.log('No Image to Show');
-                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                    this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
-                  } else if(plant_species_image){
-                      this.setState({image_message : "null"});
-                      console.log(obj.query.pages[0].thumbnail.source);
-                      this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
-                  } else {
-                    // console.log('No Plant Image to Show');
-                    this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                    this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
-                  }
-                    // If the search was for Hosta.
-                    if(search_term === 'Hosta'){
-                      this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
-
-                  }
-                } else {
-                  // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
-                  console.log("Try to get images another way");
-                  // console.log(res);
-                  let only_first_search_term = search_term.substr(0,search_term.indexOf(' '));
-                  console.log(only_first_search_term);
-                  request
-                  .get(`${proxyurl}https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cpageterms&generator=prefixsearch&redirects=1&formatversion=2&piprop=thumbnail&pithumbsize=250&pilimit=20&wbptterms=description&gpssearch=`+only_first_search_term)
-                   .end((err, res)=>{
-                      //  console.log(res);
-                       console.log(res.xhr.responseText);
-                      let string = res.xhr.responseText
-                      let obj = JSON.parse(string);
-                      //  console.log(obj);
-                       console.log(obj.query.pages[0]);
-                      // let imageNum = Object.keys(obj.query.pages)[0];
-                      // console.log(obj.query.pages[0].thumbnail.source);
-
-                      // If the search was for Hosta Hosta ventricosa.
-                      if(search_term === 'Hosta ventricosa' || search_term === 'Hosta plantaginea'){
-                        this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
-                      } else {
-                        if(obj.query.pages[0].thumbnail !== undefined){
-                          this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
-                        } else {
-                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
-                        }
-                      }
-                      this.setState({image_message : "null"});
-                   })
                 }
               })
           }
@@ -242,8 +245,8 @@ class Plantpage extends Component {
     let soil_pH_max = 6;
     let soil_pH_min = 5;
     // Handles minimum sunlight.
-    if(this.state.plantdata !== null || this.state.plantdata !== undefined){
-      if(this.state.plantdata.light !== null || this.state.plantdata.light !== undefined){
+    if(this.state.plantdata !== null && this.state.plantdata !== undefined){
+      if(this.state.plantdata.light !== null && this.state.plantdata.light !== undefined){
         // console.log(this.state.plantdata.light);
         if(light_string.includes('Full sun')){
           sun_min_value = 6;
@@ -287,7 +290,7 @@ class Plantpage extends Component {
         this.setState({sunMessage: sunMessage});
 
         // This handles soil information.
-        if(this.state.plantdata.soil !== null || this.state.plantdata.soil !== undefined){
+        if(this.state.plantdata.soil !== null && this.state.plantdata.soil !== undefined){
           if(this.state.plantdata.soil !== " "){
             soilMessage = "";
           }
@@ -323,62 +326,64 @@ class Plantpage extends Component {
 
     let max_water_value = sun_max_value - sun_min_value + 1;
 
-    let ctx = document.getElementById("mySunChart").getContext('2d');
-    // Chart.defaults.global.defaultFontColor = 'black';
-    // Chart.defaults.global.defaultFontSize = '12';
-    // let mySunChart  =
-    new Chart(ctx, {
-    type: 'horizontalBar',
-    data: {
-        labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
-        datasets: [
+    if(document.getElementById("mySunChart") !== null){
+      let ctx = document.getElementById("mySunChart").getContext('2d');
+      // Chart.defaults.global.defaultFontColor = 'black';
+      // Chart.defaults.global.defaultFontSize = '12';
+      // let mySunChart  =
+      new Chart(ctx, {
+      type: 'horizontalBar',
+      data: {
+          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
+          datasets: [
+            {
+              label: 'Minimum Required',
+              data: [sun_min_value, 2, soil_pH_max, 5],
+              backgroundColor: [
+                  '#e5e5e5',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+              ],
+              borderColor: [
+                  '#ffff00',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(75, 192, 192, 1)',
+              ],
+              borderWidth: 1
+          },
           {
-            label: 'Minimum Required',
-            data: [sun_min_value, 2, soil_pH_max, 5],
+            label: 'Maximum Tolerated',
+            data: [sun_max_value-sun_min_value, max_water_value, soil_pH_max-soil_pH_min, 0],
             backgroundColor: [
-                '#e5e5e5',
+                'rgba(255, 206, 86, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
+                // 'rgba(75, 192, 192, 0.2)',
             ],
             borderColor: [
                 '#ffff00',
                 'rgba(54, 162, 235, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(75, 192, 192, 1)',
+                // 'rgba(75, 192, 192, 1)',
             ],
             borderWidth: 1
-        },
-        {
-          label: 'Maximum Tolerated',
-          data: [sun_max_value-sun_min_value, max_water_value, soil_pH_max-soil_pH_min, 0],
-          backgroundColor: [
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              // 'rgba(75, 192, 192, 0.2)',
-          ],
-          borderColor: [
-              '#ffff00',
-              'rgba(54, 162, 235, 1)',
-              'rgba(153, 102, 255, 1)',
-              // 'rgba(75, 192, 192, 1)',
-          ],
-          borderWidth: 1
+        }
+        ]
+      },
+      options: {
+        scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
       }
-      ]
-    },
-    options: {
-      scales: {
-          xAxes: [{
-              stacked: true
-          }],
-          yAxes: [{
-              stacked: true
-          }]
-      }
+      });
     }
-    });
   }
 
   addPlantToPlot(event, plot){
@@ -627,6 +632,7 @@ class Plantpage extends Component {
             </div>
 
           </div>
+
         </div>
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>

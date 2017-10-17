@@ -4,8 +4,16 @@ import '../styles/App.css';
 export default class Footer extends Component {
   render() {
     return (
-      <div className="footer-container">
-        <h1>This is a Footer</h1>
+      <div className="footer-sub-container">
+        {/* <footer id="footer"> */}
+          <div id="footer-content">
+            {/* <div className="header-container"> */}
+              {/* <div className="container align-middle header-navbar"> */}
+                <p className="margin-left-20pt">CanIGrow</p>
+              {/* </div> */}
+            {/* </div> */}
+          </div>
+        {/* </footer> */}
       </div>
     );
   }

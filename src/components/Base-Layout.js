@@ -78,7 +78,7 @@ export default class BaseLayout extends Component {
     return (
       <div className="body" style={outerStyle}>
         <Header />
-        <div>
+        <div className="fill_page">
           {this.props.children}
         </div>
         <Footer />
