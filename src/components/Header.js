@@ -54,11 +54,11 @@ class Header extends Component {
         <div className="changeButtons">
           <li>
             {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-link' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
+              <input className='btn btn-link font-size-16px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <input className='btn btn-link' type='submit' value={userButton}/>
+              <input className='btn btn-link font-size-16px' type='submit' value={userButton}/>
             </NavLink>
           </li>
         </div>;
@@ -74,12 +74,12 @@ class Header extends Component {
         <div className="changeButtons">
           <li>
             <NavLink activeClassName="selected" to="/login">
-              <input className='btn btn-link' type='submit' value='Login'/>
+              <input className='btn btn-link font-size-16px' type='submit' value='Login'/>
             </NavLink>
           </li>
           <li>
             <NavLink activeClassName="selected" to="/register">
-              <input className='btn btn-link' type='submit' value='Register'/>
+              <input className='btn btn-link font-size-16px' type='submit' value='Register'/>
             </NavLink>
           </li>
         </div>;
