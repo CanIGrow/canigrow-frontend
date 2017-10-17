@@ -11,6 +11,8 @@ import Userpage from './Userpage.js';
 import BaseLayout from './Base-Layout.js';
 import Userlisting from './Userlisting.js';
 import PasswordReset from './PasswordReset.js';
+import AuthenticationRequest from './AuthenticationRequest.js';
+
 import EditProfile from './EditProfile.js';
 
 // These are for redux.
@@ -92,6 +94,7 @@ class App extends Component {
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
                 <Route path="/login/password_reset" component={PasswordReset} />
+                <Route path="/login/authentication_request" component={AuthenticationRequest} />
                 <Route path="/user/:user" render={(props) => ( <Userpage /> )}/>
                 <Route path="/users"  component={Userlisting} />
                 <Route path="/login" render={(props) => ( <Login username={this.state.username}/> )}/>

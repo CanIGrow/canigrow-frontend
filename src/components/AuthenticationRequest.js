@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import request from 'superagent';
 import {setToken,setUsername,setEmail,redirectAction} from '../actions/actions.js';
-import cookie from 'react-cookies';
+// import cookie from 'react-cookies';
 import '../styles/App.css';
 
-class Login extends Component {
+class AuthenticationRequest extends Component {
   constructor(props) {
       super(props)
       this.state = {
@@ -39,7 +39,7 @@ class Login extends Component {
       }
   }
 
-  login(event) {
+  resetPasswordEmail(event) {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
@@ -50,27 +50,18 @@ class Login extends Component {
          if (err) {
             this.setState({error: res.body.error});
          } else {
-           if (res !== undefined && res.body.token !== undefined){
-           // These save the token to a cookie.
-           cookie.save('token', res.body.token);
-           cookie.save('username', res.body.username);
-           cookie.save('email', this.state.username);
-           // This call functions from actions to send the token to the reducer then the store.
-           this.props.setToken(res.body.token);
-           this.props.setUsername(res.body.username);
-           this.props.setEmail(this.state.username);
-         } else if (res !== undefined && res.body.token === undefined){
-           this.setState({error: res.body.message});
-         }
+           if (res !== undefined){
+            console.log(res.body);
+           }
          }
        })
   }
 
   render() {
     // This render's contents are determined by whether the user is logged in.
-    let loginContents = null;
+    let passwordResetContents = null;
     if (this.props.token) {
-      loginContents =
+      passwordResetContents =
       <div className="centerHomeButton">
         <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
           <div>Login Successful!</div>
@@ -79,57 +70,41 @@ class Login extends Component {
         </NavLink>
       </div>
     } else {
-      loginContents =
+      passwordResetContents =
          <div className="container-fluid">
             <div className="card">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
-                <h3>Login Form:</h3>
+                <h3>Authentication Request Form:</h3>
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>Email:</h6>
                     <input type="username" onChange={this.updateFromField('username')} value={this.state.username} placeholder="user@gmail.org"/>
                   </div>
-                  <div className="form-group">
-                    <h6>Password:</h6>
-                    <input type="password" onChange={this.updateFromField('password')} value={this.state.password} placeholder="********"/>
-                  </div>
                   {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.login(event)}>Login</button>
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resetPasswordEmail(event)}>Get Emailed Authorization Link</button>
                   </div>
                 </form>
-                <div className="card">
-                  <div>
-                    <p>Forgot your password?</p>
-                    <NavLink className="btn btn-primary btn-lg" type="submit" to="/login/password_reset">
-                      <span>Password Reset</span>
-                    </NavLink>
-                  </div>
-                </div>
-                <div className="card">
-                  <div>
-                    <p>Need a new authentication email?</p>
-                    <NavLink className="btn btn-primary btn-lg" type="submit" to="/login/authentication_request">
-                      <span>Authentication Request</span>
-                    </NavLink>
-                  </div>
-                </div>
               </div>
             </div>
          </div>
     }
     return (
       <div>
-        {loginContents}
+        {passwordResetContents}
+
+
         {/* // This redirects when the user is logged in (has a token). */}
-        {this.props.token && (
+        {/* {this.props.token && (
            <Redirect to={`/`}/>
          )}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
-          )}
+          )} */}
+
+
       </div>
     )
   }
@@ -149,4 +124,4 @@ function matchDispatchToProps(dispatch){
     return bindActionCreators({setEmail:setEmail, setUsername:setUsername, setToken:setToken, redirectAction: redirectAction}, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Login);
+export default connect(mapStateToProps, matchDispatchToProps)(AuthenticationRequest);
