@@ -517,7 +517,7 @@ class Plantpage extends Component {
     // If the user is logged in.
     if(this.props.token !== null){
       // If the user has plots.
-      if(this.state.user_plot_data !== null){
+      if(this.state.user_plot_data !== null && this.state.user_plot_data[0] !== undefined){
         propsDropDown =
         <div className="centerHomeButton">
           <div>
