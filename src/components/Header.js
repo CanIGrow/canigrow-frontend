@@ -53,13 +53,19 @@ class Header extends Component {
         rightButtons =
         <div className="changeButtons">
           <li>
-            {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-link font-size-16px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
+            <NavLink activeClassName="selected" to="/">
+              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+              <img src={require('./Home-icon.svg.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
+            </NavLink>
           </li>
           <li>
             <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <input className='btn btn-link font-size-16px' type='submit' value={userButton}/>
+              <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
             </NavLink>
+          </li>
+          <li>
+            {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
+              <input className='btn btn-link font-size-25px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </li>
         </div>;
       } else {
@@ -73,13 +79,19 @@ class Header extends Component {
         rightButtons =
         <div className="changeButtons">
           <li>
-            <NavLink activeClassName="selected" to="/login">
-              <input className='btn btn-link font-size-16px' type='submit' value='Login'/>
+            <NavLink activeClassName="selected" to="/">
+              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+              <img src={require('./Home-icon.svg.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
             </NavLink>
           </li>
           <li>
             <NavLink activeClassName="selected" to="/register">
-              <input className='btn btn-link font-size-16px' type='submit' value='Register'/>
+              <input className='btn btn-link font-size-25px' type='submit' value='Register'/>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName="selected" to="/login">
+              <input className='btn btn-link font-size-25px' type='submit' value='Login'/>
             </NavLink>
           </li>
         </div>;

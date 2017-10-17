@@ -142,13 +142,20 @@ html, body, #root, .body{
     width: 200px;
   }
   .changeButtons{
-    margin-left: 200pt;
+    margin-left: 400pt;
     width: 300pt;
     display: flex;
     border: 1pt black blue;
     background-color: none;
     list-style-type: none;
     justify-content: space-between;
+  }
+  .font-size-25px{
+    font-size: 25px;
+  }
+  .home_logo{
+    /*height: 20px;
+    width: 20px;*/
   }
   .homepage-search-title, .homepage-search-box{
     display: inline;
