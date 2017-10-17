@@ -44,14 +44,15 @@ class PasswordReset extends Component {
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
      request
-      .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-      .send({email: this.state.username, password: this.state.password})
+      .post(`${proxyurl}https://canigrow.herokuapp.com/password_resets`)
+      .send({email: this.state.username})
        .end((err, res) => {
          if (err) {
             this.setState({error: res.body.error});
          } else {
            if (res !== undefined){
             console.log(res.body);
+            this.setState({error: res.body.message});
            }
          }
        })
@@ -72,7 +73,7 @@ class PasswordReset extends Component {
     } else {
       passwordResetContents =
          <div className="container-fluid">
-            <div className="card">
+            <div className="card margin-top-108px">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
