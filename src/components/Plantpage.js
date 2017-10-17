@@ -492,6 +492,11 @@ class Plantpage extends Component {
     this.setState({alertVisible: false});
   }
 
+  // This takes the user to see another's user's page.
+  goToUser = (event, user) => {
+    console.log("Go to see: " + user);
+  }
+
   render() {
     // console.log(this.state.image_message);
     // console.log(this.state.user_plot_data);
@@ -556,6 +561,36 @@ class Plantpage extends Component {
           <NavLink activeClassName="selected" to="/login">
             <input className='btn btn-primary btn-lg' type='submit' value='Login to save plants to your garden'/>
           </NavLink>
+      </div>
+    }
+
+    // This handles comments about the plant.
+    let plantComments = null;
+    if(this.state.plantdata.comments){
+      console.log(this.state.plantdata.comments);
+      plantComments =
+      <div className="centerHomeButton">
+        <div>
+          {/* <div className="dropdown"> */}
+            {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
+            {/* <div id="myDropdown" className="dropdown-content style-margin-bottom-20px"> */}
+              <div>
+                {this.props.token ? (
+                    <div>
+                      {this.state.plantdata.comments.map( (comment,i) => {
+                           return(
+                             <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user)}>
+                               <p className="font-size-16px">{comment.body}</p>
+                             </div>
+                           )
+                       })}
+                  </div>
+                ): "No Comments Yet"}
+              </div>
+            {/* </div> */}
+          {/* </div> */}
+          {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
+        </div>
       </div>
     }
 
@@ -629,7 +664,15 @@ class Plantpage extends Component {
                   </div>
                    ): ""}
               </div>
+
+              <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
+                <p>Comments:</p>
+                <div className="plant_comments">{plantComments}</div>
+              </div>
             </div>
+
+
+
 
           </div>
 
