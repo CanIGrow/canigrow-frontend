@@ -7,11 +7,9 @@ export default class Footer extends Component {
       <div className="footer-sub-container">
         {/* <footer id="footer"> */}
           <div id="footer-content">
-            {/* <div className="header-container"> */}
-              {/* <div className="container align-middle header-navbar"> */}
-                <p className="margin-left-20pt">CanIGrow</p>
-              {/* </div> */}
-            {/* </div> */}
+                <p className="margin-left-20pt">CanIGrow - for all your plant needs</p>
+                <p className="margin-left-20pt">© 2017 CanIGrow, Inc.</p>
+                {/* <p className="margin-left-20pt">Terms of Use Privacy</p> */}
           </div>
         {/* </footer> */}
       </div>

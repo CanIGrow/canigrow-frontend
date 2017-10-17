@@ -349,9 +349,9 @@ class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <div>
+        <div className="padding-bottom-20px">
           <div className="homepage-sub-container">
-            <form>
+            <form className="homepage-form">
               <div className="homepage-search-container container">
                 <div className="pagination-centered text-center">
                   <h2 className="homepage-search-title">Can I Grow...

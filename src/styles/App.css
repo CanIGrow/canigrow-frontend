@@ -434,6 +434,9 @@ TEMP MODAL STYLES
 #footer-content{
   /*background-color: #FFFFFF;*/
   height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
   /*position:absolute;
   left:0;
   bottom:0;
@@ -446,4 +449,11 @@ TEMP MODAL STYLES
   left:0;
   bottom:0;
   right:0;
+}
+.padding-bottom-20px {
+  padding-bottom: 20px;
+  min-height: calc(80vh - 208px);
+}
+.homepage-form {
+  min-height: calc(80vh - 208px);
 }
