@@ -154,12 +154,12 @@ class Userpage extends Component {
       }
     }
   }
-  editplots(event, copy){
+  editplots(event, data){
     let plantdata = {}
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let token = cookie.load("token")
-    if (this.state.deleting !== "plot" && token === this.props.token){
-      if (copy === "delete"){
+    if (this.state.deleting !== "Plot" && token === this.props.token){
+      if (data === "delete"){
         plantdata = {
             "plant_id":this.state.plantdragging.plant_id
           }
@@ -167,7 +167,7 @@ class Userpage extends Component {
         plantdata = {
             "plant_id":this.state.plantdragging.plant_id,
             "new_plot":this.state.dragto,
-            "copy":copy
+            "copy":data
           }
       }
       request
@@ -182,9 +182,9 @@ class Userpage extends Component {
             this.reloaduser();
           }
         })
-    } else if (this.state.deleting === "plot" && token === this.props.token){
+    } else if (this.state.deleting === "Plot" && token === this.props.token){
       request
-        .delete(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragfrom}`)
+        .delete(`${proxyurl}https://canigrow.herokuapp.com/api/plots/${this.state.dragto}`)
         .set("Authorization", `Token token=${token}`)
         .end((err, res)=>{
           if (err){
@@ -297,7 +297,7 @@ class Userpage extends Component {
               <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
                 <h4>{plot.plot_name}{this.state.editing && (
                   <button type="button"
-                    onClick={event => this.drag(event, "deleteplot")}
+                    onClick={event => this.drag(event, "deleteplot", plot.plot_id)}
                     className="close"
                     aria-label="Close">
                     <span aria-hidden="true">  &times;
