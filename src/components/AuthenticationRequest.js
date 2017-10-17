@@ -39,19 +39,20 @@ class AuthenticationRequest extends Component {
       }
   }
 
-  resetPasswordEmail(event) {
+  resendEmailAuthLink(event) {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
      request
-      .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
-      .send({email: this.state.username, password: this.state.password})
+      .post(`${proxyurl}https://canigrow.herokuapp.com/account_activations`)
+      .send({email: this.state.username})
        .end((err, res) => {
          if (err) {
             this.setState({error: res.body.error});
          } else {
            if (res !== undefined){
             console.log(res.body);
+            this.setState({error: res.body.message});
            }
          }
        })
@@ -84,7 +85,7 @@ class AuthenticationRequest extends Component {
                   </div>
                   {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resetPasswordEmail(event)}>Get Email Activation Link</button>
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resendEmailAuthLink(event)}>Get Email Activation Link</button>
                   </div>
                 </form>
               </div>
