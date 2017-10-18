@@ -89,7 +89,7 @@ class EditProfile extends Component {
       .end((err, res) => {
         if (err) {
           this.props.redirectAction([`/`, "Unauthorized"]);
-        } else if (res !== undefined && res.status == 200){
+        } else if (res !== undefined && res.status === 200){
           this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
         } else {
           this.props.redirectAction([`/`, "Unauthorized"]);
