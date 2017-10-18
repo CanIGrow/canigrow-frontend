@@ -353,7 +353,7 @@ class Plantpage extends Component {
       new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
+          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity (weeks)"],
           datasets: [
             {
               label: 'Minimum Required',
@@ -630,6 +630,20 @@ class Plantpage extends Component {
         </div>
     }
 
+    // This handles the comment form button.
+    let commentFormButton = null;
+    if(this.state.plantdata){
+      commentFormButton =
+        <div className='margin-left-200'>
+            <NavLink activeClassName="selected" to="/login">
+              <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='Login to Comment'/>
+            </NavLink>
+        </div>
+    }
+
+
+
+
 
     return (
       <div className="plantpage-container main-component-container">
@@ -697,16 +711,23 @@ class Plantpage extends Component {
                     <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
                     <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
 
-                    <div className="plant_page_comments margin-left-20pt">
-                      {/* <h2>Comments:</h2> */}
-                      {/* <div className="plant_comments">{plantComments}</div> */}
-                      <div className="dropdown">
-                        <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
-                        <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
-                          <div className="plant_comments">{plantComments}</div>
+                    <div className="plant_page_buttons">
+                      <div className="plant_page_comments margin-left-20pt">
+                        {/* <h2>Comments:</h2> */}
+                        {/* <div className="plant_comments">{plantComments}</div> */}
+                        <div className="dropdown">
+                          <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
+                          <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
+                            <div className="plant_comments">{plantComments}</div>
+                          </div>
                         </div>
                       </div>
+                      <div>
+                        {commentFormButton}
+                      </div>
                     </div>
+
+
 
                     <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
                   </div>

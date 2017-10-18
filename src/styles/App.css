@@ -444,7 +444,7 @@ TEMP MODAL STYLES
   background-color: #f1f1f1
 }
 .bottom-text{
-  margin-top: 90pt;
+  margin-top: 20pt;
   position: relative;
   bottom: 0;
 }
@@ -478,4 +478,11 @@ TEMP MODAL STYLES
 }
 .centerHomeButtonComments{
   width: 450px;
+}
+.plant_page_buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.margin-left-200{
+  margin-left: -200pt;
 }
