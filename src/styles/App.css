@@ -5,6 +5,9 @@ html, body, #root, .body{
   left: 0;
   background-color: #EEEEEE;
 }
+input{
+  border: 1px solid black;
+}
 .verti-center{
   height: 80px;
   line-height: 80px;
