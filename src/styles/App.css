@@ -14,15 +14,19 @@ html, body, #root, .body{
   margin-bottom: -30px;
 }
 .canigrowlogo-mobile{
-  width: 200px;
+  margin: 0 auto;
+  width: 250px;
   text-align: center;
+}
+.hamburger-holder{
   display: inline-block;
+  width: 5%;
 }
-.canigrowlogo{
-  visibility: hidden;
-  display: none;
+.logo-holder{
+  display: inline-block;
+  width: 95%;
 }
-.header-navbar{
+.header-navbar, .canigrowlogo, .home-button{
   display: none;
   visibility: hidden;
 }
@@ -32,7 +36,11 @@ html, body, #root, .body{
   color: white;
   height: 80px;
 }
+.mobile-header-container{
+  text-align: center;
+}
 .header-hamburger{
+  float: left;
   cursor: pointer;
   top: 0;
   height: 100%;
@@ -182,7 +190,7 @@ html, body, #root, .body{
   .homepage-search-title, .homepage-search-box{
     display: inline;
   }
-  .header-hamburger, .canigrowlogo-mobile{
+  .mobile-header-container{
     visibility: hidden;
     display: none;
   }
@@ -200,6 +208,10 @@ html, body, #root, .body{
   }
 }
 @media (min-width: 768px) {
+  .home-button{
+    display: inline-block;
+    visibility: visible;
+  }
   .canigrowlogo{
     width: 300px;
   }
