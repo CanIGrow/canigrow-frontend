@@ -52,21 +52,17 @@ class Header extends Component {
         </div>
         rightButtons =
         <div className="changeButtons">
-          <li>
-            <NavLink activeClassName="selected" to="/">
-              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
-              <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
-            </NavLink>
-          </li>
-          <li>
-            {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
-              <input className='btn btn-link font-size-25px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
-          </li>
+          <NavLink className="verti-center" to="/">
+            {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+            <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
+          </NavLink>
+          <NavLink className="verti-center" to={`/user/${ this.props.username }`}>
+            <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
+          </NavLink>
+          {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
+          <a className="verti-center">
+            <input className='btn btn-link font-size-25px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
+          </a>
         </div>;
       } else {
         // If the user is logged out show.
@@ -78,40 +74,34 @@ class Header extends Component {
         </div>
         rightButtons =
         <div className="changeButtons">
-          <li>
-            <NavLink activeClassName="selected" to="/">
-              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to="/register">
-              <input className='btn btn-link font-size-25px' type='submit' value='Register'/>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to="/login">
-              <input className='btn btn-link font-size-25px' type='submit' value='Login'/>
-            </NavLink>
-          </li>
+          <NavLink className="verti-center" to="/">
+            {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+            <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
+          </NavLink>
+          <NavLink className="verti-center" to="/register">
+            <input className='btn btn-link font-size-25px' type='submit' value='Register'/>
+          </NavLink>
+          <NavLink className="verti-center" to="/login">
+            <input className='btn btn-link font-size-25px' type='submit' value='Login'/>
+          </NavLink>
         </div>;
       }
     return (
       <div className="header-container">
         <div className="container align-middle header-navbar">
-          <li>
-            <NavLink activeClassName="selected" to="/">
-              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
-            </NavLink>
-          </li>
+          <NavLink className="canigrowlogo-container" to="/">
+            {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+            <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
+          </NavLink>
           {rightButtons}
         </div>
-        <button className="header-hamburger"
-        data-toggle="modal" data-target="#hamburger-menu">
-          &#9776;
-        </button>
-        <img src={require('./canigrowlogo.png')} className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
+        <div className="mobile-header-container verti-center">
+          <button className="header-hamburger"
+          data-toggle="modal" data-target="#hamburger-menu">
+            &#9776;
+          </button>
+          <img src={require('./canigrowlogo.png')} className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
+        </div>
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
             <div className="modal-dialog">

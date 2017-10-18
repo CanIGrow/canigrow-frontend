@@ -4,22 +4,29 @@ html, body, #root, .body{
   top: 0;
   left: 0;
   background-color: #EEEEEE;
-  /*rgba(255,248,220, 1)*/
+}
+.verti-center{
+  height: 80px;
+  line-height: 80px;
 }
 .fill_page {
-  /*min-height: calc(90vh - 100px);*/
+  min-height: calc(90vh - 128px);
   margin-bottom: -30px;
 }
 .canigrowlogo-mobile{
-  width: 200px;
+  margin: 0 auto;
+  width: 250px;
   text-align: center;
+}
+.hamburger-holder{
   display: inline-block;
+  width: 5%;
 }
-.canigrowlogo{
-  visibility: hidden;
-  display: none;
+.logo-holder{
+  display: inline-block;
+  width: 95%;
 }
-.header-navbar{
+.header-navbar, .canigrowlogo, .home-button{
   display: none;
   visibility: hidden;
 }
@@ -29,7 +36,16 @@ html, body, #root, .body{
   color: white;
   height: 80px;
 }
+.mobile-header-container{
+  text-align: center;
+}
+.settings-centering{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .header-hamburger{
+  float: left;
   cursor: pointer;
   top: 0;
   height: 100%;
@@ -39,7 +55,10 @@ html, body, #root, .body{
 }
 .homepage-settings-section{
   padding: 5px 0;
+  width: 80%;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 .header-hamburger:active{
@@ -49,10 +68,12 @@ html, body, #root, .body{
   margin: 0 15px;
   width: 150px;
 }
+.canigrowlogo-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .styled-checkbox {
-  /*position: absolute;*/
-  /*opacity: 0;*/
-
   & + label {
     position: relative;
     cursor: pointer;
@@ -136,7 +157,6 @@ html, body, #root, .body{
 #zipcode{
   width: 80px;
   color: black;
-  border-bottom: 1px solid black;
 }
 .homepage-search-box:focus{
   background-color: rgba(255,255,255, 0.2);
@@ -150,6 +170,10 @@ html, body, #root, .body{
   color: #0056b3;
 }
 @media (min-width: 680px) {
+  .homepage-settings-section{
+    width: 80%;
+    flex-direction: row;
+  }
   .canigrowlogo{
     visibility: visible;
     display: block;
@@ -159,39 +183,49 @@ html, body, #root, .body{
     /*margin-left: 400pt;*/
     /*width: 300pt;*/
     display: flex;
-    border: 1pt black blue;
-    background-color: none;
-    list-style-type: none;
+    /*border: 1pt black blue;
+    background-color: none;*/
+    flex-direction: row;
+    /*list-style-type: none;*/
     justify-content: space-between;
   }
   .font-size-25px{
     font-size: 25px;
   }
-  .home_logo{
-    /*height: 20px;
-    width: 20px;*/
-  }
   .homepage-search-title, .homepage-search-box{
     display: inline;
   }
-  .header-hamburger, .canigrowlogo-mobile{
+  .mobile-header-container{
     visibility: hidden;
     display: none;
   }
   .header-navbar{
-    height: 0%;
+    height: 100%;
     width: 100%;
     display: flex;
     list-style-type: none;
     justify-content: space-between;
-    padding: 20px;
+    /*padding: 5px;*/
     visibility: visible;
   }
   .main-component-container{
     margin: 3vh 3vw;
   }
 }
+@media (min-width: 768px) {
+  .home-button{
+    display: inline-block;
+    visibility: visible;
+  }
+  .canigrowlogo{
+    width: 300px;
+  }
+}
 @media (min-width: 992px) {
+  .canigrowlogo{
+    height: 80px;
+    width: auto;
+  }
   .main-component-container{
     margin: 5vh 5vw;
   }
@@ -275,6 +309,9 @@ USERPAGE STYLES
     /*width: 40%;*/
   }
 }
+.container-fluid{
+  padding-top: 15px;
+}
 
 /*******************************
 TEMP MODAL STYLES
@@ -306,9 +343,6 @@ TEMP MODAL STYLES
 }
 .modal.left.fade.in .modal-dialog{
   left: 0;
-}
-.margin-top-108px {
-  margin-top: 108px;
 }
 
 /*******************************/
@@ -391,9 +425,6 @@ TEMP MODAL STYLES
   height: 420px;
   width: 420px;
 }
-.margin-left-20pt{
-  margin-left: 20pt;
-}
 /*For plantpage dropdown*/
 /* Dropdown Button */
 .dropbtn {
@@ -453,10 +484,11 @@ TEMP MODAL STYLES
   background-color: #EEEEEE;
   border-radius: 10px;
   margin: 10px auto;
+  padding-bottom: 10px;
 }
 #footer-content{
   /*background-color: #FFFFFF;*/
-  height: 50px;
+  height: 64px;
   display: flex;
   justify-content: space-around;
   align-content: center;
@@ -464,17 +496,9 @@ TEMP MODAL STYLES
 .footer-sub-container{
   background-color: #FFFFFF;
   margin-top: 50px;
-  height: 100px;
   left:0;
   bottom:0;
   right:0;
-}
-.padding-bottom-20px {
-  padding-bottom: 20px;
-  /*min-height: calc(80vh - 208px);*/
-}
-.homepage-form {
-  /*min-height: calc(80vh - 208px);*/
 }
 .centerHomeButtonComments{
   width: 450px;
