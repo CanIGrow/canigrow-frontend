@@ -14,11 +14,13 @@ class EditProfile extends Component {
     this.state = {
       fireredirect: false,
       message: false,
-      userexists: true,
-      user: null,
       userdata: false,
-      bio: '',
-      click:false,
+      username: false,
+      bio: false,
+      location: false,
+      location_private: false,
+      facebook: false,
+      twitter: false,
     };
   }
 
@@ -35,10 +37,10 @@ class EditProfile extends Component {
       .end((err, res)=>{
         if (err){
           //If user does not exist:
-          this.setState({userexists: false});
+          this.props.redirectAction([`/`, "Unauthorized"]);
         } else if (res !== undefined){
-          console.log(res);
-          this.setState({userdata: res.body.user});
+          console.log(res.body.user);
+          this.setState({userdata:res.body.user,username:res.body.user.username,bio:res.body.user.bio,location:res.body.user.location,location_private:res.body.user.location_private,facebook:res.body.user.facebook,twitter:res.body.user.twitter,});
         }
       })
     //This adds an edit button if the user matches the saved user token
@@ -50,149 +52,54 @@ class EditProfile extends Component {
       this.props.redirectAction([`/`, "Unauthorized"]);
     }
   }
+  componentDidUpdate(){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
+      this.setState({fireredirect:true});
+    }
+  }
   handleTextChange = (event) => {
     event.preventDefault();
     if (this.state[event.target.id] !== undefined){
       this.setState({[event.target.id]: event.target.value});
     }
   }
-  componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0]){
-      this.setState({fireredirect:true});
-    }
-  }
-  unauthorized(event){
-    this.props.redirectAction([`/`, "Unauthorized"]);
-  }
-  edituser(event, target, data){
+  validate(event) {
     event.preventDefault();
-    if (target === "addnewplot"){
-      this.setState({addingnewplot:true})
-    }
-    if (target === "canceladdnewplot"){
-      this.setState({addingnewplot:false})
-    }
-    if (target === "validate" && data !== "" && data !== undefined){
-      let newplot = {
-        "name" : data
-      }
-      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-      let token = cookie.load("token")
-      if (token === this.props.token){
-        request
-          .post(`${proxyurl}https://canigrow.herokuapp.com/api/plots`)
-          .set("Authorization", `Token token=${token}`)
-          .send(newplot)
-          .end((err, res)=>{
-            if (err){
-              //If user does not exist:
-              window.location.reload();
-            } else if (res !== undefined){
-              this.setState({addingnewplot: false, newplotname:''});
-              this.reloaduser();
-            }
-          })
-      } else {
-        window.location.reload();
-      }
-    }
-  }
-  clickDiv(el) {
-    if (el && el !== undefined){
-      el.click()
-    }
   }
   render() {
-    let addnewplotdivs = false;
-    if (this.state.editing && !this.state.addingnewplot){
-      addnewplotdivs =
-      <div onClick={event => this.edituser(event, "addnewplot")}
-        id="addnewplot"
-        className="userpage-new-plot userpage-inner-plot-holder">
-        <h4>Add a new plot</h4>
-          <div className="userpage-plant-div">
-            <h5>+</h5>
-          </div>
-      </div>
-    } else if (this.state.editing && this.state.addingnewplot){
-      addnewplotdivs =
-      <div id="addnewplot"
-        className="userpage-inner-plot-holder">
-        <h5>Name of plot:</h5>
-        <h4>
-        <input type="input" className="userpage-new-plot-name"
-          value={this.state.newplotname}
-          id="newplotname"
-          onChange={this.handleTextChange}/></h4>
-          <div className="userpage-plant-div">
-          </div>
-          <button className="btn-danger"
-            onClick={event => this.edituser(event, "canceladdnewplot")}>
-          Cancel
-          </button>
-          <button className="btn-danger"
-            onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
-          Submit
-          </button>
-      </div>
-    }
-    let addplantbutton = "";
-    if (this.state.editing && !this.state.dragging){
-      addplantbutton =
-      <div className="userpage-plant-div">
-        <h5 onClick={event => this.edituser(event, "addtoplot")} id="addtoplot"
-          className="userpage-plant-div-edit-button">+ Add Plant</h5>
-      </div>
-    }
-    let userobjectdata = false;
-    if (!this.state.userexists){
-      userobjectdata =
-        <h1 className="pagination-centered text-center">
-          User Does Not Exist
-        </h1>
-    } else if (!this.state.userdata){
-      userobjectdata =
-        <h1 className="pagination-centered text-center">
-          Loading...
-        </h1>
-    } else {
-
-    }
     return (
-      <div className="userpage-container main-component-container">
-      {this.state.click ? (
-        <button
-        id="elementtoaddthepopupmenu"
-         className="content"
-         ref={this.clickDiv}
-        data-toggle="modal" data-target="#confirmpopup">
-        </button>
-      ):("")}
-      <div className="container">
-        <div className="modal top fade in" id="confirmpopup" tabIndex="-1"
-        onClick={event => this.cancelmove(event)}>
-          <div className="modal-dialog">
-            <div className="modal-content text-center">
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, false)}>
-              Move
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            onClick={event => this.moveplant(event, "yes")}>
-              Copy
-            </button>
-            <button type="button"
-            data-dismiss="modal"
-            aria-label="Close"
-            onClick={event => this.cancelmove(event)}>
-              Cancel
-            </button>
-            </div>
+      <div className="editprofile-container main-component-container">
+        <h2>Edit Profile</h2>
+        <form className="enterForm" onSubmit={this.handleFormSubmit}>
+          <div className="form-group">
+            <h6>User Name:</h6>
+            <input type="text" onChange={this.handleTextChange} value={this.state.username} id="username" placeholder="Username"/>
           </div>
-        </div>
-      </div>
+          {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
+          <div className="form-group">
+            <h6>Personal Bio:</h6>
+            <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+          </div>
+          <div className="form-group">
+            <h6>Location:</h6>
+            <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
+          </div>
+          <div className="form-group">
+            <h6>Location Private</h6>
+            <input type="checkbox" onChange={this.handleTextChange} value={this.state.location_private} id="location_private"/>
+          </div>
+          <div className="form-group">
+            <h6>Facebook Link:</h6>
+            <input type="text" onChange={this.handleTextChange} value={this.state.facebook} id="facebook" placeholder="Hometown, Region"/>
+          </div>
+          <div className="form-group">
+            <h6>Twitter Link:</h6>
+            <input type="text" onChange={this.handleTextChange} value={this.state.twitter} id="twitter" placeholder="Hometown, Region"/>
+          </div>
+          <div className="form-group pull-right">
+            <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.validate(event)}>Save Changes</button>
+          </div>
+        </form>
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
           )}

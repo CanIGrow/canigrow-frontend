@@ -350,7 +350,7 @@ class Homepage extends Component {
     return (
       <div className="homepage-container main-component-container">
         <div className="padding-bottom-20px">
-          <div className="homepage-sub-container">
+          <div className="homepage-sub-container container">
             <form className="homepage-form">
               <div className="homepage-search-container container">
                 <div className="pagination-centered text-center">
@@ -360,7 +360,7 @@ class Homepage extends Component {
                     value={this.state.searchbartext}
                     onChange={this.handleTextChange}
                     placeholder="Can I Grow..."
-                    autofocus="autoFocus"
+                    autoFocus="autoFocus"
                     className="homepage-search-box"/>
                   </h2>
                 </div>
@@ -413,7 +413,7 @@ class Homepage extends Component {
                   ):""}
                 </div>
                 <span>
-                {this.state.zone ? <a className='btn btn-link' type='submit' href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
+                {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
                 </span>
                 <br/>
               </div>

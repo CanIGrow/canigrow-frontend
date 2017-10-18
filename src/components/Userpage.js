@@ -51,7 +51,6 @@ class Userpage extends Component {
           //If user does not exist:
           this.setState({userexists: false});
         } else if (res !== undefined){
-          console.log(res.body.user);
           this.setState({userdata: res.body.user});
         }
       })
@@ -96,21 +95,34 @@ class Userpage extends Component {
   dragoverdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child-highlighted';event.target.src = trashbinopen;}
   dragexitdelete(event){event.preventDefault();event.target.className = 'delete-dropover-child';event.target.src = trashbin;}
   drag(event, data, object, plant){
-    console.log(data, object, plant);
     if (data === "startdragging"){
       this.setState({dragging:true,dragfrom:object,plantdragging:plant});
     } else if (data === "stopdragging"){
       this.setState({dragging:false});
-    } else if (data === "dropped"){
-      if (this.state.dragfrom !== object){
-        this.setState({dragto:object,click:true});
-      } else {
-        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
-      }
     } else if (data === "delete"){
       this.setState({dragto:object,click:true,deleting:"Plant"});
     } else if (data === "deleteplot"){
       this.setState({dragto:object,click:true,deleting:"Plot"});
+    } else if (data === "dropped"){
+      if (this.state.dragfrom !== object){
+        let repeatplant = false;
+        this.state.userdata.plots.map((x, i)=>{
+          if (x.plot_id === object){
+            x.plants.map((y,i)=>{
+              if (y.plant_id === this.state.plantdragging.plant_id){
+                repeatplant = true;
+              }
+            })
+          }
+        })
+        if (!repeatplant){
+          this.setState({dragto:object,click:true});
+        } else if (repeatplant){
+          this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
+        }
+      } else {
+        this.setState({dragging:false,dragfrom:false,plantdragging:false,dragto:false,click:false,deleting:false});
+      }
     }
   }
   cancelmove(event){
@@ -155,9 +167,9 @@ class Userpage extends Component {
     }
   }
   editplots(event, data){
-    let plantdata = {}
+    let token = cookie.load("token");
+    let plantdata = {};
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    let token = cookie.load("token")
     if (this.state.deleting !== "Plot" && token === this.props.token){
       if (data === "delete"){
         plantdata = {
@@ -365,7 +377,7 @@ class Userpage extends Component {
                 Delete {this.state.deleting}
               </button>
             ):(
-              <div>
+              <div className="modal-content text-center">
                 <button type="button"
                 data-dismiss="modal"
                 onClick={event => this.editplots(event, false)}>
