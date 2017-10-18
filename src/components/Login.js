@@ -43,6 +43,7 @@ class Login extends Component {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
+     this.setState({error:"Connecting To Server..."});
      request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
