@@ -27,6 +27,7 @@ class Plantpage extends Component {
         wiki_link: null,
         user_plot_data: [],
         popupVisible: false,
+        commentsVisible: false,
         added_to_plot: "",
         alertVisible: false,
         sunMessage: "",
@@ -63,6 +64,24 @@ class Plantpage extends Component {
     this.setState(prevState => ({
       // popupVisible: true,
       popupVisible: !prevState.popupVisible,
+        }));
+        // console.log(this.state.popupVisible);
+  }
+
+  // Opens the comments
+  openPlotDropdownComment(event){
+    event.preventDefault();
+    console.log("dropdown comment clicked");
+    document.getElementById("myDropdownComments").classList.toggle("show");
+
+    // if (!this.state.popupVisible) {
+    //   document.addEventListener('click', this.handleOutsideClick, false);
+    // } else {
+    //   document.removeEventListener('click', this.handleOutsideClick, false);
+    // }
+    this.setState(prevState => ({
+      // popupVisible: true,
+      commentsVisible: !prevState.commentsVisible,
         }));
         // console.log(this.state.popupVisible);
   }
@@ -334,7 +353,7 @@ class Plantpage extends Component {
       new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity(weeks)"],
+          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity (weeks)"],
           datasets: [
             {
               label: 'Minimum Required',
@@ -492,6 +511,11 @@ class Plantpage extends Component {
     this.setState({alertVisible: false});
   }
 
+  // This takes the user to see another's user's page.
+  goToUser = (event, user, user_href) => {
+    console.log("Go to see: " + user + " at " + user_href);
+  }
+
   render() {
     // console.log(this.state.image_message);
     // console.log(this.state.user_plot_data);
@@ -517,7 +541,7 @@ class Plantpage extends Component {
     // If the user is logged in.
     if(this.props.token !== null){
       // If the user has plots.
-      if(this.state.user_plot_data !== null){
+      if(this.state.user_plot_data !== null && this.state.user_plot_data[0] !== undefined){
         propsDropDown =
         <div className="centerHomeButton">
           <div>
@@ -558,6 +582,67 @@ class Plantpage extends Component {
           </NavLink>
       </div>
     }
+
+    // This handles comments about the plant.
+    let plantComments = null;
+    let viewComments = "No Comments Yet";
+    if(this.state.plantdata.comments){
+      console.log(this.state.plantdata.comments);
+      let testForComments = JSON.stringify(this.state.plantdata.comments);
+      if(testForComments !== '[]'){
+        viewComments = "View Comments";
+        plantComments =
+        <div className="centerHomeButtonComments">
+          <div>
+            {/* <div className="dropdown"> */}
+              {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
+              {/* <div id="myDropdown" className="dropdown-content style-margin-bottom-20px"> */}
+                <div>
+                  {this.state.plantdata.comments ? (
+                      <div>
+                        {this.state.plantdata.comments.map( (comment,i) => {
+                             return(
+                               <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user, comment.user_href)}>
+                                 <p className="font-size-16px">{comment.user} - {comment.body}</p>
+                               </div>
+                             )
+                         })}
+                    </div>
+                  ): "No Comments Yet"}
+                </div>
+              {/* </div> */}
+            {/* </div> */}
+            {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
+          </div>
+        </div>
+      } else {
+        // console.log('else');
+        plantComments =
+          <div>
+            <p>No Comments Yet</p>
+          </div>
+      }
+    } else {
+      // console.log('else');
+      plantComments =
+        <div>
+          <p>No Comments Yet</p>
+        </div>
+    }
+
+    // This handles the comment form button.
+    let commentFormButton = null;
+    if(this.state.plantdata){
+      commentFormButton =
+        <div className='margin-left-200'>
+            <NavLink activeClassName="selected" to="/login">
+              <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='Login to Comment'/>
+            </NavLink>
+        </div>
+    }
+
+
+
 
 
     return (
@@ -625,11 +710,34 @@ class Plantpage extends Component {
                     <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
                     <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
                     <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+
+                    <div className="plant_page_buttons">
+                      <div className="plant_page_comments margin-left-20pt">
+                        {/* <h2>Comments:</h2> */}
+                        {/* <div className="plant_comments">{plantComments}</div> */}
+                        <div className="dropdown">
+                          <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
+                          <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
+                            <div className="plant_comments">{plantComments}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        {commentFormButton}
+                      </div>
+                    </div>
+
+
+
                     <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
                   </div>
                    ): ""}
               </div>
+
             </div>
+
+
+
 
           </div>
 

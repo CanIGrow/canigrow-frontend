@@ -361,11 +361,14 @@ TEMP MODAL STYLES
   font-style: italic;
   justify-content: flex-start;
 }
-.plant_page_graph, .plant_page_graph_messages{
+.plant_page_graph, .plant_page_graph_messages, .plant_page_comments{
   background-color: #fff;
   margin-top: 20pt;
-  width: 570px;
+  width: 180px;
+}
+.plant_page_graph, .plant_page_graph_messages{
   height: 500px;
+  width: 570px;
 }
 .plant_page_graph_messages{
   width: 500px;
@@ -441,7 +444,7 @@ TEMP MODAL STYLES
   background-color: #f1f1f1
 }
 .bottom-text{
-  margin-top: 120pt;
+  margin-top: 20pt;
   position: relative;
   bottom: 0;
 }
@@ -472,4 +475,14 @@ TEMP MODAL STYLES
 }
 .homepage-form {
   /*min-height: calc(80vh - 208px);*/
+}
+.centerHomeButtonComments{
+  width: 450px;
+}
+.plant_page_buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.margin-left-200{
+  margin-left: -200pt;
 }
