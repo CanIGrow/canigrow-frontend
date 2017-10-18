@@ -82,7 +82,7 @@ class Login extends Component {
     } else {
       loginContents =
          <div className="container-fluid">
-            <div className="card">
+            <div className="card pagination-centered text-center">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>

@@ -115,7 +115,7 @@ class Register extends Component {
     } else {
       registerContents =
         <div className="container-fluid">
-            <div className="card">
+            <div className="card pagination-centered text-center">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <h3>Registration Form:</h3>
