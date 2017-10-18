@@ -39,6 +39,8 @@ class EditProfile extends Component {
           //If user does not exist:
           this.props.redirectAction([`/`, "Unauthorized"]);
         } else if (res !== undefined){
+          if (res.body.user.facebook === null){res.body.user.facebook = ""};
+          if (res.body.user.twitter === null){res.body.user.twitter = ""};
           console.log(res.body.user);
           this.setState({userdata:res.body.user,username:res.body.user.username,bio:res.body.user.bio,location:res.body.user.location,location_private:res.body.user.location_private,facebook:res.body.user.facebook,twitter:res.body.user.twitter,});
         }
@@ -69,40 +71,43 @@ class EditProfile extends Component {
   render() {
     return (
       <div className="editprofile-container main-component-container">
-        <h2>Edit Profile</h2>
-        <form className="enterForm" onSubmit={this.handleFormSubmit}>
-          <div className="form-group">
-            <h6>User Name:</h6>
-            <input type="text" onChange={this.handleTextChange} value={this.state.username} id="username" placeholder="Username"/>
-          </div>
-          {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
-          <div className="form-group">
-            <h6>Personal Bio:</h6>
-            <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
-          </div>
-          <div className="form-group">
-            <h6>Location:</h6>
-            <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
-          </div>
-          <div className="form-group">
-            <h6>Location Private</h6>
-            <input type="checkbox" onChange={this.handleTextChange} value={this.state.location_private} id="location_private"/>
-          </div>
-          <div className="form-group">
-            <h6>Facebook Link:</h6>
-            <input type="text" onChange={this.handleTextChange} value={this.state.facebook} id="facebook" placeholder="Hometown, Region"/>
-          </div>
-          <div className="form-group">
-            <h6>Twitter Link:</h6>
-            <input type="text" onChange={this.handleTextChange} value={this.state.twitter} id="twitter" placeholder="Hometown, Region"/>
-          </div>
-          <div className="form-group pull-right">
-            <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.validate(event)}>Save Changes</button>
-          </div>
-        </form>
-        {this.state.fireredirect && (
-            <Redirect to={this.props.redirection[0]}/>
-          )}
+        <div className="card pagination-centered text-center">
+          <h2>Edit Profile</h2>
+          <form className="enterForm" onSubmit={this.handleFormSubmit}>
+            <div className="form-group">
+              <h6>User Name:</h6>
+              {this.state.username}
+            </div>
+            {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
+            <div className="form-group">
+              <h6>Personal Bio:</h6>
+              <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+            </div>
+            <div className="form-group">
+              <h6>Location:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
+            </div>
+            <div className="form-group">
+              <h6>Location Privacy:
+                <input type="checkbox" onChange={this.handleTextChange} value={this.state.location_private} id="location_private"/>
+              </h6>
+            </div>
+            <div className="form-group">
+              <h6>Facebook Link:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.facebook} id="facebook" placeholder="Facebook Link"/>
+            </div>
+            <div className="form-group">
+              <h6>Twitter Link:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.twitter} id="twitter" placeholder="Twitter Link"/>
+            </div>
+            <div className="form-group pull-right">
+              <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.validate(event)}>Save Changes</button>
+            </div>
+          </form>
+          {this.state.fireredirect && (
+              <Redirect to={this.props.redirection[0]}/>
+            )}
+        </div>
       </div>
     );
   }
