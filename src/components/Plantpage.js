@@ -587,30 +587,45 @@ class Plantpage extends Component {
     let plantComments = null;
     if(this.state.plantdata.comments){
       console.log(this.state.plantdata.comments);
-      plantComments =
-      <div className="centerHomeButton">
-        <div>
-          {/* <div className="dropdown"> */}
-            {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
-            {/* <div id="myDropdown" className="dropdown-content style-margin-bottom-20px"> */}
-              <div>
-                {this.state.plantdata.comments ? (
-                    <div>
-                      {this.state.plantdata.comments.map( (comment,i) => {
-                           return(
-                             <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user)}>
-                               <p className="font-size-16px">{comment.body}</p>
-                             </div>
-                           )
-                       })}
-                  </div>
-                ): "No Comments Yet"}
-              </div>
+      let testForComments = JSON.stringify(this.state.plantdata.comments);
+      if(testForComments !== '[]'){
+        plantComments =
+        <div className="centerHomeButton">
+          <div>
+            {/* <div className="dropdown"> */}
+              {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
+              {/* <div id="myDropdown" className="dropdown-content style-margin-bottom-20px"> */}
+                <div>
+                  {this.state.plantdata.comments ? (
+                      <div>
+                        {this.state.plantdata.comments.map( (comment,i) => {
+                             return(
+                               <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user)}>
+                                 <p className="font-size-16px">{comment.body}</p>
+                               </div>
+                             )
+                         })}
+                    </div>
+                  ): "No Comments Yet"}
+                </div>
+              {/* </div> */}
             {/* </div> */}
-          {/* </div> */}
-          {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
+            {/* <button onClick={event => this.closePlotDropdown(event)} className="dropbtn">Close Dropdown</button> */}
+          </div>
         </div>
-      </div>
+      } else {
+        // console.log('else');
+        plantComments =
+          <div>
+            <p>No Comments Yet</p>
+          </div>
+      }
+    } else {
+      // console.log('else');
+      plantComments =
+        <div>
+          <p>No Comments Yet</p>
+        </div>
     }
 
 
