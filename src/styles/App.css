@@ -460,7 +460,8 @@ TEMP MODAL STYLES
 }
 .footer-sub-container{
   background-color: #FFFFFF;
-  height: 50px;
+  margin-top: 50px;
+  height: 100px;
   left:0;
   bottom:0;
   right:0;
