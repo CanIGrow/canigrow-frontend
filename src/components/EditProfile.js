@@ -7,7 +7,7 @@ import {redirectAction} from '../actions/actions.js';
 import cookie from 'react-cookies';
 import { Redirect } from 'react-router-dom';
 import request from 'superagent';
-import FileInput from 'react-file-input';
+// import FileInput from 'react-file-input';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -71,8 +71,8 @@ class EditProfile extends Component {
   }
   validate(event) {
     event.preventDefault();
-    // let token = cookie.load("token");
-    // const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    let token = cookie.load("token");
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     let userobj = {
       "user": {
           "bio": this.state.bio,
@@ -82,18 +82,19 @@ class EditProfile extends Component {
           "twitter":this.state.twitter,
           }
         }
-    console.log(userobj);
-    // request
-    //   .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
-    //   .set("Authorization", `Token token=${token}`)
-    //   .send(userobj)
-    //   .end((err, res) => {
-    //     if (err) {
-    //       console.log(err);
-    //     } else {
-    //       console.log(res);
-    //     }
-    //   })
+    request
+      .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
+      .set("Authorization", `Token token=${token}`)
+      .send(userobj)
+      .end((err, res) => {
+        if (err) {
+          this.props.redirectAction([`/`, "Unauthorized"]);
+        } else if (res !== undefined && res.status == 200){
+          this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
+        } else {
+          this.props.redirectAction([`/`, "Unauthorized"]);
+        }
+      })
   }
   handleChange = (event) => {
     console.log('Selected file:', event.target.files[0]);
@@ -108,11 +109,11 @@ class EditProfile extends Component {
             <div className="form-group">
               <h6>Avatar:</h6>
               {/*<input onChange={(event)=> { this.readFile(event, this.files) }} name="myFile" type="file"/>*/}
-              <FileInput name="myImage"
+            {/*  <FileInput name="myImage"
                    accept=".png,.gif"
                    placeholder="My Image"
                    className="inputClass"
-                   onChange={this.handleChange} />
+                   onChange={this.handleChange} />*/}
             </div>
             <div className="form-group">
               <h6>Personal Bio:</h6>
