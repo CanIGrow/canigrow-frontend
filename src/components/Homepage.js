@@ -233,7 +233,7 @@ class Homepage extends Component {
     event.preventDefault();
     let value = event.target.value;
     let targetid = event.target.id;
-    if (this.state[targetid] !== undefined && !(targetid === "zipcode" && value.length > 5)){
+    if (this.state[targetid] !== undefined && !(targetid === "zipcode" && value.length > 5) && (value.search(/^[a-z0-9\s]+$/i) === 0 || value === "")){
       this.setState({[targetid]: value , fireRedirect: false}, ()=>{
         if (this.props.allplantdata && targetid === "searchbartext"){
           this.filterlist(true, value);
@@ -313,7 +313,7 @@ class Homepage extends Component {
               <div className="rounded" key={x.plant_id}>
                 <h4>
                   <Link to={inlinelink}>
-                    {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC/g, '').replace(/\u00BB/g, "").replace(/\uFFE2/g, "").replace(/\u0021/g, "").replace(/\u003F/g, "").replace(/\uFF1B/g, "").replace(/\u003B/g, "")}
+                    {x.common_name.replace(/\s\s+/g, ' ').replace(/\u00AC|\u00BB|\uFFE2|\u0021|\u003F|\uFF1B|\u003B/g, '')}
                   </Link>
                 </h4>
               </div>
