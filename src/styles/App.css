@@ -10,7 +10,7 @@ html, body, #root, .body{
   line-height: 80px;
 }
 .fill_page {
-  min-height: calc(90vh - 150px);
+  min-height: calc(90vh - 128px);
   margin-bottom: -30px;
 }
 .canigrowlogo-mobile{
@@ -341,9 +341,6 @@ TEMP MODAL STYLES
 .modal.left.fade.in .modal-dialog{
   left: 0;
 }
-.margin-top-108px {
-  margin-top: 108px;
-}
 
 /*******************************/
   /*For Plantpage.js*/
@@ -425,9 +422,6 @@ TEMP MODAL STYLES
   height: 420px;
   width: 420px;
 }
-.margin-left-20pt{
-  margin-left: 20pt;
-}
 /*For plantpage dropdown*/
 /* Dropdown Button */
 .dropbtn {
@@ -491,7 +485,7 @@ TEMP MODAL STYLES
 }
 #footer-content{
   /*background-color: #FFFFFF;*/
-  height: 50px;
+  height: 64px;
   display: flex;
   justify-content: space-around;
   align-content: center;
@@ -499,13 +493,9 @@ TEMP MODAL STYLES
 .footer-sub-container{
   background-color: #FFFFFF;
   margin-top: 50px;
-  height: 100px;
   left:0;
   bottom:0;
   right:0;
-}
-.homepage-form {
-  min-height: calc(80vh - 208px);
 }
 .centerHomeButtonComments{
   width: 450px;
