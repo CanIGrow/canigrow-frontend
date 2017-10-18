@@ -158,7 +158,7 @@ html, body, #root, .body{
   .canigrowlogo{
     visibility: visible;
     display: block;
-    width: 200px;
+    width: 300px;
   }
   .changeButtons{
     /*margin-left: 400pt;*/
@@ -184,12 +184,12 @@ html, body, #root, .body{
     display: none;
   }
   .header-navbar{
-    height: 0%;
+    height: 100%;
     width: 100%;
     display: flex;
     list-style-type: none;
     justify-content: space-between;
-    padding: 20px;
+    /*padding: 5px;*/
     visibility: visible;
   }
   .main-component-container{

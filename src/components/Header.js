@@ -99,12 +99,10 @@ class Header extends Component {
     return (
       <div className="header-container">
         <div className="container align-middle header-navbar">
-          <li>
-            <NavLink activeClassName="selected" to="/">
-              {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
-            </NavLink>
-          </li>
+          <NavLink activeClassName="selected" to="/">
+            {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
+            <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
+          </NavLink>
           {rightButtons}
         </div>
         <button className="header-hamburger"
