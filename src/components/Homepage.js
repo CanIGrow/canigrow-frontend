@@ -372,7 +372,7 @@ class Homepage extends Component {
                       onChange={this.handleTextChange}
                       className="homepage-search-box"/>
                   </div>
-                  <div>
+                  <div className="usda-link">
                   {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
                   </div>
                   {this.state.date ? (

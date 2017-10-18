@@ -39,6 +39,11 @@ html, body, #root, .body{
 .mobile-header-container{
   text-align: center;
 }
+.usda-link{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .header-hamburger{
   float: left;
   cursor: pointer;
