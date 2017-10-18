@@ -111,9 +111,9 @@ class Userpage extends Component {
             x.plants.map((y,i)=>{
               if (y.plant_id === this.state.plantdragging.plant_id){
                 repeatplant = true;
-              }
+              } return null
             })
-          }
+          } return null
         })
         if (!repeatplant){
           this.setState({dragto:object,click:true});

@@ -105,16 +105,16 @@ class Login extends Component {
                 <div className="card">
                   <div>
                     <p>Forgot your password?</p>
-                    <NavLink className="btn btn-primary btn-sm" type="submit" to="/login/password_reset">
-                      <span>Password Reset</span>
+                    <NavLink to="/login/password_reset">
+                      <button className="btn btn-primary btn-sm" type="submit">Password Reset</button>
                     </NavLink>
                   </div>
                 </div>
                 <div className="card">
                   <div>
                     <p>Need a new authentication email?</p>
-                    <NavLink className="btn btn-primary btn-sm" type="submit" to="/login/authentication_request">
-                      <span>Get Email Activation Form</span>
+                    <NavLink to="/login/authentication_request">
+                      <button className="btn btn-primary btn-sm" type="submit">Get Email Activation Form</button>
                     </NavLink>
                   </div>
                 </div>
