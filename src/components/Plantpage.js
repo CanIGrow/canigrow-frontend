@@ -512,8 +512,8 @@ class Plantpage extends Component {
   }
 
   // This takes the user to see another's user's page.
-  goToUser = (event, user) => {
-    console.log("Go to see: " + user);
+  goToUser = (event, user, user_href) => {
+    console.log("Go to see: " + user + " at " + user_href);
   }
 
   render() {
@@ -585,12 +585,14 @@ class Plantpage extends Component {
 
     // This handles comments about the plant.
     let plantComments = null;
+    let viewComments = "No Comments Yet";
     if(this.state.plantdata.comments){
       console.log(this.state.plantdata.comments);
       let testForComments = JSON.stringify(this.state.plantdata.comments);
       if(testForComments !== '[]'){
+        viewComments = "View Comments";
         plantComments =
-        <div className="centerHomeButton">
+        <div className="centerHomeButtonComments">
           <div>
             {/* <div className="dropdown"> */}
               {/* <button onClick={event => this.openPlotDropdown(event)} className="dropbtn" data-toggle="button" aria-pressed="false">Save to your garden</button> */}
@@ -600,8 +602,8 @@ class Plantpage extends Component {
                       <div>
                         {this.state.plantdata.comments.map( (comment,i) => {
                              return(
-                               <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user)}>
-                                 <p className="font-size-16px">{comment.body}</p>
+                               <div key={i} className="blue-hover" onClick={event => this.goToUser(event, comment.user, comment.user_href)}>
+                                 <p className="font-size-16px">{comment.user} - {comment.body}</p>
                                </div>
                              )
                          })}
@@ -694,26 +696,23 @@ class Plantpage extends Component {
                     <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
                     <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
                     <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+
+                    <div className="plant_page_comments margin-left-20pt">
+                      {/* <h2>Comments:</h2> */}
+                      {/* <div className="plant_comments">{plantComments}</div> */}
+                      <div className="dropdown">
+                        <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
+                        <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
+                          <div className="plant_comments">{plantComments}</div>
+                        </div>
+                      </div>
+                    </div>
+
                     <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
                   </div>
                    ): ""}
               </div>
 
-              <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
-                <h2>Comments:</h2>
-                {/* <div className="plant_comments">{plantComments}</div> */}
-
-
-
-                <div className="dropdown">
-                  <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">View Comments</button>
-                  <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
-                    <div className="plant_comments">{plantComments}</div>
-                  </div>
-                </div>
-
-
-              </div>
             </div>
 
 
