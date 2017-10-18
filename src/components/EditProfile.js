@@ -70,6 +70,29 @@ class EditProfile extends Component {
   }
   validate(event) {
     event.preventDefault();
+    let token = cookie.load("token");
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    let userobj = {
+      user: {
+          bio: this.state.bio,
+          location: this.state.location,
+          location_private:this.state.location_private,
+          facebook:this.state.facebook,
+          twitter:this.state.twitter,
+           }
+        }
+        console.log(userobj);
+    // request
+    //   .post(`${proxyurl}https://canigrow.herokuapp.com/api/users`)
+    //   .set("Authorization", `Token token=${token}`)
+    //   .send(userobj)
+    //   .end((err, res) => {
+    //     if (err) {
+    //       console.log(err);
+    //     } else {
+    //       console.log(res);
+    //     }
+    //   })
   }
   render() {
     return (
@@ -77,8 +100,11 @@ class EditProfile extends Component {
         <div className="card pagination-centered text-center">
           <h2>Edit Profile</h2>
           <h4>User Name: {this.state.username}</h4>
-          <form className="enterForm" onSubmit={this.handleFormSubmit}>
-            {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
+          <form className="enterForm" onSubmit={this.validate}>
+            <div className="form-group">
+              <h6>Avatar:</h6>
+              <input name="myFile" type="file"/>
+            </div>
             <div className="form-group">
               <h6>Personal Bio:</h6>
               <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
