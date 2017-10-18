@@ -309,6 +309,9 @@ USERPAGE STYLES
     /*width: 40%;*/
   }
 }
+.container-fluid{
+  padding-top: 15px;
+}
 
 /*******************************
 TEMP MODAL STYLES

@@ -73,7 +73,7 @@ class AuthenticationRequest extends Component {
     } else {
       passwordResetContents =
          <div className="container-fluid">
-            <div className="card margin-top-108px">
+            <div className="card">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
