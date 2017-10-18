@@ -349,9 +349,7 @@ class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <div className="padding-bottom-20px">
           <div className="homepage-sub-container container">
-            <form className="homepage-form">
               <div className="homepage-search-container container">
                 <div className="pagination-centered text-center">
                   <h2 className="homepage-search-title">
@@ -420,9 +418,7 @@ class Homepage extends Component {
               {searchResults ? searchResults : ""}
               <br/>
               {suggestedResults ? suggestedResults : ""}
-            </form>
         </div>
-      </div>
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
           )}

@@ -7,7 +7,7 @@ html, body, #root, .body{
   /*rgba(255,248,220, 1)*/
 }
 .fill_page {
-  /*min-height: calc(90vh - 100px);*/
+  min-height: calc(90vh - 150px);
   margin-bottom: -30px;
 }
 .canigrowlogo-mobile{
@@ -136,7 +136,6 @@ html, body, #root, .body{
 #zipcode{
   width: 80px;
   color: black;
-  border-bottom: 1px solid black;
 }
 .homepage-search-box:focus{
   background-color: rgba(255,255,255, 0.2);
@@ -453,6 +452,7 @@ TEMP MODAL STYLES
   background-color: #EEEEEE;
   border-radius: 10px;
   margin: 10px auto;
+  padding-bottom: 10px;
 }
 #footer-content{
   /*background-color: #FFFFFF;*/
@@ -469,12 +469,8 @@ TEMP MODAL STYLES
   bottom:0;
   right:0;
 }
-.padding-bottom-20px {
-  padding-bottom: 20px;
-  /*min-height: calc(80vh - 208px);*/
-}
 .homepage-form {
-  /*min-height: calc(80vh - 208px);*/
+  min-height: calc(80vh - 208px);
 }
 .centerHomeButtonComments{
   width: 450px;
