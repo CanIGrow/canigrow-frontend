@@ -65,6 +65,9 @@ class EditProfile extends Component {
       this.setState({[event.target.id]: event.target.value});
     }
   }
+  handleCheckboxChange = (event) => {
+    this.setState({location_private: !this.state.location_private});
+  }
   validate(event) {
     event.preventDefault();
   }
@@ -73,11 +76,8 @@ class EditProfile extends Component {
       <div className="editprofile-container main-component-container">
         <div className="card pagination-centered text-center">
           <h2>Edit Profile</h2>
+          <h4>User Name: {this.state.username}</h4>
           <form className="enterForm" onSubmit={this.handleFormSubmit}>
-            <div className="form-group">
-              <h6>User Name:</h6>
-              {this.state.username}
-            </div>
             {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
             <div className="form-group">
               <h6>Personal Bio:</h6>
@@ -89,7 +89,7 @@ class EditProfile extends Component {
             </div>
             <div className="form-group">
               <h6>Location Privacy:
-                <input type="checkbox" onChange={this.handleTextChange} value={this.state.location_private} id="location_private"/>
+                <input type="checkbox" onChange={this.handleCheckboxChange} checked={this.state.location_private} value={this.state.location_private} id="location_private"/>
               </h6>
             </div>
             <div className="form-group">
