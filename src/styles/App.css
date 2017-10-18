@@ -4,7 +4,6 @@ html, body, #root, .body{
   top: 0;
   left: 0;
   background-color: #EEEEEE;
-  /*rgba(255,248,220, 1)*/
 }
 .fill_page {
   min-height: calc(90vh - 150px);
@@ -39,7 +38,10 @@ html, body, #root, .body{
 }
 .homepage-settings-section{
   padding: 5px 0;
+  width: 80%;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
 .header-hamburger:active{
@@ -149,6 +151,10 @@ html, body, #root, .body{
   color: #0056b3;
 }
 @media (min-width: 680px) {
+  .homepage-settings-section{
+    width: 80%;
+    flex-direction: row;
+  }
   .canigrowlogo{
     visibility: visible;
     display: block;

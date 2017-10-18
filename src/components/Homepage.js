@@ -372,6 +372,9 @@ class Homepage extends Component {
                       onChange={this.handleTextChange}
                       className="homepage-search-box"/>
                   </div>
+                  <div>
+                  {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
+                  </div>
                   {this.state.date ? (
                     <div>
                       <input onChange={this.handleSelectChange}
@@ -380,6 +383,7 @@ class Homepage extends Component {
                         checked={this.state.divisionsChecked}
                         value={this.state.divisionsChecked}/>
                       <label htmlFor="divisions-checkBox">Seasonal Divisions:</label>
+                      <br/>
                       {this.state.divisionsChecked ? (
                         <select className="custom-select homepage-season-selection" id="divisons-select-options"
                           value={this.state.date.searchSeason}
@@ -410,9 +414,6 @@ class Homepage extends Component {
                     </div>
                   ):""}
                 </div>
-                <span>
-                {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
-                </span>
                 <br/>
               </div>
               {searchResults ? searchResults : ""}
