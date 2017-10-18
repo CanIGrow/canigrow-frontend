@@ -7,7 +7,7 @@ import {setToken,setUsername,setEmail,redirectAction} from '../actions/actions.j
 // import cookie from 'react-cookies';
 import '../styles/App.css';
 
-class PasswordReset extends Component {
+class AuthenticationRequest extends Component {
   constructor(props) {
       super(props)
       this.state = {
@@ -39,12 +39,12 @@ class PasswordReset extends Component {
       }
   }
 
-  resetPasswordEmail(event) {
+  resendEmailAuthLink(event) {
     //  This lets the user 'bypass' CORs via proxy.
      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
      event.preventDefault();
      request
-      .post(`${proxyurl}https://canigrow.herokuapp.com/password_resets`)
+      .post(`${proxyurl}https://canigrow.herokuapp.com/account_activations`)
       .send({email: this.state.username})
        .end((err, res) => {
          if (err) {
@@ -77,7 +77,7 @@ class PasswordReset extends Component {
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
-                <h3>Password Reset Form:</h3>
+                <h3>Account Activation Request:</h3>
                 <form className="enterForm" onSubmit={this.handleFormSubmit}>
                   <div className="form-group">
                     <h6>Email:</h6>
@@ -85,7 +85,7 @@ class PasswordReset extends Component {
                   </div>
                   {this.state.message ? this.state.message : ""}<br/>
                   <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resetPasswordEmail(event)}>Get Emailed Authorization Link</button>
+                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.resendEmailAuthLink(event)}>Get Email Activation Link</button>
                   </div>
                 </form>
               </div>
@@ -125,4 +125,4 @@ function matchDispatchToProps(dispatch){
     return bindActionCreators({setEmail:setEmail, setUsername:setUsername, setToken:setToken, redirectAction: redirectAction}, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(PasswordReset);
+export default connect(mapStateToProps, matchDispatchToProps)(AuthenticationRequest);

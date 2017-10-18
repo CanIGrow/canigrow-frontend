@@ -6,8 +6,12 @@ html, body, #root, .body{
   background-color: #EEEEEE;
   /*rgba(255,248,220, 1)*/
 }
+.fill_page {
+  min-height: calc(90vh - 100px);
+  margin-bottom: -30px;
+}
 .canigrowlogo-mobile{
-  width: 200px;
+  width: 200p.plantx;
   text-align: center;
   display: inline-block;
 }
@@ -99,21 +103,35 @@ html, body, #root, .body{
   }
 }
 .homepage-search-container{
-  background-color: #00C851;
+  /*background-color: #00C851;*/
 }
 .main-component-container{
   margin: 10px 0;
 }
 .homepage-search-title, .homepage-search-box{
   text-align: center;
-  color: #ffffff;
+  /*color: #ffffff;*/
 }
 .homepage-search-box{
-  margin: 10px 0;
+  /*margin: 10px 0;
   border: 0;
   background: 0;
   outline: 0;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid white;*/
+  border: none;
+    padding: 10px;
+    margin: 10px;
+    height: 60px;
+    width: 500px;
+    border:2px solid #64dd17;
+    outline:none;
+}
+.homepage-search-box:hover{
+    /*border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;*/
+    border-color: #4285F4 #4285F4 #4285F4 #4285F4;
+}
+.homepage-search-box:focus{
+    border-color:#4d90fe;
 }
 #zipcode{
   width: 80px;
@@ -138,13 +156,20 @@ html, body, #root, .body{
     width: 200px;
   }
   .changeButtons{
-    margin-left: 200pt;
+    margin-left: 400pt;
     width: 300pt;
     display: flex;
     border: 1pt black blue;
     background-color: none;
     list-style-type: none;
     justify-content: space-between;
+  }
+  .font-size-25px{
+    font-size: 25px;
+  }
+  .home_logo{
+    /*height: 20px;
+    width: 20px;*/
   }
   .homepage-search-title, .homepage-search-box{
     display: inline;
@@ -281,11 +306,17 @@ TEMP MODAL STYLES
 }
 .modal.left.fade.in .modal-dialog{
   left: 0;
+}
+.margin-top-108px {
+  margin-top: 108px;
+}
 
 /*******************************/
   /*For Plantpage.js*/
 /*******************************/
 
+.plantpage-container {
+  margin-bottom: 40pt;margin-bottom: 40pt;
 }
 .plant_big_image {
   width: 570px;
@@ -294,6 +325,7 @@ TEMP MODAL STYLES
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  border: blue 2pt;
 }
 .plantpage-sub-container {
   /*background-color: #FDF8E2;*/
@@ -412,4 +444,32 @@ TEMP MODAL STYLES
   margin-top: 120pt;
   position: relative;
   bottom: 0;
+}
+.homepage-sub-container {
+  /*background-color: #FDF8E2;*/
+  background-color: #EEEEEE;
+  width: 1150px;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+#footer-content{
+  /*background-color: #FFFFFF;*/
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+.footer-sub-container{
+  background-color: #FFFFFF;
+  height: 50px;
+  left:0;
+  bottom:0;
+  right:0;
+}
+.padding-bottom-20px {
+  padding-bottom: 20px;
+  /*min-height: calc(80vh - 208px);*/
+}
+.homepage-form {
+  /*min-height: calc(80vh - 208px);*/
 }

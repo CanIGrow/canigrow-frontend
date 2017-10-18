@@ -52,6 +52,7 @@ class Login extends Component {
          } else {
            if (res !== undefined && res.body.token !== undefined){
            // These save the token to a cookie.
+           console.log(res.body);
            cookie.save('token', res.body.token);
            cookie.save('username', res.body.username);
            cookie.save('email', this.state.username);
@@ -81,7 +82,7 @@ class Login extends Component {
     } else {
       loginContents =
          <div className="container-fluid">
-            <div className="card">
+            <div className="card margin-top-108px">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
@@ -103,8 +104,16 @@ class Login extends Component {
                 <div className="card">
                   <div>
                     <p>Forgot your password?</p>
-                    <NavLink className="btn btn-primary btn-lg" type="submit" to="/login/password_reset">
+                    <NavLink className="btn btn-primary btn-sm" type="submit" to="/login/password_reset">
                       <span>Password Reset</span>
+                    </NavLink>
+                  </div>
+                </div>
+                <div className="card">
+                  <div>
+                    <p>Need a new authentication email?</p>
+                    <NavLink className="btn btn-primary btn-sm" type="submit" to="/login/authentication_request">
+                      <span>Get Email Activation Form</span>
                     </NavLink>
                   </div>
                 </div>

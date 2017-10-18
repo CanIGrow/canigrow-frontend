@@ -1,5 +1,11 @@
 Can I Grow project
 
+Deployment: https://canigrow.github.io/canigrow-frontend/
+
+Github Organization: https://github.com/CanIGrow
+
+---
+
 Collaborators:
 
 Kevin Harrison: https://github.com/kharrison7
@@ -8,12 +14,18 @@ Jocelyn Triplett: https://github.com/JocelynTriplett
 
 Jonathan 'JT' Canfield: https://github.com/jtcanfield
 
+---
+
 This project is designed to meet the needs of first time and moderately experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
 
 User Stories
 Specifically this site is built to:
 1) Allow users to search for a plant and receive information about said plant.
 2) Let users save a list of plants to a 'plot' for future reference.
+
+---
+
+Initial Planning:
 
 Thursday, October 5th:
 Today we met as a group for the first time. Together we wire-framed and presented the project with basic user stories to Dana Calder. Jocelyn researched API options and began creating schema for the back-end. Kevin began working on bringing redux into the front-end. JT created routes with components and began work on the home page. Additionally JT began looking into local tracking options.
@@ -48,9 +60,9 @@ Sprint 2:
 Goals: Finish User Story 2, test features, fix bugs, and deploy the website.
 
 Monday, October 15th:
-In the morning we met to plan this next sprint. Jocelyn worked on password reset by email. JT worked on letting a user drag-and-drop plants and delete plants. Kevin worked on deployment, styling, and error fixes.
+In the morning we met to plan this next sprint. Jocelyn worked on password reset by email. JT worked on letting a user drag-and-drop plants and delete plants. Kevin worked on deployment, adding a footer, styling, and error fixes.
 
-Tuesday, October 16th:
+Tuesday, October 16th: Jocelyn worked on authorization email, emails for password reset, updating the database, error handling, and bug fixes. Kevin worked on adding react calendar using additional plant information as well as styling the front page, plant-page, footer, and header. JT was interviewing today.
 
 Wednesday, October 17th:
 
