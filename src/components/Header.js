@@ -52,21 +52,17 @@ class Header extends Component {
         </div>
         rightButtons =
         <div className="changeButtons">
-          <li>
-            <NavLink activeClassName="selected" to="/">
+            <NavLink className="verti-center" to="/">
               {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
+              <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
             </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+            <NavLink className="verti-center" to={`/user/${ this.props.username }`}>
               <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
             </NavLink>
-          </li>
-          <li>
             {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
+            <a className="verti-center">
               <input className='btn btn-link font-size-25px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
-          </li>
+            </a>
         </div>;
       } else {
         // If the user is logged out show.
@@ -78,28 +74,22 @@ class Header extends Component {
         </div>
         rightButtons =
         <div className="changeButtons">
-          <li>
-            <NavLink activeClassName="selected" to="/">
+            <NavLink className="verti-center" to="/">
               {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
-              <img src={require('./home.png')} width="55px" className='home_logo btn btn-link' alt="home logo" value='Homepage'/>
+              <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
             </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to="/register">
+            <NavLink className="verti-center" to="/register">
               <input className='btn btn-link font-size-25px' type='submit' value='Register'/>
             </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName="selected" to="/login">
+            <NavLink className="verti-center" to="/login">
               <input className='btn btn-link font-size-25px' type='submit' value='Login'/>
             </NavLink>
-          </li>
         </div>;
       }
     return (
       <div className="header-container">
         <div className="container align-middle header-navbar">
-          <NavLink activeClassName="selected" to="/">
+          <NavLink className="canigrowlogo-container" to="/">
             {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
             <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
           </NavLink>
