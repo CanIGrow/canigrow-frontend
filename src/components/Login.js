@@ -41,15 +41,15 @@ class Login extends Component {
 
   login(event) {
     //  This lets the user 'bypass' CORs via proxy.
-     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-     event.preventDefault();
-     this.setState({error:"Connecting To Server..."});
-     request
+    event.preventDefault();
+    this.setState({message:"Connecting To Server..."});
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    request
       .post(`${proxyurl}https://canigrow.herokuapp.com/api/users/login`)
       .send({email: this.state.username, password: this.state.password})
        .end((err, res) => {
          if (err) {
-            this.setState({error: res.body.error});
+            this.setState({error: res.body.error,message:false});
          } else {
            if (res !== undefined && res.body.token !== undefined){
            // These save the token to a cookie.
@@ -62,7 +62,7 @@ class Login extends Component {
            this.props.setUsername(res.body.username);
            this.props.setEmail(this.state.username);
          } else if (res !== undefined && res.body.token === undefined){
-           this.setState({error: res.body.message});
+           this.setState({error: res.body.message,message:false});
          }
          }
        })
