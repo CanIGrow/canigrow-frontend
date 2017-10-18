@@ -360,7 +360,7 @@ class Homepage extends Component {
                     value={this.state.searchbartext}
                     onChange={this.handleTextChange}
                     placeholder="Can I Grow..."
-                    autofocus="autoFocus"
+                    autoFocus="autoFocus"
                     className="homepage-search-box"/>
                   </h2>
                 </div>
