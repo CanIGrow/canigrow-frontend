@@ -115,43 +115,43 @@ class Register extends Component {
     } else {
       registerContents =
         <div className="container-fluid">
-            <div className="card pagination-centered text-center">
-              {this.state.error && <div className="alert">{this.state.error}</div>}
-              <div className="card-block">
-                <h3>Registration Form:</h3>
-                <form className="enterForm" onSubmit={this.handleFormSubmit}>
-                  <div className="form-group">
-                    <h6>User Name:</h6>
-                    <input type="text" onChange={this.handleTextChange} value={this.state.usernameinput} id="usernameinput" placeholder="Username"/>
-                  </div>
-                  {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
-                  <div className="form-group">
-                    <h6>Email:</h6>
-                    <input type="email" onChange={this.handleTextChange} value={this.state.email} id="email" placeholder="example@email.org"/>
-                  </div>
-                  <div className="form-group">
-                    <h6>Password:</h6>
-                    <input type="password" onChange={this.handleTextChange} value={this.state.password} id="password" placeholder="********"/>
-                  </div>
-                  <div className="form-group">
-                    <h6>Retype Password:</h6>
-                    <input type="password" onChange={this.handleTextChange} value={this.state.password2} id="password2" placeholder="********"/>
-                  </div>
-                  {this.state.passworderror ? this.state.passworderror : ""}
-                  <div className="form-group">
-                    <h6>Personal Bio:</h6>
-                    <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
-                  </div>
-                  <div className="form-group">
-                    <h6>Location:</h6>
-                    <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
-                  </div>
-                  <div className="form-group pull-right">
-                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)} disabled={!fourmready}>Register</button>
-                  </div>
-                </form>
-              </div>
+          <div className="card pagination-centered text-center">
+            {this.state.error && <div className="alert">{this.state.error}</div>}
+            <div className="card-block">
+              <h3>Registration Form:</h3>
+              <form className="enterForm" onSubmit={this.handleFormSubmit}>
+                <div className="form-group">
+                  <h6>User Name:</h6>
+                  <input type="text" onChange={this.handleTextChange} value={this.state.usernameinput} id="usernameinput" placeholder="Username"/>
+                </div>
+                {this.state.usernameinputerror ? this.state.usernameinputerror : ""}
+                <div className="form-group">
+                  <h6>Email:</h6>
+                  <input type="email" onChange={this.handleTextChange} value={this.state.email} id="email" placeholder="example@email.org"/>
+                </div>
+                <div className="form-group">
+                  <h6>Password:</h6>
+                  <input type="password" onChange={this.handleTextChange} value={this.state.password} id="password" placeholder="********"/>
+                </div>
+                <div className="form-group">
+                  <h6>Retype Password:</h6>
+                  <input type="password" onChange={this.handleTextChange} value={this.state.password2} id="password2" placeholder="********"/>
+                </div>
+                {this.state.passworderror ? this.state.passworderror : ""}
+                <div className="form-group">
+                  <h6>Personal Bio:</h6>
+                  <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+                </div>
+                <div className="form-group">
+                  <h6>Location:</h6>
+                  <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
+                </div>
+                <div className="form-group pull-right">
+                  <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.register(event)} disabled={!fourmready}>Register</button>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
     }
 

@@ -5,6 +5,9 @@ html, body, #root, .body{
   left: 0;
   background-color: #EEEEEE;
 }
+input{
+  border: 1px solid black;
+}
 .verti-center{
   height: 80px;
   line-height: 80px;
@@ -405,7 +408,7 @@ TEMP MODAL STYLES
   width: 570px;
 }
 .plant_page_graph_messages{
-  width: 500px;
+  width: 525px;
 }
 .font-size-16px{
   font-size: 16pt;
