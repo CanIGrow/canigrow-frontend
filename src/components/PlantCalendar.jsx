@@ -9,6 +9,7 @@ import {redirectAction} from '../actions/actions.js';
 import { Button } from 'react-bootstrap';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 let Alert = require('react-bootstrap').Alert;
 
 
@@ -278,16 +279,28 @@ class PlantCalendar extends Component {
       calendarEvents:
           [
             {
-             'title': "Collins night club",
+             'title': "Plant Info 1",
              'allDay': true,
              'start': new Date(2017, 9, 13),
              'end': new Date(2017, 9, 13)
             },
             {
-              'title': "Lyman's rockin jazz daddio swingers club",
-              'start': new Date(2017, 9, 14, 21, 30 ),
-              'end': new Date(2017, 9, 14, 1, 0 ),
-              desc: 'Pre-meeting meeting, to prepare for the meeting'
+              'title': "Plant Info 2",
+              'start': new Date(2017, 9, 19, 21, 30 ),
+              'end': new Date(2017, 9, 19, 1, 0 ),
+              desc: 'A description of plant info 2.'
+            },
+            {
+              'title': "Plant Info 3",
+              'start': new Date(2017, 9, 9, 9, 9 ),
+              'end': new Date(2017, 9, 10, 10, 10 ),
+              desc: 'A description of plant info 3.'
+            },
+            {
+              'title': "Plant Info 3",
+              'start': new Date(2017, 10, 20, 21, 30 ),
+              'end': new Date(2017, 10, 20, 1, 0 ),
+              desc: 'A description of plant info 3.'
             }
           ]
     });
@@ -303,6 +316,7 @@ class PlantCalendar extends Component {
     console.log(this.props);
     this.getDates();
     this.getPlots();
+    console.log(this.state.calendarEvents);
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
       request
@@ -337,6 +351,8 @@ class PlantCalendar extends Component {
 
 
   render() {
+    console.log(this.state.calendarEvents);
+
 
     return (
       <div>
@@ -355,23 +371,16 @@ class PlantCalendar extends Component {
                 <p>Plant Calendar</p>
                 {/* {MyCalendar} */}
                   <div>
-                    <div>
                       {this.state.calendarEvents &&
-                      <BigCalendar
-                        events={this.state.calendarEvents}
-                        startAccessor='startDate'
-                        endAccessor='endDate'
-                      />
-                      }
-                      </div>
-                    {/* {this.state.true &&
                       <BigCalendar
                         selectable
                         culture='en'
-                        // onSelectEvent={event => this.navigateToEvent(event.bandId, event.eventId)}
-                        // events={this.state.calendarEvents}
-                        views={['month', 'week', 'day', 'agenda']}/>
-                    } */}
+                        events={this.state.calendarEvents}
+                        // startAccessor='startDate'
+                        // endAccessor='endDate'
+                        views={['month', 'week', 'day', 'agenda']}
+                      />
+                      }
                   </div>
                 </div>
               </div>
