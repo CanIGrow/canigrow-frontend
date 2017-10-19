@@ -12,6 +12,7 @@ import BaseLayout from './Base-Layout.js';
 import Userlisting from './Userlisting.js';
 import PasswordReset from './PasswordReset.js';
 import AuthenticationRequest from './AuthenticationRequest.js';
+import PlantCalendar from './PlantCalendar.jsx';
 
 import EditProfile from './EditProfile.js';
 
@@ -91,6 +92,7 @@ class App extends Component {
             <BaseLayout template={this.state.template}>
               <Switch>
                 <Route exact path="/" render={(props) => ( <Homepage allplantdata={this.state.allplantdata}/> )}/>
+                <Route path="/calendar/:plant" render={(props) => ( <PlantCalendar username={this.state.username}/> )}/>
                 <Route path="/plants/:plant" render={(props) => ( <Plantpage username={this.state.username}/> )}/>
                 {/* <Route path="/plants/:plant" component={Plantpage} /> */}
                 <Route path="/login/password_reset" component={PasswordReset} />
