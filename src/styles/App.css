@@ -521,3 +521,7 @@ TEMP MODAL STYLES
 .margin-left-200{
   margin-left: -200pt;
 }
+.calendar-container {
+  height: 800px;
+  width: 1000px;
+}
