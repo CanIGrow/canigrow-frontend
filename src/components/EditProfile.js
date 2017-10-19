@@ -22,6 +22,9 @@ class EditProfile extends Component {
       location_private: false,
       facebook: false,
       twitter: false,
+      avatar: false,
+      file: '',
+      imagePreviewUrl: ''
     };
   }
 
@@ -73,6 +76,7 @@ class EditProfile extends Component {
     event.preventDefault();
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    console.log(this.state.avatar);
     let userobj = {
       "user": {
           "bio": this.state.bio,
@@ -80,6 +84,7 @@ class EditProfile extends Component {
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
           "twitter":this.state.twitter,
+          "avatar":this.state.avatar,
           }
         }
     request
@@ -87,11 +92,15 @@ class EditProfile extends Component {
       .set("Authorization", `Token token=${token}`)
       .send(userobj)
       .end((err, res) => {
+        console.log("Sent");
         if (err) {
+          console.log(err);
           this.props.redirectAction([`/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
+          console.log(res);
           this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
         } else {
+          console.log('else');
           this.props.redirectAction([`/`, "Unauthorized"]);
         }
       })
@@ -99,7 +108,37 @@ class EditProfile extends Component {
   handleChange = (event) => {
     console.log('Selected file:', event.target.files[0]);
   }
+
+  // Upload an Image
+_handleImageChange(e) {
+   e.preventDefault();
+
+   let reader = new FileReader();
+   let file = e.target.files[0];
+   console.log(file);
+
+   reader.onloadend = () => {
+     this.setState({
+       avatar: file,
+       file: file,
+       imagePreviewUrl: reader.result
+     });
+   }
+   reader.readAsDataURL(file);
+}
+
   render() {
+    // console.log(this.state);
+
+    // This jQuery handles the image preview.
+    let {imagePreviewUrl} = this.state;
+    let $imagePreview = null;
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} />);
+    } else {
+      $imagePreview = (<div className="previewText">Please select a Preview</div>);
+    }
+
     return (
       <div className="editprofile-container main-component-container">
         <div className="card pagination-centered text-center">
@@ -108,12 +147,22 @@ class EditProfile extends Component {
           <form className="enterForm" onSubmit={this.validate}>
             <div className="form-group">
               <h6>Avatar:</h6>
-              {/*<input onChange={(event)=> { this.readFile(event, this.files) }} name="myFile" type="file"/>*/}
-            {/*  <FileInput name="myImage"
+              <input className="fileInput"
+               type="file"
+               onChange={(e)=>this._handleImageChange(e)} />
+              <div className="imgPreview">
+                {$imagePreview}
+              </div>
+
+              {/* <input type="file" id="myFile" />
+              <button onClick={event => this.uploadAvater(event)} className="dropbtn" data-toggle="button" aria-pressed="false">upload avatar image</button> */}
+              {/* <input onChange={(event)=> { this.readFile(event, this.files) }} name="myFile" type="file"/>
+             <FileInput name="myImage"
                    accept=".png,.gif"
                    placeholder="My Image"
                    className="inputClass"
-                   onChange={this.handleChange} />*/}
+                   onChange={this.handleChange} /> */}
+
             </div>
             <div className="form-group">
               <h6>Personal Bio:</h6>
