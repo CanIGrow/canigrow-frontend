@@ -315,6 +315,8 @@ class PlantCalendar extends Component {
       let diff = 30-(dateFromFrostS - firstFrostDay);
       let plantDay = new Date(2017, firstFrostMonth-1, diff);
       let harvestDay = new Date(2017, firstFrostMonth, firstFrostDay-1);
+      let growStartDay = new Date(2017, firstFrostMonth-1, diff+1);
+
 
 
 
@@ -328,6 +330,13 @@ class PlantCalendar extends Component {
             'allDay': true,
             'start': plantDay,
             'end': plantDay
+          },
+          {
+            'title': "Growing...",
+            'allDay': true,
+            'start': growStartDay,
+            'end': harvestDay
+
           },
           {
             'title': "Harvest Today",
