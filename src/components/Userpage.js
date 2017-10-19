@@ -287,71 +287,73 @@ class Userpage extends Component {
       }
       userobjectdata =
       <div className="container pagination-centered text-center">
-        <h2>{this.state.userdata.username}</h2>
-        {this.state.canedit ? (
-        <div>
-          <button className="btn-danger"
-          onClick={event => this.editprofileredirect(event, this.state.userdata.username)}>Edit Profile</button>
-        </div>
-        ):""}
-        <p className="userpage-bio-info">{bio}</p>
-        {this.state.userdata.location_private ? (""):(
-          <p className="userpage-bio-info">{this.state.userdata.location}</p>
-        )}<br/>
-        {this.state.userdata.twitter && (<span className="userpage-bio-info">Twitter:{this.state.userdata.twitter}</span>)}
-        {this.state.userdata.facebook && (<span className="userpage-bio-info">Facebook:{this.state.userdata.facebook}</span>)}
-          <h3>Plots</h3>
-          {editbutton}
-        <div className="userpage-outer-plots-holder">
-          {this.state.userdata.plots.map((plot, i)=>{
-            /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
-            return (
-              <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
-                <h4>{plot.plot_name}{this.state.editing && (
-                  <button type="button"
-                    onClick={event => this.drag(event, "deleteplot", plot.plot_id)}
-                    className="close"
-                    aria-label="Close">
-                    <span aria-hidden="true">  &times;
-                    </span>
-                  </button>
-                  )}
-                </h4>
-                {plot.plants.map((plant, i)=>{
-                  /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
-                  return (
-                    <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
-                      className="userpage-plant-div">
-                      {this.state.editing ? (
-                        <div draggable="true"
-                        onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant)}
-                        onDragEnd={event => this.drag(event, "stopdragging")}
-                        className="userpage-plant-link">
-                        <h5>{plant.plant}</h5>
-                        </div>
-                      ):(
-                        <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+        <div className="homepage-sub-container">
+          <h2>{this.state.userdata.username}</h2>
+          {this.state.canedit ? (
+          <div>
+            <button className="btn-danger"
+            onClick={event => this.editprofileredirect(event, this.state.userdata.username)}>Edit Profile</button>
+          </div>
+          ):""}
+          <p className="userpage-bio-info">{bio}</p>
+          {this.state.userdata.location_private ? (""):(
+            <p className="userpage-bio-info">{this.state.userdata.location}</p>
+          )}<br/>
+          {this.state.userdata.twitter && (<span className="userpage-bio-info">Twitter:{this.state.userdata.twitter}</span>)}
+          {this.state.userdata.facebook && (<span className="userpage-bio-info">Facebook:{this.state.userdata.facebook}</span>)}
+            <h3>Plots</h3>
+            {editbutton}
+          <div className="userpage-outer-plots-holder">
+            {this.state.userdata.plots.map((plot, i)=>{
+              /* {plot_name: "My First Plot", plot_id: 8, plants: Array(1)}*/
+              return (
+                <div id={plot.plot_id} key={`${plot.plot_name}${plot.plot_id}`} className="userpage-inner-plot-holder">
+                  <h4>{plot.plot_name}{this.state.editing && (
+                    <button type="button"
+                      onClick={event => this.drag(event, "deleteplot", plot.plot_id)}
+                      className="close"
+                      aria-label="Close">
+                      <span aria-hidden="true">  &times;
+                      </span>
+                    </button>
+                    )}
+                  </h4>
+                  {plot.plants.map((plant, i)=>{
+                    /* {plant_id: 2205, plant: "Silver Moon Clematis"}*/
+                    return (
+                      <div key={`${plot.plot_name}${plot.plot_id}${plant.plant_id}`}
+                        className="userpage-plant-div">
+                        {this.state.editing ? (
+                          <div draggable="true"
+                          onDragStart={event => this.drag(event, "startdragging", plot.plot_id, plant)}
+                          onDragEnd={event => this.drag(event, "stopdragging")}
                           className="userpage-plant-link">
-                        <h5>{plant.plant}</h5>
-                        </a>
-                      )}
+                          <h5>{plant.plant}</h5>
+                          </div>
+                        ):(
+                          <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                            className="userpage-plant-link">
+                          <h5>{plant.plant}</h5>
+                          </a>
+                        )}
+                      </div>
+                    )
+                  })}
+                  {this.state.dragging && (
+                    <div className="droppable-div"
+                      onDrop={event => this.drag(event, "dropped", plot.plot_id)}
+                      onDragOver={event => this.dragover(event)}
+                      onDragLeave={event => this.dragexit(event)}>
                     </div>
-                  )
-                })}
-                {this.state.dragging && (
-                  <div className="droppable-div"
-                    onDrop={event => this.drag(event, "dropped", plot.plot_id)}
-                    onDragOver={event => this.dragover(event)}
-                    onDragLeave={event => this.dragexit(event)}>
-                  </div>
-                )}
-                {this.state.editing && (
-                  addplantbutton
-                )}
-              </div>
-            )
-          })}
-          {addnewplotdivs}
+                  )}
+                  {this.state.editing && (
+                    addplantbutton
+                  )}
+                </div>
+              )
+            })}
+            {addnewplotdivs}
+          </div>
         </div>
       </div>
     }
