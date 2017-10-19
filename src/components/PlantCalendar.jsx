@@ -274,7 +274,7 @@ class PlantCalendar extends Component {
     }
   }
 
-  getDates(){
+  getDates = (plantData) => {
     this.setState({
       calendarEvents:
           [
@@ -314,11 +314,9 @@ class PlantCalendar extends Component {
       });
     }
     console.log(this.props);
-    this.getDates();
     this.getPlots();
-    console.log(this.state.calendarEvents);
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
+    this.setState({plant_id:window.location.href.split("/calendar/")[1]}, ()=>{
       request
        .get(`${proxyurl}https://canigrow.herokuapp.com/api/plants/${this.state.plant_id}`)
        .end((err, res)=>{
@@ -330,8 +328,9 @@ class PlantCalendar extends Component {
                this.setState({plantdata: res.body.plant});
                console.log('Plant Data');
                console.log(res.body.plant);
+               this.getDates(res.body.plant);
+               console.log(this.state.calendarEvents);
                this.createWikiLink(res.body.plant.scientific_name);
-               this.createSunChart();
              }
            }
          }
@@ -370,7 +369,7 @@ class PlantCalendar extends Component {
               <div className="all_plant_page_images">
                 <p>Plant Calendar</p>
                 {/* {MyCalendar} */}
-                  <div>
+                  <div className="calendar-container">
                       {this.state.calendarEvents &&
                       <BigCalendar
                         selectable
