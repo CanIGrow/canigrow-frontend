@@ -7,7 +7,35 @@ import {bindActionCreators} from 'redux';
 import { NavLink, Redirect } from 'react-router-dom';
 import {redirectAction} from '../actions/actions.js';
 import { Button } from 'react-bootstrap';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
 let Alert = require('react-bootstrap').Alert;
+
+
+
+// This makes the calendar.
+// Setup the localizer by providing the moment (or globalize) Object
+// to the correct localizer.
+// BigCalendar.setLocalizer(
+//   BigCalendar.momentLocalizer(moment)
+// );
+//
+// let myEventsList = null;
+//
+// const MyCalendar = props => (
+//   <div>
+//     <BigCalendar
+//       events={myEventsList}
+//       startAccessor='startDate'
+//       endAccessor='endDate'
+//     />
+//   </div>
+// );
+
+BigCalendar.momentLocalizer(moment);
+let formats = {
+  dateFormat: 'dd'
+}
 
 
 class PlantCalendar extends Component {
@@ -34,6 +62,8 @@ class PlantCalendar extends Component {
         waterMessage: 'More specific water information coming soon.',
         soilMessage: 'More specific soil information coming soon.',
         maturationMessage: 'Time to maturity data coming soon.',
+        true: true,
+        calendarEvents: null
 
       };
       this.addPlantToPlot = this.addPlantToPlot.bind(this);
@@ -43,78 +73,6 @@ class PlantCalendar extends Component {
     console.log(this.props.token);
     // console.log(this.props.zipcode);
     // console.log(this.state.zipcode);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleOutsideClick, false);
-  }
-
-  // Opens the plant dropdown menu.
-  openPlotDropdown(event){
-    event.preventDefault();
-    // console.log("dropdown clicked");
-    document.getElementById("myDropdown").classList.toggle("show");
-
-    if (!this.state.popupVisible) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-    this.setState(prevState => ({
-      // popupVisible: true,
-      popupVisible: !prevState.popupVisible,
-        }));
-        // console.log(this.state.popupVisible);
-  }
-
-  // Opens the comments
-  openPlotDropdownComment(event){
-    event.preventDefault();
-    console.log("dropdown comment clicked");
-    document.getElementById("myDropdownComments").classList.toggle("show");
-
-    // if (!this.state.popupVisible) {
-    //   document.addEventListener('click', this.handleOutsideClick, false);
-    // } else {
-    //   document.removeEventListener('click', this.handleOutsideClick, false);
-    // }
-    this.setState(prevState => ({
-      // popupVisible: true,
-      commentsVisible: !prevState.commentsVisible,
-        }));
-        // console.log(this.state.popupVisible);
-  }
-
-  // Close the dropdown menu
-  closePlotDropdown(event){
-    if(event !== undefined){
-      event.preventDefault();
-    }
-    // console.log("dropdown should close");
-    let dropdowns = document.getElementsByClassName("dropdown-content");
-    let i;
-    for (i = 0; i < dropdowns.length; i++) {
-      let openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-    this.setState(prevState => ({
-           popupVisible: !prevState.popupVisible,
-        }));
-        // console.log(this.state.popupVisible);
-  }
-
-  // Close the dropdown menu if the user clicks outside of it
-  handleOutsideClick = (e) => {
-    // console.log('handleOutsideClick');
-    document.removeEventListener('click', this.handleOutsideClick, false);
-    if(this.state.popupVisible === true){
-      this.closePlotDropdown();
-    } else {
-      return;
-    }
   }
 
   // This gets and md5 hash for a given string.
@@ -250,161 +208,6 @@ class PlantCalendar extends Component {
     this.setState({wiki_link: link});
   }
 
-  // This generates the sun chart data.
-  createSunChart(){
-    // This handles soil information.
-    let soilMessage = 'This plant likes soil with approx. 6.5 pH.';
-
-    // This generates a number of hours that the plant needs sunlight.
-    let light_string = this.state.plantdata.light;
-    let soil_string = this.state.plantdata.soil;
-    let sunMessage = null;
-    let sun_max_value = 2;
-    let sun_min_value = 0;
-    let soil_pH_max = 6;
-    let soil_pH_min = 5;
-    // Handles minimum sunlight.
-    if(this.state.plantdata !== null && this.state.plantdata !== undefined){
-      if(this.state.plantdata.light !== null && this.state.plantdata.light !== undefined){
-        // console.log(this.state.plantdata.light);
-        if(light_string.includes('Full sun')){
-          sun_min_value = 6;
-        }
-        if(light_string.includes("Part sun")){
-          sun_min_value = 4;
-        }
-        if(light_string.includes("Part shade")){
-          sun_min_value = 2;
-        }
-        if(light_string.includes("Full shade")){
-          sun_min_value = 0;
-        }
-        // Handles maximum sunlinght.
-        if(light_string.includes('Full shade')){
-          sun_max_value = 3;
-          sunMessage = 'This plant grows well in the shade.';
-        }
-        if(light_string.includes("Part shade")){
-          sun_max_value = 4;
-          sunMessage = 'This plant grows well in the shade.';
-        }
-        if(light_string.includes("Part sun")){
-          sun_max_value = 6;
-          sunMessage = 'This plant grows well with partial sunlight.';
-        }
-        if(light_string.includes("Full sun")){
-          console.log("full");
-          sun_max_value = 10;
-          sunMessage = 'This plant grows well with direct sunlight.';
-        }
-        if(sun_min_value <= 2 && sun_max_value >= 10){
-          sunMessage = 'This plant grows well with lots or little sunlight.';
-        }
-        if(sun_min_value >= 6 && sun_max_value >= 10){
-          sunMessage = 'This plant requires lots of sunlight.';
-        }
-        if(sun_min_value <= 2 && sun_max_value <= 4){
-          sunMessage = 'This plant should be grown in a shady area.';
-        }
-        this.setState({sunMessage: sunMessage});
-
-        // This handles soil information.
-        if(this.state.plantdata.soil !== null && this.state.plantdata.soil !== undefined){
-          if(this.state.plantdata.soil !== " "){
-            soilMessage = "";
-          }
-          console.log(this.state.plantdata.soil);
-          if(soil_string.includes("Adaptable")){
-            soilMessage = 'This plant can adapt to most types of soil.';
-          }
-          if(soil_string.includes("Prefers evenly-moist")){
-            soilMessage = soilMessage + ' Prefers evenly-moist soil.';
-          }
-          if(soil_string.includes("Prefers dry")){
-            soilMessage = soilMessage + ' This plant prefers dry soil.';
-          }
-          if(soil_string.includes("Prefers high organic matter")){
-            soilMessage = soilMessage + ' Prefers high organic matter.';
-          }
-          if(soil_string.includes("Prefers well-drained")){
-            soilMessage = soilMessage + ' Prefers well-drained.';
-          }
-          if(soil_string.includes("Prefers loam")){
-            soilMessage = soilMessage + ' Prefers loamy soil.';
-          }
-          if(soil_string.includes("Tolerates dry")){
-            soilMessage = soilMessage + ' Tolerates dry soil.';
-          }
-          if(soil_string.includes("Tolerates poor")){
-            soilMessage = soilMessage + ' Tolerates poor quality soil.';
-          }
-        }
-        this.setState({soilMessage: soilMessage});
-      }
-    }
-
-    let max_water_value = sun_max_value - sun_min_value + 1;
-
-    if(document.getElementById("mySunChart") !== null){
-      let ctx = document.getElementById("mySunChart").getContext('2d');
-      // Chart.defaults.global.defaultFontColor = 'black';
-      // Chart.defaults.global.defaultFontSize = '12';
-      // let mySunChart  =
-      new Chart(ctx, {
-      type: 'horizontalBar',
-      data: {
-          labels: ["Sunlight (hours/day)", "Water (in/month)", "Soil pH", "Time to Maturity (weeks)"],
-          datasets: [
-            {
-              label: 'Minimum Required',
-              data: [sun_min_value, 2, soil_pH_max, 5],
-              backgroundColor: [
-                  '#e5e5e5',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-              ],
-              borderColor: [
-                  '#ffff00',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(75, 192, 192, 1)',
-              ],
-              borderWidth: 1
-          },
-          {
-            label: 'Maximum Tolerated',
-            data: [sun_max_value-sun_min_value, max_water_value, soil_pH_max-soil_pH_min, 0],
-            backgroundColor: [
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                // 'rgba(75, 192, 192, 0.2)',
-            ],
-            borderColor: [
-                '#ffff00',
-                'rgba(54, 162, 235, 1)',
-                'rgba(153, 102, 255, 1)',
-                // 'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1
-        }
-        ]
-      },
-      options: {
-        scales: {
-            xAxes: [{
-                stacked: true
-            }],
-            yAxes: [{
-                stacked: true
-            }]
-        }
-      }
-      });
-    }
-  }
-
   addPlantToPlot(event, plot){
     event.preventDefault();
     //  This lets the user 'bypass' CORs via proxy.
@@ -470,6 +273,26 @@ class PlantCalendar extends Component {
     }
   }
 
+  getDates(){
+    this.setState({
+      calendarEvents:
+          [
+            {
+             'title': "Collins night club",
+             'allDay': true,
+             'start': new Date(2017, 9, 13),
+             'end': new Date(2017, 9, 13)
+            },
+            {
+              'title': "Lyman's rockin jazz daddio swingers club",
+              'start': new Date(2017, 9, 14, 21, 30 ),
+              'end': new Date(2017, 9, 14, 1, 0 ),
+              desc: 'Pre-meeting meeting, to prepare for the meeting'
+            }
+          ]
+    });
+  }
+
 
   componentWillMount() {
     if (this.props.redirection && this.props.redirection[0] !== undefined){
@@ -478,6 +301,7 @@ class PlantCalendar extends Component {
       });
     }
     console.log(this.props);
+    this.getDates();
     this.getPlots();
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     this.setState({plant_id:window.location.href.split("/plants/")[1]}, ()=>{
@@ -511,6 +335,7 @@ class PlantCalendar extends Component {
     this.setState({alertVisible: false});
   }
 
+
   render() {
 
     return (
@@ -528,6 +353,27 @@ class PlantCalendar extends Component {
             <div className="top_items_plant_page">
               <div className="all_plant_page_images">
                 <p>Plant Calendar</p>
+                {/* {MyCalendar} */}
+                  <div>
+                    <div>
+                      {this.state.calendarEvents &&
+                      <BigCalendar
+                        events={this.state.calendarEvents}
+                        startAccessor='startDate'
+                        endAccessor='endDate'
+                      />
+                      }
+                      </div>
+                    {/* {this.state.true &&
+                      <BigCalendar
+                        selectable
+                        culture='en'
+                        // onSelectEvent={event => this.navigateToEvent(event.bandId, event.eventId)}
+                        // events={this.state.calendarEvents}
+                        views={['month', 'week', 'day', 'agenda']}/>
+                    } */}
+                  </div>
+                </div>
               </div>
               {/* {this.state.fireredirect && (
                 <Redirect to={this.props.redirection[0]}/>
@@ -535,7 +381,6 @@ class PlantCalendar extends Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }
