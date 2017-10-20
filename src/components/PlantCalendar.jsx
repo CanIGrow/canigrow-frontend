@@ -275,53 +275,44 @@ class PlantCalendar extends Component {
   }
 
   getDates = (plantData) => {
-    let testEvents =   [
-        {
-         'title': "Plant Info 1",
-         'allDay': true,
-         'start': new Date(2017, 9, 13),
-         'end': new Date(2017, 9, 13)
-        },
-        {
-          'title': "Plant Info 2",
-          'start': new Date(2017, 9, 19, 21, 30 ),
-          'end': new Date(2017, 9, 19, 1, 0 ),
-          desc: 'A description of plant info 2.'
-        },
-        {
-          'title': "Plant Info 3",
-          'start': new Date(2017, 9, 9, 9, 9 ),
-          'end': new Date(2017, 9, 10, 10, 10 ),
-          desc: 'A description of plant info 3.'
-        },
-        {
-          'title': "Plant Info 3",
-          'start': new Date(2017, 10, 20, 21, 30 ),
-          'end': new Date(2017, 10, 20, 1, 0 ),
-          desc: 'A description of plant info 3.'
-        }
-      ];
+    // let testEvents =   [
+    //     {
+    //      'title': "Plant Info 1",
+    //      'allDay': true,
+    //      'start': new Date(2017, 9, 13),
+    //      'end': new Date(2017, 9, 13)
+    //     },
+    //     {
+    //       'title': "Plant Info 2",
+    //       'start': new Date(2017, 9, 19, 21, 30 ),
+    //       'end': new Date(2017, 9, 19, 1, 0 ),
+    //       desc: 'A description of plant info 2.'
+    //     },
+    //     {
+    //       'title': "Plant Info 3",
+    //       'start': new Date(2017, 9, 9, 9, 9 ),
+    //       'end': new Date(2017, 9, 10, 10, 10 ),
+    //       desc: 'A description of plant info 3.'
+    //     },
+    //     {
+    //       'title': "Plant Info 3",
+    //       'start': new Date(2017, 10, 20, 21, 30 ),
+    //       'end': new Date(2017, 10, 20, 1, 0 ),
+    //       desc: 'A description of plant info 3.'
+    //     }
+    //   ];
       console.log(plantData);
-      console.log(plantData.maturity);
       let dateFromFrostT = parseInt(plantData.transplant_fall_relative_first_frost.substring(0, 2));
       let dateFromFrostS = parseInt(plantData.fall_start_relative_first_frost.substring(0, 2));
       let timeToMaturity = parseInt(plantData.maturity.substring(0, 2));
       let firstFrostMonth = 9; //October
       let firstFrostDay = 15; //15th
       let firstFrost = new Date(2017, firstFrostMonth, firstFrostDay);
-      console.log(timeToMaturity);
-      console.log(firstFrost);
       // This calculates the difference from the day the seed was planted to the frost date.
       let diff = 30-(dateFromFrostS - firstFrostDay);
       let plantDay = new Date(2017, firstFrostMonth-1, diff);
       let harvestDay = new Date(2017, firstFrostMonth, firstFrostDay-1);
       let growStartDay = new Date(2017, firstFrostMonth-1, diff+1);
-
-
-
-
-
-
 
       let growEvent=
         [
@@ -352,8 +343,6 @@ class PlantCalendar extends Component {
           },
 
         ]
-
-
 
     this.setState({
       calendarEvents:growEvent
@@ -421,7 +410,7 @@ class PlantCalendar extends Component {
           <div className="plantpage-sub-container">
             <div className="top_items_plant_page">
               <div className="all_plant_page_images">
-                <p>Plant Calendar</p>
+                <h2>Plant Calendar for: {this.state.plantdata.common_name} </h2>
                 {/* {MyCalendar} */}
                   <div className="calendar-container">
                       {this.state.calendarEvents &&

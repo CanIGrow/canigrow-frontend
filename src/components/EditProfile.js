@@ -78,14 +78,14 @@ class EditProfile extends Component {
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     console.log(this.state.avatar);
     let userobj = {
-      "user": {
+
           "bio": this.state.bio,
           "location": this.state.location,
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
           "twitter":this.state.twitter,
           "avatar":this.state.avatar,
-          }
+
         }
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
