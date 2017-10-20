@@ -27,6 +27,62 @@ class Homepage extends Component {
     this.filterlist = this.filterlist.bind(this);
   }
   componentWillMount(){
+    // this handles authentication link post
+    console.log('willMount');
+    console.log(window.location.href);
+    console.log(window.location.href.substring(0, 2));
+    let urlLink = window.location.href;
+    let findChar = "/";
+    let findCharArray = [];
+    let index = urlLink.indexOf(findChar);
+    while (index >= 0) {
+      // System.out.println(index);
+      console.log(index);
+      findCharArray.push(index);
+      index = urlLink.indexOf(findChar, index + 1);
+    }
+    console.log(findCharArray);
+    console.log(findCharArray.length);
+    if(findCharArray.length === 5) {
+      let token = urlLink.substring(findCharArray[3]+1, findCharArray[4]);
+      let email = urlLink.substring(findCharArray[4]+1, urlLink.length);
+      console.log(token);
+      console.log(email);
+
+
+
+      // this.setState({message:"Connecting To Server..."});
+      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+      request
+        .post(`${proxyurl}https://canigrow.herokuapp.com/account_activations/activate`)
+        .send({id: token, email: email})
+         .end((err, res) => {
+           if (err) {
+              this.setState({error: res.body.error,message:false});
+           } else {
+             if (res !== undefined && res.body !== undefined){
+             console.log(res.body);
+
+           } else if (res !== undefined && res.body.token === undefined){
+            //  this.setState({error: res.body.message,message:false});
+           }
+           }
+         })
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
     if (this.props.redirection && this.props.redirection[0] !== undefined){
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
@@ -34,6 +90,8 @@ class Homepage extends Component {
     }
   }
   componentDidMount(){
+    console.log('didMount');
+    console.log(window.location.href);
     request
       .get(`https://freegeoip.net/json/`)
       .end((err,res)=>{
