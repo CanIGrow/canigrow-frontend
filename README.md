@@ -64,9 +64,9 @@ In the morning we met to plan this next sprint. Jocelyn worked on password reset
 
 Tuesday, October 16th: Jocelyn worked on authorization email, emails for password reset, updating the database, error handling, and bug fixes. Kevin worked on adding react calendar using additional plant information as well as styling the front page, plant-page, footer, and header. JT was interviewing today.
 
-Wednesday, October 17th:
+Wednesday, October 17th: All three developers had mock interviews in the morning. Jocelyn worked on letting the user upload an avatar image. JT worked on responsive styling for mobile. Kevin worked on basic styling.
 
-Thursday, October 18th:
+Thursday, October 18th: Jocelyn continued work on the avatar image upload feature and on the admin feature. Kevin made a calendar to visualize a suggested growing timeline for certain plants.
 
 Friday, October 19th:
 

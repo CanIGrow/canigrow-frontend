@@ -45,6 +45,7 @@ class EditProfile extends Component {
         } else if (res !== undefined){
           if (res.body.user.facebook === null){res.body.user.facebook = ""};
           if (res.body.user.twitter === null){res.body.user.twitter = ""};
+          console.log('request user data');
           console.log(res.body.user);
           this.setState({userdata:res.body.user,username:res.body.user.username,bio:res.body.user.bio,location:res.body.user.location,location_private:res.body.user.location_private,facebook:res.body.user.facebook,twitter:res.body.user.twitter,});
         }
@@ -78,15 +79,17 @@ class EditProfile extends Component {
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     console.log(this.state.avatar);
     let userobj = {
-      "user": {
+
           "bio": this.state.bio,
           "location": this.state.location,
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
           "twitter":this.state.twitter,
           "avatar":this.state.avatar,
-          }
+
         }
+        console.log('I am sending');
+        console.log(userobj);
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
@@ -128,7 +131,8 @@ _handleImageChange(e) {
 }
 
   render() {
-    // console.log(this.state);
+    console.log('the current state is: ');
+    console.log(this.state);
 
     // This jQuery handles the image preview.
     let {imagePreviewUrl} = this.state;
