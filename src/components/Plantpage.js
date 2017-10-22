@@ -186,7 +186,7 @@ class Plantpage extends Component {
                         if( obj.query.pages[0].thumbnail === undefined){
                           // console.log('No Image to Show');
                           this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                          this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                         } else if(plant_species_image){
                             this.setState({image_message : "null"});
                             console.log(obj.query.pages[0].thumbnail.source);
@@ -194,7 +194,7 @@ class Plantpage extends Component {
                         } else {
                           // console.log('No Plant Image to Show');
                           this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                          this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                         }
                           // If the search was for Hosta.
                           if(search_term === 'Hosta'){
@@ -226,7 +226,7 @@ class Plantpage extends Component {
                               if(obj.query.pages[0].thumbnail !== undefined){
                                 this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                               } else {
-                                this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                                this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                               }
                             }
                             this.setState({image_message : "null"});

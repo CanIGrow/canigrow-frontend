@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 import Header from './Header.js';
 import Footer from './Footer.js';
+// import '../srcImages';
 // import cookie from 'react-cookies';
 // import {connect} from 'react-redux';
 // import {bindActionCreators} from 'redux';
@@ -66,12 +67,14 @@ export default class BaseLayout extends Component {
     }
     else {
       outerStyle = {
-          "backgroundColor": "#D3D3D3",
+          // "backgroundColor": "#D3D3D3",
+          "backgroundPosition": "center top",
+          "backgroundImage": 'url(https://i.imgur.com/fW194uY.jpg)',
           // "backgroundColor": "#EEEEEE",
           // "backgroundColor": "#5D711F",
           // "backgroundColor": "#60AC68",
-
-          "minHeight" : "800px"
+          // "backgroundColor": "blue",
+          "minHeight": "800px"
       }
     }
 
