@@ -79,14 +79,12 @@ class EditProfile extends Component {
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     console.log(this.state.avatar);
     let userobj = {
-
           "bio": this.state.bio,
           "location": this.state.location,
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
           "twitter":this.state.twitter,
           "avatar":this.state.avatar,
-
         }
         console.log('I am sending');
         console.log(userobj);
@@ -110,6 +108,45 @@ class EditProfile extends Component {
   }
   handleChange = (event) => {
     console.log('Selected file:', event.target.files[0]);
+  }
+
+  // Send Image to server
+  uploadImage(e) {
+    console.log("button to upload");
+    e.preventDefault();
+    let token = cookie.load("token");
+    const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+    console.log(this.state.avatar);
+    let userobj = {
+          "bio": this.state.bio,
+          "location": this.state.location,
+          "location_private":this.state.location_private,
+          "facebook":this.state.facebook,
+          "twitter":this.state.twitter,
+          "avatar":this.state.avatar,
+        }
+        console.log('I am sending');
+        console.log(userobj);
+    request
+      .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
+      .set("Authorization", `Token token=${token}`)
+      .send({avatar: this.state.file
+        // filename: this.state.filename,
+        // filetype: this.state.filetype
+      })
+      .end((err, res) => {
+        console.log("Sent");
+        if (err) {
+          console.log(err);
+          this.props.redirectAction([`/`, "Unauthorized"]);
+        } else if (res !== undefined && res.status === 200){
+          console.log(res);
+          this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
+        } else {
+          console.log('else');
+          this.props.redirectAction([`/`, "Unauthorized"]);
+        }
+      })
   }
 
   // Upload an Image
@@ -155,6 +192,9 @@ _handleImageChange(e) {
                 <input className="fileInput"
                  type="file"
                  onChange={(e)=>this._handleImageChange(e)} />
+                 <div className="form-group pull-right">
+                   <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
+                 </div>
                 <div className="imgPreview">
                   {$imagePreview}
                 </div>

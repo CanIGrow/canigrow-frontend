@@ -27,6 +27,40 @@ class Homepage extends Component {
     this.filterlist = this.filterlist.bind(this);
   }
   componentWillMount(){
+    // this handles authentication link post
+    let urlLink = window.location.href;
+    let findChar = "/";
+    let findCharArray = [];
+    let index = urlLink.indexOf(findChar);
+    while (index >= 0) {
+      // System.out.println(index);
+      findCharArray.push(index);
+      index = urlLink.indexOf(findChar, index + 1);
+    }
+    if(findCharArray.length === 5) {
+      let token = urlLink.substring(findCharArray[3]+1, findCharArray[4]);
+      let email = urlLink.substring(findCharArray[4]+1, urlLink.length);
+
+      // This verifies authentication has occurred.
+      const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
+      request
+        .post(`${proxyurl}https://canigrow.herokuapp.com/account_activations/activate`)
+        .send({id: token, email: email})
+         .end((err, res) => {
+           if (err) {
+              this.setState({error: res.body.error,message:false});
+           } else {
+             if (res !== undefined && res.body !== undefined){
+             console.log(res.body);
+
+           } else if (res !== undefined && res.body.token === undefined){
+            //  this.setState({error: res.body.message,message:false});
+           }
+           }
+         })
+    }
+
+    // This handles redirections.
     if (this.props.redirection && this.props.redirection[0] !== undefined){
       this.setState({message:this.props.redirection[1]}, ()=>{
         this.props.redirectAction([false, false]);
