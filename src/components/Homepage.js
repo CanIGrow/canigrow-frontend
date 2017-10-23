@@ -432,7 +432,7 @@ class Homepage extends Component {
                   className="homepage-search-box"/>
               </div>
               <div className="settings-centering">
-              {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm">{this.state.zone}</a>: ""}
+              {this.state.zone ? <a href="https://www.gardeningknowhow.com/planting-zones/usda-planting-zone-map.htm" className="font-size-25px">{this.state.zone}</a>: ""}
               </div>
               {this.state.date ? (
                 <div>
