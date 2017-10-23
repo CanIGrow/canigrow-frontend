@@ -31,6 +31,9 @@ class Userpage extends Component {
       plantdragging: false,
       click:false,
       deleting:false,
+      avatar: false,
+      file: '',
+      imagePreviewUrl: '',
     };
     this.reloaduser = this.reloaduser.bind(this);
     this.editplots = this.editplots.bind(this);
@@ -211,17 +214,38 @@ class Userpage extends Component {
     }
   }
   render() {
+
+    // This jQuery handles the image preview.
+    let $imagePreview = null;
+    let imagePreviewUrl = null;
+    if(this.state){
+      if(this.state.userdata){
+        if(this.state.userdata.avatar){
+          // console.log(this.state.userdata);
+          // console.log(this.state.userdata.avatar);
+          imagePreviewUrl = this.state.userdata.avatar;
+        }
+      }
+    }
+    if (imagePreviewUrl) {
+      $imagePreview = (<img src={imagePreviewUrl} />);
+    } else {
+      $imagePreview = (<div className="previewText">Please select an Avatar Image</div>);
+    }
+
+
+
     let editbutton = false;
     if (this.state.canedit && !this.state.editing){
       editbutton =
       <div>
-        <button className="btn-danger"
+        <button className="btn-success"
         onClick={event => this.beginediting(event)}>Edit Plots</button>
       </div>
     } else if (this.state.canedit && this.state.editing){
       editbutton =
       <div>
-        <button className="btn-danger"
+        <button className="btn-success"
         onClick={event => this.finishediting(event)}>Finish Editing Plots</button>
         <p>Click and drag plants to move, copy, or delete them!</p>
       </div>
@@ -249,11 +273,11 @@ class Userpage extends Component {
           onChange={this.handleTextChange}/></h4>
           <div className="userpage-plant-div">
           </div>
-          <button className="btn-danger"
+          <button className="btn-success"
             onClick={event => this.edituser(event, "canceladdnewplot")}>
           Cancel
           </button>
-          <button className="btn-danger"
+          <button className="btn-success"
             onClick={event => this.edituser(event, "validate", this.state.newplotname)}>
           Submit
           </button>
@@ -291,10 +315,13 @@ class Userpage extends Component {
           <h2>{this.state.userdata.username}</h2>
           {this.state.canedit ? (
           <div>
-            <button className="btn-danger"
+            <button className="btn-success"
             onClick={event => this.editprofileredirect(event, this.state.userdata.username)}>Edit Profile</button>
           </div>
           ):""}
+          <div className="imgPreview">
+            {$imagePreview}
+          </div>
           <p className="userpage-bio-info">{bio}</p>
           {this.state.userdata.location_private ? (""):(
             <p className="userpage-bio-info">{this.state.userdata.location}</p>

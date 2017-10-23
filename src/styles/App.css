@@ -416,7 +416,8 @@ TEMP MODAL STYLES
   width: 570px;
 }
 .plant_page_graph_messages{
-  width: 525px;
+  margin-left: 20pt;
+  width: 500px;
 }
 .font-size-16px{
   font-size: 16pt;
@@ -521,6 +522,19 @@ TEMP MODAL STYLES
 .margin-left-200{
   margin-left: -200pt;
 }
+.margin-left-10pt{
+  margin-left: 10pt;
+}
+.width-800px{
+  width: 800px;
+}
+.flex-box-center{
+  display: flex;
+  justify-content: center;
+}
+.down-55pt{
+  margin-top: 55pt;
+}
 
 /*******************************/
   /*For PlantCalendar.jsx*/
@@ -536,6 +550,16 @@ div [title="Harvest Today"] {
   /*width: 90px;*/
   height: 120px;
   background:url(http://www.growhappy.ca/assets/img/george_harvest4.jpg);
+  background-size: 90px 90px;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+div [title="Plant Today"] {
+  /*color: Green;*/
+  /*content:url(http://www.growhappy.ca/assets/img/george_harvest4.jpg);*/
+  /*width: 90px;*/
+  height: 120px;
+  background:url(http://mediad.publicbroadcasting.net/p/vpr/files/styles/x_large/public/201703/Seed-iStock-bo1982-20170316.jpg);
   background-size: 90px 90px;
   background-repeat: no-repeat;
   background-position: center bottom;

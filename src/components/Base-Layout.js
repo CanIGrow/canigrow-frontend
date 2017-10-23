@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/App.css';
 import Header from './Header.js';
 import Footer from './Footer.js';
+// import '../srcImages';
 // import cookie from 'react-cookies';
 // import {connect} from 'react-redux';
 // import {bindActionCreators} from 'redux';
@@ -66,12 +67,22 @@ export default class BaseLayout extends Component {
     }
     else {
       outerStyle = {
-          "backgroundColor": "#D3D3D3",
+          // "backgroundColor": "#D3D3D3",
+          "backgroundPosition": "center center",
+          // "backgroundImage": 'url(https://i.imgur.com/fW194uY.jpg)',
+          "backgroundImage": 'url(http://www.loversiq.com/daut/as/f/f/flowers-nature-plant-beautiful-green-red-yellow-pink-blue-1811457_beautiful-plants_home-decor_target-home-decor-decorating-blogs-inexpensive-fall-websites-walmart-pinterest-decorator.jpg)',
+          "width": "100%",
+          "height": "100%",
+          // "-webkit-background-size": "cover",
+          // "-moz-background-size": "cover",
+          // "-o-background-size": "cover",
+          //  "background-size": "cover",
+
           // "backgroundColor": "#EEEEEE",
           // "backgroundColor": "#5D711F",
           // "backgroundColor": "#60AC68",
-
-          "minHeight" : "800px"
+          // "backgroundColor": "blue",
+          "minHeight": "800px"
       }
     }
 

@@ -7,6 +7,8 @@ import {setZip} from '../actions/zipcodeAction.js';
 import {redirectAction} from '../actions/actions.js';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { Button } from 'react-bootstrap';
+let Alert = require('react-bootstrap').Alert;
 
 class Homepage extends Component {
   constructor(props){
@@ -23,8 +25,12 @@ class Homepage extends Component {
       suggested: false,
       date: false,
       divisionsChecked: true,
+      added_to_plot: "",
+      alertVisible: false,
     }
     this.filterlist = this.filterlist.bind(this);
+    // this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
+
   }
   componentWillMount(){
     // this handles authentication link post
@@ -47,16 +53,23 @@ class Homepage extends Component {
         .post(`${proxyurl}https://canigrow.herokuapp.com/account_activations/activate`)
         .send({id: token, email: email})
          .end((err, res) => {
+           let message = null;
            if (err) {
               this.setState({error: res.body.error,message:false});
            } else {
              if (res !== undefined && res.body !== undefined){
              console.log(res.body);
+             message = `Successfully added to plot!`;
+             if(res.body.error !== undefined){
+               message = res.body.error;
+             }
 
            } else if (res !== undefined && res.body.token === undefined){
             //  this.setState({error: res.body.message,message:false});
            }
            }
+           this.setState({added_to_plot: message,
+           alertVisible:true });
          })
     }
 
@@ -66,6 +79,10 @@ class Homepage extends Component {
         this.props.redirectAction([false, false]);
       });
     }
+  }
+  // This makes alerts go away.
+  handleAlertDismiss = () => {
+    this.setState({alertVisible: false});
   }
   componentDidMount(){
     request
@@ -383,7 +400,15 @@ class Homepage extends Component {
     }
     return (
       <div className="homepage-container main-component-container">
-        <div className="homepage-sub-container container">
+        {this.state.alertVisible ? (<div>
+          <Alert className="alert alert-success" onDismiss={this.handleAlertDismiss}>
+                    <h4>{this.state.added_to_plot}</h4>
+                    <p>
+                      <Button onClick={this.handleAlertDismiss}>Hide Alert</Button>
+                    </p>
+                  </Alert>
+        </div>): ""}
+        <div className="homepage-sub-container container down-55pt">
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
               <h2 className="homepage-search-title">
