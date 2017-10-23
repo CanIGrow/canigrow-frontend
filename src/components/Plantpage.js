@@ -640,6 +640,15 @@ class Plantpage extends Component {
             </NavLink>
         </div>
     }
+    let calendarButton = null;
+    if(this.state.plantdata.spring_start_relative_last_frost){
+      calendarButton =
+      <div className='m'>
+          <NavLink activeClassName="selected" to={`/calendar/${ this.state.plantdata.plant_id }`}>
+            <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='View a Growing Schedule'/>
+          </NavLink>
+      </div>
+    }
 
 
 
@@ -703,30 +712,37 @@ class Plantpage extends Component {
               </div>
 
               <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
-                <p className="font-size-16px margin-left-20pt">Based on your location:</p>
+                <p className="font-size-16px margin-left-10pt">Based on your location:</p>
                 {this.state.plantdata ? (
                   <div>
-                    <p className="font-size-16px margin-left-20pt">{this.state.sunMessage}</p>
-                    <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
-                    <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
-                    <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.sunMessage}</p>
+                    <p className="font-size-16px margin-left-10pt ">{this.state.waterMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.soilMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.maturationMessage}</p>
 
                     <div className="plant_page_buttons">
                       <div className="plant_page_comments margin-left-20pt">
-                        {/* <h2>Comments:</h2> */}
-                        {/* <div className="plant_comments">{plantComments}</div> */}
-                        <div className="dropdown">
+                        <div>
+                          {calendarButton}
+                        </div>
+
+                        {/* These hold old versions of the comment buttons. */}
+                        {/* <div className="dropdown">
                           <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
                           <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
                             <div className="plant_comments">{plantComments}</div>
                           </div>
-                        </div>
-                      </div>
-                      <div>
-                        {commentFormButton}
-                      </div>
-                    </div>
+                        </div> */}
 
+                      </div>
+
+
+
+                      {/* <div>
+                        {commentFormButton}
+                      </div> */}
+
+                    </div>
 
 
                     <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>
