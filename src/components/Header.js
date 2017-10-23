@@ -48,7 +48,7 @@ class Header extends Component {
         <div>
           <Link to="/canigrow-frontend/">Home</Link><br/>
           <span className="btn-link manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
-          <Link className="btn-link" to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
+          <Link className="btn-link" to={`/canigrow-frontend/user/${ this.props.username }`}>{this.props.username}</Link><br/>
         </div>
         rightButtons =
         <div className="changeButtons">
@@ -56,7 +56,7 @@ class Header extends Component {
             {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
             <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
           </NavLink>
-          <NavLink className="verti-center" to={`/user/${ this.props.username }`}>
+          <NavLink className="verti-center" to={`/canigrow-frontend/user/${ this.props.username }`}>
             <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
           </NavLink>
           {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/canigrow-frontend/login"> */}
