@@ -196,11 +196,17 @@ class Plantpage extends Component {
                           this.setState({image_message : "There is no image available for this plant in our database at this time."});
                           this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                         }
+                        console.log(search_term);
                           // If the search was for Hosta.
                           if(search_term === 'Hosta'){
                             this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
 
-                        }
+                          }
+                          // If the search was for Brassica oleracea.
+                          if(search_term === 'Brassica oleracea'){
+                            this.setState({wikipedia_image_final: 'https://www.bountifulgardens.org/attachments/fb473a3a66176a39e3e392e44a7d3c2a1cf5ebab/store/44d6099825987fd4acbb213e3651f06ead83360684ae9bea2dca5b10f133/VBR-2560-Broccoli-purple-sprouting-web.jpg'});
+
+                          }
                       } else {
                         // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
                         console.log("Try to get images another way");
