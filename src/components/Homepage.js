@@ -408,7 +408,7 @@ class Homepage extends Component {
                     </p>
                   </Alert>
         </div>): ""}
-        <div className="homepage-sub-container container">
+        <div className="homepage-sub-container container down-55pt">
           <div className="homepage-search-container container">
             <div className="pagination-centered text-center">
               <h2 className="homepage-search-title">
