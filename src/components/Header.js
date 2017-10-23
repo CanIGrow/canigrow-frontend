@@ -100,7 +100,7 @@ class Header extends Component {
           data-toggle="modal" data-target="#hamburger-menu">
             &#9776;
           </button>
-          <img src={require('./canigrowlogo.png')} className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
+          <img src={require('./canigrowlogo2.png')} className='canigrowlogo-mobile' value='Homepage' alt="canigrow logo"/>
         </div>
         <div className="container">
           <div className="modal left fade in" id="hamburger-menu" tabIndex="-1" >
