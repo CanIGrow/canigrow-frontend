@@ -353,7 +353,7 @@ class Homepage extends Component {
       suggestedResults =
         <div className="container text-center">
           <h3 className="pagination-centered text-center">
-            Suggestions
+            Grows Well In Your Area:
           </h3>
           <p>
             Suggestions based on {this.state.zipcode} and {this.state.date.searchSeason}
