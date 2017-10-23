@@ -583,7 +583,7 @@ class Plantpage extends Component {
     } else {
       propsDropDown =
       <div className="centerHomeButton">
-          <NavLink activeClassName="selected" to="/login">
+          <NavLink activeClassName="selected" to="/canigrow-frontend/login">
             <input className='btn btn-primary btn-lg' type='submit' value='Login to save plants to your garden'/>
           </NavLink>
       </div>
@@ -641,7 +641,7 @@ class Plantpage extends Component {
     if(this.state.plantdata){
       commentFormButton =
         <div className='margin-left-200'>
-            <NavLink activeClassName="selected" to="/login">
+            <NavLink activeClassName="selected" to="/canigrow-frontend/login">
               <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='Login to Comment'/>
             </NavLink>
         </div>

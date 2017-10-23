@@ -107,7 +107,7 @@ class Register extends Component {
     if (this.props.token) {
       registerContents =
       <div className="centerHomeButton">
-        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
+        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/canigrow-frontend/">
           <div>Registration Successful!</div>
           <div>You are now logged in as: {this.props.username}</div>
           <span>Go to the Homepage</span>
