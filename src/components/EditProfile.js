@@ -41,7 +41,7 @@ class EditProfile extends Component {
       .end((err, res)=>{
         if (err){
           //If user does not exist:
-          this.props.redirectAction([`/`, "Unauthorized"]);
+          this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined){
           if (res.body.user.facebook === null){res.body.user.facebook = ""};
           if (res.body.user.twitter === null){res.body.user.twitter = ""};
@@ -56,7 +56,7 @@ class EditProfile extends Component {
         && cookie.load("username") === this.props.username){
       this.setState({canedit: true});
     } else {
-      this.props.redirectAction([`/`, "Unauthorized"]);
+      this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
     }
   }
   componentDidUpdate(){
@@ -96,13 +96,13 @@ class EditProfile extends Component {
         console.log("Sent");
         if (err) {
           console.log(err);
-          this.props.redirectAction([`/`, "Unauthorized"]);
+          this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
           console.log(res);
-          this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
+          this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
           console.log('else');
-          this.props.redirectAction([`/`, "Unauthorized"]);
+          this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         }
       })
   }
@@ -138,13 +138,13 @@ class EditProfile extends Component {
         console.log("Sent");
         if (err) {
           console.log(err);
-          this.props.redirectAction([`/`, "Unauthorized"]);
+          this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
           console.log(res);
-          this.props.redirectAction([`/user/${this.props.username}`, "Profile Edited"]);
+          this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
           console.log('else');
-          this.props.redirectAction([`/`, "Unauthorized"]);
+          this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         }
       })
   }

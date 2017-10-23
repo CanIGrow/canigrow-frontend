@@ -86,7 +86,7 @@ class Register extends Component {
              let propertyname = Object.getOwnPropertyNames(res.body.errors)[0];
              this.setState({error: [propertyname+" "+res.body.errors[propertyname]]});
             } else {
-            this.props.redirectAction(["/login", "Registration successful, please check your email for a confirmation message!"]);
+            this.props.redirectAction(["/canigrow-frontend/login", "Registration successful, please check your email for a confirmation message!"]);
             }
           })
      } else {
@@ -107,7 +107,7 @@ class Register extends Component {
     if (this.props.token) {
       registerContents =
       <div className="centerHomeButton">
-        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
+        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/canigrow-frontend/">
           <div>Registration Successful!</div>
           <div>You are now logged in as: {this.props.username}</div>
           <span>Go to the Homepage</span>
@@ -162,7 +162,7 @@ class Register extends Component {
       {registerContents}
       {/* // This redirects when the user is logged in (has a token). */}
       {this.props.token && (
-         <Redirect to={`/`}/>
+         <Redirect to={`/canigrow-frontend/`}/>
        )}
        {this.state.fireredirect && (
           <Redirect to={this.props.redirection[0]}/>

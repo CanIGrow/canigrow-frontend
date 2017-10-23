@@ -574,7 +574,7 @@ class Plantpage extends Component {
       } else {
         propsDropDown =
         <div className="centerHomeButton">
-          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+          <NavLink activeClassName="selected" to={`/canigrow-frontend/user/${ this.props.username }`}>
             <input className='btn btn-primary btn-lg' type='submit' value='Create A Plot'/>
           </NavLink>
         </div>
@@ -583,7 +583,7 @@ class Plantpage extends Component {
     } else {
       propsDropDown =
       <div className="centerHomeButton">
-          <NavLink activeClassName="selected" to="/login">
+          <NavLink activeClassName="selected" to="/canigrow-frontend/login">
             <input className='btn btn-primary btn-lg' type='submit' value='Login to save plants to your garden'/>
           </NavLink>
       </div>
@@ -641,7 +641,7 @@ class Plantpage extends Component {
     if(this.state.plantdata){
       commentFormButton =
         <div className='margin-left-200'>
-            <NavLink activeClassName="selected" to="/login">
+            <NavLink activeClassName="selected" to="/canigrow-frontend/login">
               <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='Login to Comment'/>
             </NavLink>
         </div>
@@ -651,7 +651,7 @@ class Plantpage extends Component {
     if(this.state.plantdata.spring_start_relative_last_frost){
       calendarButton =
       <div className='m'>
-          <NavLink activeClassName="selected" to={`/calendar/${ this.state.plantdata.plant_id }`}>
+          <NavLink activeClassName="selected" to={`/canigrow-frontend/calendar/${ this.state.plantdata.plant_id }`}>
             <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='View a Growing Schedule'/>
           </NavLink>
       </div>

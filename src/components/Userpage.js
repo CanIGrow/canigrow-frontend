@@ -134,7 +134,7 @@ class Userpage extends Component {
   }
   editprofileredirect(event, username){
     event.preventDefault();
-    this.props.redirectAction([`/edit/${username}`, "Edit"]);
+    this.props.redirectAction([`/canigrow-frontend/edit/${username}`, "Edit"]);
   }
   edituser(event, target, data){
     event.preventDefault();
@@ -358,7 +358,7 @@ class Userpage extends Component {
                           <h5>{plant.plant}</h5>
                           </div>
                         ):(
-                          <a onClick={event => this.props.redirectAction(["/plants/"+plant.plant_id, ""])}
+                          <a onClick={event => this.props.redirectAction(["/canigrow-frontend/plants/"+plant.plant_id, ""])}
                             className="userpage-plant-link">
                           <h5>{plant.plant}</h5>
                           </a>

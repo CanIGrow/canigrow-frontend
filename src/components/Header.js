@@ -34,7 +34,7 @@ class Header extends Component {
     }
   }
   handleLogoutClick() {
-    this.props.redirectAction(["/logout", "Logging out..."]);
+    this.props.redirectAction(["/canigrow-frontend/logout", "Logging out..."]);
   }
 
   render() {
@@ -46,20 +46,20 @@ class Header extends Component {
       if (this.props.token) {
         popoverbuttons =
         <div>
-          <Link to="/">Home</Link><br/>
+          <Link to="/canigrow-frontend/">Home</Link><br/>
           <span className="btn-link manual-link-style" onClick={this.handleLogoutClick} value='LogOut'>Logout</span><br/>
-          <Link className="btn-link" to={`/user/${ this.props.username }`}>{this.props.username}</Link><br/>
+          <Link className="btn-link" to={`/canigrow-frontend/user/${ this.props.username }`}>{this.props.username}</Link><br/>
         </div>
         rightButtons =
         <div className="changeButtons">
-          <NavLink className="verti-center" to="/">
+          <NavLink className="verti-center" to="/canigrow-frontend/">
             {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
             <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
           </NavLink>
-          <NavLink className="verti-center" to={`/user/${ this.props.username }`}>
+          <NavLink className="verti-center" to={`/canigrow-frontend/user/${ this.props.username }`}>
             <input className='btn btn-link font-size-25px' type='submit' value={userButton}/>
           </NavLink>
-          {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/login"> */}
+          {/* <NavLink activeClassName="selected" onClick={this.removeToken} to="/canigrow-frontend/login"> */}
           <a className="verti-center">
             <input className='btn btn-link font-size-25px' onClick={this.handleLogoutClick} type='submit' value='LogOut'/>
           </a>
@@ -68,20 +68,20 @@ class Header extends Component {
         // If the user is logged out show.
         popoverbuttons =
         <div>
-          <Link to="/">Home</Link><br/>
-          <Link to="/register">Register</Link><br/>
-          <Link to="/login">Login</Link><br/>
+          <Link to="/canigrow-frontend/">Home</Link><br/>
+          <Link to="/canigrow-frontend/register">Register</Link><br/>
+          <Link to="/canigrow-frontend/login">Login</Link><br/>
         </div>
         rightButtons =
         <div className="changeButtons">
-          <NavLink className="verti-center" to="/">
+          <NavLink className="verti-center" to="/canigrow-frontend/">
             {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
             <img src={require('./home.png')} width="55px" className='btn btn-link' alt="home logo" value='Homepage'/>
           </NavLink>
-          <NavLink className="verti-center" to="/register">
+          <NavLink className="verti-center" to="/canigrow-frontend/register">
             <input className='btn btn-link font-size-25px' type='submit' value='Register'/>
           </NavLink>
-          <NavLink className="verti-center" to="/login">
+          <NavLink className="verti-center" to="/canigrow-frontend/login">
             <input className='btn btn-link font-size-25px' type='submit' value='Login'/>
           </NavLink>
         </div>;
@@ -89,7 +89,7 @@ class Header extends Component {
     return (
       <div className="header-container">
         <div className="container align-middle header-navbar">
-          <NavLink className="canigrowlogo-container" to="/">
+          <NavLink className="canigrowlogo-container" to="/canigrow-frontend/">
             {/*<input className='canigrowlogo btn btn-outline-primary' type='submit' value='Homepage'/>*/}
             <img src={require('./canigrowlogo.png')} className='canigrowlogo' alt="canigrow logo" value='Homepage'/>
           </NavLink>
@@ -115,7 +115,7 @@ class Header extends Component {
                 </span>
 						  </button>
                 {popoverbuttons ? popoverbuttons : ""}
-                  <Link to="/users">Users</Link>
+                  <Link to="/canigrow-frontend/users">Users</Link>
               </div>
             </div>
           </div>
@@ -128,10 +128,10 @@ class Header extends Component {
     // <div className="header-container">
     //   <div className="container align-middle header-navbar">
     //     <div className="row">
-    //       <div className="col text-center"><Link to="/">Home</Link></div>
-    //       <div className="col text-center"><Link to="/plants/:id">Plants</Link></div>
-    //       <div className="col text-center"><Link to="/register">Register</Link></div>
-    //       <div className="col text-center"><Link to="/login">Login</Link></div>
+    //       <div className="col text-center"><Link to="/canigrow-frontend/">Home</Link></div>
+    //       <div className="col text-center"><Link to="/canigrow-frontend/plants/:id">Plants</Link></div>
+    //       <div className="col text-center"><Link to="/canigrow-frontend/register">Register</Link></div>
+    //       <div className="col text-center"><Link to="/canigrow-frontend/login">Login</Link></div>
     //     </div>
     //   </div>
     // </div>

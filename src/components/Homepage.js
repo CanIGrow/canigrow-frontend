@@ -335,7 +335,7 @@ class Homepage extends Component {
             {this.state.filteredplantdata.length} Results
           </p>
           {this.state.filteredplantdata.map((x, i) =>{
-            let inlinelink = `/plants/${x.plant_id}`
+            let inlinelink = `/canigrow-frontend/plants/${x.plant_id}`
             return (
               <div className="rounded" key={x.plant_id}>
                 <h4>
@@ -359,7 +359,7 @@ class Homepage extends Component {
             Suggestions based on {this.state.zipcode} and {this.state.date.searchSeason}
           </p>
           {this.state.suggested.map((x, i) =>{
-            let inlinelink = `/plants/${x.plant_id}`
+            let inlinelink = `/canigrow-frontend/plants/${x.plant_id}`
             return (
               <div className="rounded" key={x.plant_id}>
                 <h4>
