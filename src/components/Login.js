@@ -127,7 +127,7 @@ class Login extends Component {
         {loginContents}
         {/* // This redirects when the user is logged in (has a token). */}
         {this.props.token && (
-           <Redirect to={`/`}/>
+           <Redirect to={`/canigrow-frontend/`}/>
          )}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>

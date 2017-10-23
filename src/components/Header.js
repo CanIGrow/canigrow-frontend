@@ -34,7 +34,7 @@ class Header extends Component {
     }
   }
   handleLogoutClick() {
-    this.props.redirectAction(["/logout", "Logging out..."]);
+    this.props.redirectAction(["/canigrow-frontend/logout", "Logging out..."]);
   }
 
   render() {
