@@ -48,7 +48,9 @@ class PasswordReset extends Component {
       .send({email: this.state.username})
        .end((err, res) => {
          if (err) {
-            this.setState({error: res.body.error});
+           if(res.body !== null){
+             this.setState({error: res.body.error});
+           }
          } else {
            if (res !== undefined){
             console.log(res.body);
