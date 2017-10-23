@@ -646,6 +646,7 @@ class Plantpage extends Component {
             </NavLink>
         </div>
     }
+    // This generates the calendar link.
     let calendarButton = null;
     if(this.state.plantdata.spring_start_relative_last_frost){
       calendarButton =
