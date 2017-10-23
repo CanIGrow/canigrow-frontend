@@ -525,6 +525,13 @@ TEMP MODAL STYLES
 .margin-left-10pt{
   margin-left: 10pt;
 }
+.width-800px{
+  width: 800px;
+}
+.flex-box-center{
+  display: flex;
+  justify-content: center;
+}
 
 /*******************************/
   /*For PlantCalendar.jsx*/
