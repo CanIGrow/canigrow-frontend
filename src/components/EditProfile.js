@@ -179,9 +179,9 @@ _handleImageChange(e) {
                 <input className="fileInput"
                  type="file"
                  onChange={(e)=>this._handleImageChange(e)} />
-                 {/*}<div className="form-group pull-right">
+                 }<div className="form-group pull-right">
                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
-                 </div>*/}
+                 </div>
                 <div className="imgPreview">
                   {$imagePreview}
                 </div>
