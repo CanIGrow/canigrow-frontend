@@ -65,7 +65,6 @@ class Register extends Component {
   }
   register(event) {
      event.preventDefault();
-     console.log(this.state.password);
      if (this.state.usernameinput.length > 4 && this.state.password.length > 4 && this.state.password2.length > 4 && (!this.state.passworderror) && (!this.state.usernameinputerror)){
        const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
        request

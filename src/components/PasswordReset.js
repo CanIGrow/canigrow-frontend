@@ -53,7 +53,6 @@ class PasswordReset extends Component {
            }
          } else {
            if (res !== undefined){
-            console.log(res.body);
             this.setState({error: res.body.message});
            }
          }

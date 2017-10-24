@@ -29,7 +29,7 @@ class Logout extends Component {
     }
   }
   componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0] && this.props.redirection[0] !== "/logout"){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0] && this.props.redirection[0] !== "/canigrow-frontend/logout"){
       this.setState({fireredirect:true});
     }
   }
@@ -41,13 +41,15 @@ class Logout extends Component {
       message = "Redirecting...";
     }
     return (
-      <div>
-      <h1 className="pagination-centered text-center">
-        {message ? message : ""}
-      </h1>
-       {this.state.fireredirect && (
-          <Redirect to={this.props.redirection[0]}/>
-        )}
+      <div className="container-fluid flex-box-center down-55pt">
+        <div className="card pagination-centered width-800px text-center">
+          <h1 className="pagination-centered text-center">
+            {message ? message : ""}
+          </h1>
+        </div>
+        {this.state.fireredirect && (
+           <Redirect to={this.props.redirection[0]}/>
+         )}
       </div>
     )
   }

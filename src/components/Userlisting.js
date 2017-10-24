@@ -27,7 +27,6 @@ class Userlisiting extends Component {
     request
       .get(`${proxyurl}https://canigrow.herokuapp.com/api/users/`)
       .end((err,res)=>{
-        console.log(res);
         // if (res !== undefined){
         //   this.setState({data: });
         // }

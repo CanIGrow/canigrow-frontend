@@ -51,7 +51,7 @@ class AuthenticationRequest extends Component {
             this.setState({error: res.body.error});
          } else {
            if (res !== undefined){
-            console.log(res.body);
+            // console.log(res.body);
             this.setState({error: res.body.message});
            }
          }
