@@ -80,7 +80,8 @@ class EditProfile extends Component {
           "location": this.state.location,
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
-          "twitter":this.state.twitter
+          "twitter":this.state.twitter,
+          "avatar":this.state.file,
         }
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
@@ -108,25 +109,29 @@ class EditProfile extends Component {
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
     // console.log(this.state.avatar);
-    // let userobj = {
-    //       "bio": this.state.bio,
-    //       "location": this.state.location,
-    //       "location_private":this.state.location_private,
-    //       "facebook":this.state.facebook,
-    //       "twitter":this.state.twitter,
-    //       "avatar":this.state.avatar,
-    //     }
+    let userobj = {
+          "bio": this.state.bio,
+          "location": this.state.location,
+          "location_private":this.state.location_private,
+          "facebook":this.state.facebook,
+          "twitter":this.state.twitter,
+          "avatar":this.state.avatar,
+        }
+        console.log('I am sending');
+        // console.log(userobj);
+        console.log(this.state.file);
+        console.log(token);
+        // console.log(this.state.imagePreviewUrl);
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
-      .send({avatar: this.state.file
-        // filename: this.state.filename,
-        // filetype: this.state.filetype
-      })
+      .send({avatar: this.state.imagePreviewUrl})
       .end((err, res) => {
         if (err) {
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
+          console.log(res.body);
+          console.log(res.body.avatar_file_name);
           this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
@@ -174,9 +179,9 @@ _handleImageChange(e) {
                 <input className="fileInput"
                  type="file"
                  onChange={(e)=>this._handleImageChange(e)} />
-                 {/*}<div className="form-group pull-right">
+                 }<div className="form-group pull-right">
                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
-                 </div>*/}
+                 </div>
                 <div className="imgPreview">
                   {$imagePreview}
                 </div>

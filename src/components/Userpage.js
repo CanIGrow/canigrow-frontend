@@ -54,6 +54,7 @@ class Userpage extends Component {
           //If user does not exist:
           this.setState({userexists: false});
         } else if (res !== undefined){
+          // console.log(res.body.user);
           this.setState({userdata: res.body.user});
         }
       })
