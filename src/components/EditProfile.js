@@ -170,6 +170,11 @@ _handleImageChange(e) {
   render() {
     console.log('the current state is: ');
     console.log(this.state);
+    console.log(this.state.avatar);
+    console.log(this.state.userdata.avatar);
+
+
+
 
     // This jQuery handles the image preview.
     let {imagePreviewUrl} = this.state;
