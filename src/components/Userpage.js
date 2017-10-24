@@ -294,14 +294,22 @@ class Userpage extends Component {
     //This holds the main body of the data, including the user, bio, plots, and plants
     if (!this.state.userexists){
       userobjectdata =
-        <h1 className="pagination-centered text-center">
-          User Does Not Exist
-        </h1>
+      <div className="container pagination-centered text-center">
+        <div className="homepage-sub-container">
+          <h1 className="pagination-centered text-center">
+            User Does Not Exist
+          </h1>
+        </div>
+      </div>
     } else if (!this.state.userdata){
       userobjectdata =
-        <h1 className="pagination-centered text-center">
-          Loading...
-        </h1>
+      <div className="container pagination-centered text-center">
+        <div className="homepage-sub-container">
+          <h1 className="pagination-centered text-center">
+            Loading...
+          </h1>
+        </div>
+      </div>
     } else {
       let bio = ""
       if (this.state.userdata.bio !== ""){

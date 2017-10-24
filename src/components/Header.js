@@ -115,7 +115,6 @@ class Header extends Component {
                 </span>
 						  </button>
                 {popoverbuttons ? popoverbuttons : ""}
-                  <Link to="/canigrow-frontend/users">Users</Link>
               </div>
             </div>
           </div>

@@ -15,7 +15,6 @@ class Logout extends Component {
     };
   }
   componentWillMount(){
-    console.log("COMPONENT IS MOUNTING");
     this.props.logout();
     if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('username', {path: '/user'}) !== undefined || cookie.load('token', {path: '/user'}) !== undefined || cookie.load('email') !== undefined || cookie.load('load', {path: '/user'}) !== undefined){
       cookie.remove('token');
@@ -42,13 +41,15 @@ class Logout extends Component {
       message = "Redirecting...";
     }
     return (
-      <div>
-      <h1 className="pagination-centered text-center">
-        {message ? message : ""}
-      </h1>
-       {this.state.fireredirect && (
-          <Redirect to={this.props.redirection[0]}/>
-        )}
+      <div className="container-fluid flex-box-center down-55pt">
+        <div className="card pagination-centered width-800px text-center">
+          <h1 className="pagination-centered text-center">
+            {message ? message : ""}
+          </h1>
+        </div>
+        {this.state.fireredirect && (
+           <Redirect to={this.props.redirection[0]}/>
+         )}
       </div>
     )
   }
