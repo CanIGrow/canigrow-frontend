@@ -15,6 +15,7 @@ class Logout extends Component {
     };
   }
   componentWillMount(){
+    console.log("COMPONENT IS MOUNTING");
     this.props.logout();
     if (cookie.load("token") !== undefined || cookie.load('username') !== undefined || cookie.load('username', {path: '/user'}) !== undefined || cookie.load('token', {path: '/user'}) !== undefined || cookie.load('email') !== undefined || cookie.load('load', {path: '/user'}) !== undefined){
       cookie.remove('token');
@@ -29,7 +30,7 @@ class Logout extends Component {
     }
   }
   componentDidUpdate(){
-    if (this.props.redirection[0] !== undefined && this.props.redirection[0] && this.props.redirection[0] !== "/logout"){
+    if (this.props.redirection[0] !== undefined && this.props.redirection[0] && this.props.redirection[0] !== "/canigrow-frontend/logout"){
       this.setState({fireredirect:true});
     }
   }

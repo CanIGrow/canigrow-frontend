@@ -226,7 +226,7 @@ class Userpage extends Component {
       }
     }
     if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} />);
+      $imagePreview = (<img alt="" src={imagePreviewUrl} />);
     } else {
       $imagePreview = (<div className="previewText">Please select an Avatar Image</div>);
     }
