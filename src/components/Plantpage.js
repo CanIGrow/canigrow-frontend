@@ -186,7 +186,7 @@ class Plantpage extends Component {
                         if( obj.query.pages[0].thumbnail === undefined){
                           // console.log('No Image to Show');
                           this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                          this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                         } else if(plant_species_image){
                             this.setState({image_message : "null"});
                             console.log(obj.query.pages[0].thumbnail.source);
@@ -194,13 +194,19 @@ class Plantpage extends Component {
                         } else {
                           // console.log('No Plant Image to Show');
                           this.setState({image_message : "There is no image available for this plant in our database at this time."});
-                          this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                          this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                         }
+                        console.log(search_term);
                           // If the search was for Hosta.
                           if(search_term === 'Hosta'){
                             this.setState({wikipedia_image_final: 'https://www.whiteflowerfarm.com/mas_assets/cache/image/3/6/6/f/13935.Jpg'});
 
-                        }
+                          }
+                          // If the search was for Brassica oleracea.
+                          if(search_term === 'Brassica oleracea'){
+                            this.setState({wikipedia_image_final: 'https://www.bountifulgardens.org/attachments/fb473a3a66176a39e3e392e44a7d3c2a1cf5ebab/store/44d6099825987fd4acbb213e3651f06ead83360684ae9bea2dca5b10f133/VBR-2560-Broccoli-purple-sprouting-web.jpg'});
+
+                          }
                       } else {
                         // This is a  different request that returns different json. It is an alternative way to obtain an image using only one search term.
                         console.log("Try to get images another way");
@@ -226,7 +232,7 @@ class Plantpage extends Component {
                               if(obj.query.pages[0].thumbnail !== undefined){
                                 this.setState({wikipedia_image_final: obj.query.pages[0].thumbnail.source});
                               } else {
-                                this.setState({wikipedia_image_final: 'https://target.scene7.com/is/image/Target/52113936_Alt01?wid=520&hei=520&fmt=pjpeg'});
+                                this.setState({wikipedia_image_final: 'https://i.imgur.com/J7vF1F0.jpg'});
                               }
                             }
                             this.setState({image_message : "null"});
@@ -568,7 +574,7 @@ class Plantpage extends Component {
       } else {
         propsDropDown =
         <div className="centerHomeButton">
-          <NavLink activeClassName="selected" to={`/user/${ this.props.username }`}>
+          <NavLink activeClassName="selected" to={`/canigrow-frontend/user/${ this.props.username }`}>
             <input className='btn btn-primary btn-lg' type='submit' value='Create A Plot'/>
           </NavLink>
         </div>
@@ -577,7 +583,7 @@ class Plantpage extends Component {
     } else {
       propsDropDown =
       <div className="centerHomeButton">
-          <NavLink activeClassName="selected" to="/login">
+          <NavLink activeClassName="selected" to="/canigrow-frontend/login">
             <input className='btn btn-primary btn-lg' type='submit' value='Login to save plants to your garden'/>
           </NavLink>
       </div>
@@ -635,10 +641,20 @@ class Plantpage extends Component {
     if(this.state.plantdata){
       commentFormButton =
         <div className='margin-left-200'>
-            <NavLink activeClassName="selected" to="/login">
+            <NavLink activeClassName="selected" to="/canigrow-frontend/login">
               <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='Login to Comment'/>
             </NavLink>
         </div>
+    }
+    // This generates the calendar link.
+    let calendarButton = null;
+    if(this.state.plantdata.spring_start_relative_last_frost){
+      calendarButton =
+      <div className='m'>
+          <NavLink activeClassName="selected" to={`/canigrow-frontend/calendar/${ this.state.plantdata.plant_id }`}>
+            <input className='btn btn-link font-size-25px margin-top-20pt' type='submit' value='View a Growing Schedule'/>
+          </NavLink>
+      </div>
     }
 
 
@@ -703,30 +719,37 @@ class Plantpage extends Component {
               </div>
 
               <div className="plant_page_graph_messages margin-left-20pt margin-top-20pt">
-                <p className="font-size-16px margin-left-20pt">Based on your location:</p>
+                <p className="font-size-16px margin-left-10pt">Based on your location:</p>
                 {this.state.plantdata ? (
                   <div>
-                    <p className="font-size-16px margin-left-20pt">{this.state.sunMessage}</p>
-                    <p className="font-size-16px margin-left-20pt margin-left-20pt">{this.state.waterMessage}</p>
-                    <p className="font-size-16px margin-left-20pt">{this.state.soilMessage}</p>
-                    <p className="font-size-16px margin-left-20pt">{this.state.maturationMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.sunMessage}</p>
+                    <p className="font-size-16px margin-left-10pt ">{this.state.waterMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.soilMessage}</p>
+                    <p className="font-size-16px margin-left-10pt">{this.state.maturationMessage}</p>
 
                     <div className="plant_page_buttons">
                       <div className="plant_page_comments margin-left-20pt">
-                        {/* <h2>Comments:</h2> */}
-                        {/* <div className="plant_comments">{plantComments}</div> */}
-                        <div className="dropdown">
+                        <div>
+                          {calendarButton}
+                        </div>
+
+                        {/* These hold old versions of the comment buttons. */}
+                        {/* <div className="dropdown">
                           <button onClick={event => this.openPlotDropdownComment(event)} className="dropbtn" data-toggle="button" aria-pressed="false">{viewComments}</button>
                           <div id="myDropdownComments" className="dropdown-content style-margin-bottom-20px">
                             <div className="plant_comments">{plantComments}</div>
                           </div>
-                        </div>
-                      </div>
-                      <div>
-                        {commentFormButton}
-                      </div>
-                    </div>
+                        </div> */}
 
+                      </div>
+
+
+
+                      {/* <div>
+                        {commentFormButton}
+                      </div> */}
+
+                    </div>
 
 
                     <p className="bottom-text margin-left-20pt">**Location data may vary. Consult your local plant nursery for more information.</p>

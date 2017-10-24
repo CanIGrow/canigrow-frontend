@@ -48,7 +48,9 @@ class PasswordReset extends Component {
       .send({email: this.state.username})
        .end((err, res) => {
          if (err) {
-            this.setState({error: res.body.error});
+           if(res.body !== null){
+             this.setState({error: res.body.error});
+           }
          } else {
            if (res !== undefined){
             console.log(res.body);
@@ -64,7 +66,7 @@ class PasswordReset extends Component {
     if (this.props.token) {
       passwordResetContents =
       <div className="centerHomeButton">
-        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
+        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/canigrow-frontend/">
           <div>Login Successful!</div>
           <div>You are now logged in as: {this.props.username}</div>
           <span>Homepage</span>

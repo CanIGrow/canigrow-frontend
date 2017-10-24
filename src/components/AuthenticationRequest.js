@@ -64,7 +64,7 @@ class AuthenticationRequest extends Component {
     if (this.props.token) {
       passwordResetContents =
       <div className="centerHomeButton">
-        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
+        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/canigrow-frontend/">
           <div>Login Successful!</div>
           <div>You are now logged in as: {this.props.username}</div>
           <span>Homepage</span>

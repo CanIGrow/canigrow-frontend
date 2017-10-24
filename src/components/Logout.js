@@ -25,7 +25,7 @@ class Logout extends Component {
       cookie.remove('username', {path: '/user'});
       window.location.reload();
     } else {
-      this.props.redirectAction(["/", "You Have Been Logged Out"]);
+      this.props.redirectAction(["/canigrow-frontend/", "You Have Been Logged Out"]);
     }
   }
   componentDidUpdate(){

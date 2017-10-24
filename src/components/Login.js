@@ -74,7 +74,7 @@ class Login extends Component {
     if (this.props.token) {
       loginContents =
       <div className="centerHomeButton">
-        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/">
+        <NavLink className="btn btn-primary btn-lg" type="submit" activeClassName="selected" to="/canigrow-frontend/">
           <div>Login Successful!</div>
           <div>You are now logged in as: {this.props.username}</div>
           <span>Homepage</span>
@@ -82,8 +82,8 @@ class Login extends Component {
       </div>
     } else {
       loginContents =
-         <div className="container-fluid">
-            <div className="card pagination-centered text-center">
+         <div className="container-fluid flex-box-center down-55pt">
+            <div className="card pagination-centered width-800px text-center">
               {this.state.error && <div className="alert">{this.state.error}</div>}
               <div className="card-block">
                 <div>{this.state.token}</div>
@@ -105,7 +105,7 @@ class Login extends Component {
                 <div className="card">
                   <div>
                     <p>Forgot your password?</p>
-                    <NavLink to="/login/password_reset">
+                    <NavLink to="/canigrow-frontend/login/password_reset">
                       <button className="btn btn-primary btn-sm" type="submit">Password Reset</button>
                     </NavLink>
                   </div>
@@ -113,7 +113,7 @@ class Login extends Component {
                 <div className="card">
                   <div>
                     <p>Need a new authentication email?</p>
-                    <NavLink to="/login/authentication_request">
+                    <NavLink to="/canigrow-frontend/login/authentication_request">
                       <button className="btn btn-primary btn-sm" type="submit">Get Email Activation Form</button>
                     </NavLink>
                   </div>
@@ -127,7 +127,7 @@ class Login extends Component {
         {loginContents}
         {/* // This redirects when the user is logged in (has a token). */}
         {this.props.token && (
-           <Redirect to={`/`}/>
+           <Redirect to={`/canigrow-frontend/`}/>
          )}
         {this.state.fireredirect && (
             <Redirect to={this.props.redirection[0]}/>
