@@ -80,8 +80,7 @@ class EditProfile extends Component {
           "location": this.state.location,
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
-          "twitter":this.state.twitter,
-          "avatar":this.state.avatar,
+          "twitter":this.state.twitter
         }
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
@@ -108,17 +107,15 @@ class EditProfile extends Component {
     e.preventDefault();
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    console.log(this.state.avatar);
-    let userobj = {
-          "bio": this.state.bio,
-          "location": this.state.location,
-          "location_private":this.state.location_private,
-          "facebook":this.state.facebook,
-          "twitter":this.state.twitter,
-          "avatar":this.state.avatar,
-        }
-        // console.log('I am sending');
-        // console.log(userobj);
+    // console.log(this.state.avatar);
+    // let userobj = {
+    //       "bio": this.state.bio,
+    //       "location": this.state.location,
+    //       "location_private":this.state.location_private,
+    //       "facebook":this.state.facebook,
+    //       "twitter":this.state.twitter,
+    //       "avatar":this.state.avatar,
+    //     }
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
@@ -160,7 +157,7 @@ _handleImageChange(e) {
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = (<img src={imagePreviewUrl} />);
+      $imagePreview = (<img alt="" src={imagePreviewUrl} />);
     } else {
       $imagePreview = (<div className="previewText">Please select a Preview</div>);
     }
