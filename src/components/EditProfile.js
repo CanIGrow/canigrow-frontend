@@ -45,8 +45,6 @@ class EditProfile extends Component {
         } else if (res !== undefined){
           if (res.body.user.facebook === null){res.body.user.facebook = ""};
           if (res.body.user.twitter === null){res.body.user.twitter = ""};
-          console.log('request user data');
-          console.log(res.body.user);
           this.setState({userdata:res.body.user,username:res.body.user.username,bio:res.body.user.bio,location:res.body.user.location,location_private:res.body.user.location_private,facebook:res.body.user.facebook,twitter:res.body.user.twitter,});
         }
       })
@@ -77,7 +75,6 @@ class EditProfile extends Component {
     event.preventDefault();
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    console.log(this.state.avatar);
     let userobj = {
           "bio": this.state.bio,
           "location": this.state.location,
@@ -86,33 +83,28 @@ class EditProfile extends Component {
           "twitter":this.state.twitter,
           "avatar":this.state.avatar,
         }
-        console.log('I am sending');
-        console.log(userobj);
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
       .send(userobj)
       .end((err, res) => {
-        console.log("Sent");
+        // console.log("Sent");
         if (err) {
-          console.log(err);
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
-          console.log(res);
           this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
-          console.log('else');
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         }
       })
   }
   handleChange = (event) => {
-    console.log('Selected file:', event.target.files[0]);
+    // console.log('Selected file:', event.target.files[0]);
   }
 
   // Send Image to server
   uploadImage(e) {
-    console.log("button to upload");
+    // console.log("button to upload");
     e.preventDefault();
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
@@ -125,8 +117,8 @@ class EditProfile extends Component {
           "twitter":this.state.twitter,
           "avatar":this.state.avatar,
         }
-        console.log('I am sending');
-        console.log(userobj);
+        // console.log('I am sending');
+        // console.log(userobj);
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
@@ -135,15 +127,11 @@ class EditProfile extends Component {
         // filetype: this.state.filetype
       })
       .end((err, res) => {
-        console.log("Sent");
         if (err) {
-          console.log(err);
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
-          console.log(res);
           this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
-          console.log('else');
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         }
       })
@@ -155,7 +143,7 @@ _handleImageChange(e) {
 
    let reader = new FileReader();
    let file = e.target.files[0];
-   console.log(file);
+  //  console.log(file);
 
    reader.onloadend = () => {
      this.setState({
@@ -168,14 +156,6 @@ _handleImageChange(e) {
 }
 
   render() {
-    console.log('the current state is: ');
-    console.log(this.state);
-    console.log(this.state.avatar);
-    console.log(this.state.userdata.avatar);
-
-
-
-
     // This jQuery handles the image preview.
     let {imagePreviewUrl} = this.state;
     let $imagePreview = null;
@@ -197,9 +177,9 @@ _handleImageChange(e) {
                 <input className="fileInput"
                  type="file"
                  onChange={(e)=>this._handleImageChange(e)} />
-                 <div className="form-group pull-right">
+                 {/*}<div className="form-group pull-right">
                    <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
-                 </div>
+                 </div>*/}
                 <div className="imgPreview">
                   {$imagePreview}
                 </div>

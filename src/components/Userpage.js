@@ -221,8 +221,6 @@ class Userpage extends Component {
     if(this.state){
       if(this.state.userdata){
         if(this.state.userdata.avatar){
-          // console.log(this.state.userdata);
-          // console.log(this.state.userdata.avatar);
           imagePreviewUrl = this.state.userdata.avatar;
         }
       }

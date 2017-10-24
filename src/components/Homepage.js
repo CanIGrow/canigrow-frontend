@@ -58,7 +58,6 @@ class Homepage extends Component {
               this.setState({error: res.body.error,message:false});
            } else {
              if (res !== undefined && res.body !== undefined){
-             console.log(res.body);
              message = `Successfully added to plot!`;
              if(res.body.error !== undefined){
                message = res.body.error;
@@ -488,7 +487,6 @@ class Homepage extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
       token: state.token,
       username: state.username,

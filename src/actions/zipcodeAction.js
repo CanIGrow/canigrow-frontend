@@ -2,7 +2,6 @@
 
 // Action Creator - the entire function, returns action object.
 export const setZip = (zipcode) => {
-    console.log("You are located at zipcode: ", zipcode);
     // Action - contains a type and a payload. type is an identifier.
     return {
         // This type is read in zipcodeReducer.js

@@ -78,7 +78,7 @@ class App extends Component {
             });
             this.setState({ allplantdata:plantsarray });
           } else {
-            console.log(res.statusCode);
+            // console.log(res.statusCode);
           }
         }
       })
