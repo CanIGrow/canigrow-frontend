@@ -45,8 +45,8 @@ class EditProfile extends Component {
         } else if (res !== undefined){
           if (res.body.user.facebook === null){res.body.user.facebook = ""};
           if (res.body.user.twitter === null){res.body.user.twitter = ""};
-          console.log('request user data');
-          console.log(res.body.user);
+          // console.log('request user data');
+          // console.log(res.body.user);
           this.setState({userdata:res.body.user,username:res.body.user.username,bio:res.body.user.bio,location:res.body.user.location,location_private:res.body.user.location_private,facebook:res.body.user.facebook,twitter:res.body.user.twitter,});
         }
       })
@@ -84,7 +84,7 @@ class EditProfile extends Component {
           "location_private":this.state.location_private,
           "facebook":this.state.facebook,
           "twitter":this.state.twitter,
-          "avatar":this.state.avatar,
+          "avatar":this.state.file,
         }
         console.log('I am sending');
         console.log(userobj);
@@ -126,21 +126,21 @@ class EditProfile extends Component {
           "avatar":this.state.avatar,
         }
         console.log('I am sending');
-        console.log(userobj);
+        // console.log(userobj);
+        console.log(this.state.file);
+        console.log(token);
+        // console.log(this.state.imagePreviewUrl);
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
-      .send({avatar: this.state.file
-        // filename: this.state.filename,
-        // filetype: this.state.filetype
-      })
+      .send({avatar: this.state.file})
       .end((err, res) => {
         console.log("Sent");
         if (err) {
           console.log(err);
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
-          console.log(res);
+          console.log(res.body);
           this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
           console.log('else');
@@ -168,10 +168,11 @@ _handleImageChange(e) {
 }
 
   render() {
-    console.log('the current state is: ');
-    console.log(this.state);
-    console.log(this.state.avatar);
-    console.log(this.state.userdata.avatar);
+    // console.log('the current state is: ');
+    // console.log(this.state);
+    // console.log(this.state.imagePreviewUrl);
+    // console.log(this.state.avatar);
+    // console.log(this.state.userdata.avatar);
 
 
 
