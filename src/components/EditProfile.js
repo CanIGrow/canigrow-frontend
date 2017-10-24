@@ -116,7 +116,7 @@ class EditProfile extends Component {
     e.preventDefault();
     let token = cookie.load("token");
     const proxyurl = "https://boiling-castle-73930.herokuapp.com/";
-    console.log(this.state.avatar);
+    // console.log(this.state.avatar);
     let userobj = {
           "bio": this.state.bio,
           "location": this.state.location,
@@ -133,7 +133,7 @@ class EditProfile extends Component {
     request
       .patch(`${proxyurl}https://canigrow.herokuapp.com/api/users/${this.props.username}`)
       .set("Authorization", `Token token=${token}`)
-      .send({avatar: this.state.file})
+      .send({avatar: this.state.imagePreviewUrl})
       .end((err, res) => {
         console.log("Sent");
         if (err) {
@@ -141,6 +141,7 @@ class EditProfile extends Component {
           this.props.redirectAction([`/canigrow-frontend/`, "Unauthorized"]);
         } else if (res !== undefined && res.status === 200){
           console.log(res.body);
+          console.log(res.body.avatar_file_name);
           this.props.redirectAction([`/canigrow-frontend/user/${this.props.username}`, "Profile Edited"]);
         } else {
           console.log('else');
