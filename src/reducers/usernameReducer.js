@@ -7,8 +7,6 @@
 
 // This reducer handles changes to the username state within the store.
 const usernameReducer = function (state = null, action) {
-  // console.log("usernameReducer");
-  // console.log(action.payload);
     switch (action.type) {
         // This adds the username to the store on successful login.
         case 'USERNAME_ADD':
