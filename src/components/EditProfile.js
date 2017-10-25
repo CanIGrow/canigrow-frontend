@@ -169,62 +169,60 @@ _handleImageChange(e) {
 
     return (
       <div className="editprofile-container main-component-container">
-        <div className="homepage-sub-container">
-          <div className="card pagination-centered text-center">
-            <h2>Edit Profile</h2>
-            <h4>User Name: {this.state.username}</h4>
-            <form className="enterForm" onSubmit={this.validate}>
-              <div className="form-group">
-                <h6>Avatar:</h6>
-                <input className="fileInput"
-                 type="file"
-                 onChange={(e)=>this._handleImageChange(e)} />
-                 }<div className="form-group pull-right">
-                   <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
-                 </div>
-                <div className="imgPreview">
-                  {$imagePreview}
-                </div>
+        <div className="card homepage-sub-container pagination-centered text-center">
+          <h2>Edit Profile</h2>
+          <h4>User Name: {this.state.username}</h4>
+          <form className="enterForm" onSubmit={this.validate}>
+            <div className="form-group">
+              <h6>Avatar:</h6>
+              <input className="fileInput"
+               type="file"
+               onChange={(e)=>this._handleImageChange(e)} />
+               <div className="form-group pull-right">
+                 <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.uploadImage(event)}>Upload Image</button>
+               </div>
+              <div className="imgPreview">
+                {$imagePreview}
+              </div>
 
-                {/* <input type="file" id="myFile" />
-                <button onClick={event => this.uploadAvater(event)} className="dropbtn" data-toggle="button" aria-pressed="false">upload avatar image</button> */}
-                {/* <input onChange={(event)=> { this.readFile(event, this.files) }} name="myFile" type="file"/>
-               <FileInput name="myImage"
-                     accept=".png,.gif"
-                     placeholder="My Image"
-                     className="inputClass"
-                     onChange={this.handleChange} /> */}
+              {/* <input type="file" id="myFile" />
+              <button onClick={event => this.uploadAvater(event)} className="dropbtn" data-toggle="button" aria-pressed="false">upload avatar image</button> */}
+              {/* <input onChange={(event)=> { this.readFile(event, this.files) }} name="myFile" type="file"/>
+             <FileInput name="myImage"
+                   accept=".png,.gif"
+                   placeholder="My Image"
+                   className="inputClass"
+                   onChange={this.handleChange} /> */}
 
-              </div>
-              <div className="form-group">
-                <h6>Personal Bio:</h6>
-                <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
-              </div>
-              <div className="form-group">
-                <h6>Location:</h6>
-                <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
-              </div>
-              <div className="form-group">
-                <h6>Location Privacy:
-                  <input type="checkbox" onChange={this.handleCheckboxChange} checked={this.state.location_private} value={this.state.location_private} id="location_private"/>
-                </h6>
-              </div>
-              <div className="form-group">
-                <h6>Facebook Link:</h6>
-                <input type="text" onChange={this.handleTextChange} value={this.state.facebook} id="facebook" placeholder="Facebook Link"/>
-              </div>
-              <div className="form-group">
-                <h6>Twitter Link:</h6>
-                <input type="text" onChange={this.handleTextChange} value={this.state.twitter} id="twitter" placeholder="Twitter Link"/>
-              </div>
-              <div className="form-group pull-right">
-                <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.validate(event)}>Save Changes</button>
-              </div>
-            </form>
-            {this.state.fireredirect && (
-                <Redirect to={this.props.redirection[0]}/>
-              )}
-          </div>
+            </div>
+            <div className="form-group">
+              <h6>Personal Bio:</h6>
+              <textarea type="text" onChange={this.handleTextChange} value={this.state.bio} id='bio' className='wmd-input processed' name='post-text' cols='50' rows='5' tabIndex='101' data-min-length placeholder='Tell Us About Yourself'></textarea>
+            </div>
+            <div className="form-group">
+              <h6>Location:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.location} id="location" placeholder="Hometown, Region"/>
+            </div>
+            <div className="form-group">
+              <h6>Location Privacy:
+                <input type="checkbox" onChange={this.handleCheckboxChange} checked={this.state.location_private} value={this.state.location_private} id="location_private"/>
+              </h6>
+            </div>
+            <div className="form-group">
+              <h6>Facebook Link:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.facebook} id="facebook" placeholder="Facebook Link"/>
+            </div>
+            <div className="form-group">
+              <h6>Twitter Link:</h6>
+              <input type="text" onChange={this.handleTextChange} value={this.state.twitter} id="twitter" placeholder="Twitter Link"/>
+            </div>
+            <div className="form-group pull-right">
+              <button className="btn btn-primary btn-lg" type="submit" onClick={event => this.validate(event)}>Save Changes</button>
+            </div>
+          </form>
+          {this.state.fireredirect && (
+              <Redirect to={this.props.redirection[0]}/>
+            )}
         </div>
       </div>
     );
