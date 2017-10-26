@@ -76,6 +76,9 @@ Presentation:
 
 Wednesday, October 25h: The Can-I-Grow Team presented our project in the last Iron Yard Demo Day.
 
+---
+
+---
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
