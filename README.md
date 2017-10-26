@@ -1,4 +1,4 @@
-Can I Grow project
+Can-I-Grow project
 
 Deployment: https://canigrow.github.io/canigrow-frontend/
 
@@ -68,9 +68,13 @@ Wednesday, October 17th: All three developers had mock interviews in the morning
 
 Thursday, October 18th: Jocelyn continued work on the avatar image upload feature and on the admin feature. Kevin made a calendar to visualize a suggested growing timeline for certain plants.
 
-Friday, October 19th:
+Friday, October 19th: Today we made refinements to the routes and styling. All of us worked to improve performance and to fix any remaining bugs.
 
 ---
+
+Presentation:
+
+Wednesday, October 25h: The Can-I-Grow Team presented our project in the last Iron Yard Demo Day.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
