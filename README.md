@@ -16,9 +16,15 @@ Jonathan 'JT' Canfield: https://github.com/jtcanfield
 
 ---
 
-This project is designed to meet the needs of both first time and experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
+This project is designed to meet the needs of both first time and experienced gardeners. Specific Advantages afforded by this site include:
+1) Allowing a user to learn about plants based upon the user's location.
+2) Letting users save a list of plants to a 'plot' for future reference.
+3) Generating calendar data to illustrate a potential growing period based upon a given plant's maturation rate the the frost day based upon a user's location.
 
-User Stories
+---
+
+These are the Initial User Stories for the first two sprints of the project's development.
+
 Specifically this site is built to:
 1) Allow users to search for a plant and receive information about said plant.
 2) Let users save a list of plants to a 'plot' for future reference.
@@ -80,7 +86,7 @@ Wednesday, October 25h: The Can-I-Grow Team presented our project in the last Ir
 
 Friday, October 27th: With Demo Day completed, the team decided to take time to work on other projects, before returning to Can-I-Grow.
 
-Future Stretch Goals:
+Future Goals:
 
 ---
 
