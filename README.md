@@ -16,7 +16,7 @@ Jonathan 'JT' Canfield: https://github.com/jtcanfield
 
 ---
 
-This project is designed to meet the needs of first time and moderately experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
+This project is designed to meet the needs of both first time and experienced gardeners. Specifically this site assists a user in learning about plants based upon the user's location.
 
 User Stories
 Specifically this site is built to:
@@ -68,7 +68,7 @@ Wednesday, October 17th: All three developers had mock interviews in the morning
 
 Thursday, October 18th: Jocelyn continued work on the avatar image upload feature and on the admin feature. Kevin made a calendar to visualize a suggested growing timeline for certain plants.
 
-Friday, October 19th: Today we made refinements to the routes and styling. All of us worked to improve performance and to fix any remaining bugs.
+Friday, October 19th: Today we made refinements to the routes and styling. All of us worked to improve performance and to fix any remaining bugs. All user stories were successfully completed.
 
 ---
 
@@ -77,6 +77,10 @@ Presentation:
 Wednesday, October 25h: The Can-I-Grow Team presented our project in the last Iron Yard Demo Day.
 
 ---
+
+Friday, October 27th: With Demo Day completed, the team decided to take time to work on other projects, before returning to Can-I-Grow.
+
+Future Stretch Goals:
 
 ---
 
