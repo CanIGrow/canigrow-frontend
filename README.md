@@ -80,13 +80,17 @@ Friday, October 19th: Today we made refinements to the routes and styling. All o
 
 Presentation:
 
-Wednesday, October 25h: The Can-I-Grow Team presented our project in the last Iron Yard Demo Day.
+Wednesday, October 25h: The Can-I-Grow Team presented our project during the last Iron Yard Demo Day.
 
 ---
 
 Friday, October 27th: With Demo Day completed, the team decided to take time to work on other projects, before returning to Can-I-Grow.
 
 Future Goals:
+1) Secondary deployment
+2) Link deployment to domain
+3) Mobile development
+4) Submit to App store
 
 ---
 
