@@ -89,8 +89,10 @@ Friday, October 27th: With Demo Day completed, the team decided to take time to 
 Future Goals:
 1) Secondary deployment
 2) Link deployment to domain
-3) Mobile development
-4) Submit to App store
+3) Add more plants
+4) Mobile development
+5) Submit to App store
+
 
 ---
 
