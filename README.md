@@ -1,6 +1,6 @@
 Can-I-Grow project
 
-Deployment: Not currently deployed. The back end is offline to save costs.
+Deployment: Not currently deployed. The back end is offline to save on server costs.
 
 Old Deployment: h̶t̶t̶p̶s̶:̶/̶/̶c̶a̶n̶i̶g̶r̶o̶w̶.̶g̶i̶t̶h̶u̶b̶.̶i̶o̶/̶c̶a̶n̶i̶g̶r̶o̶w̶-̶f̶r̶o̶n̶t̶e̶n̶d̶/̶
 
